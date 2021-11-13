@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "735199345594",
+    "firebase_url": "https://merdeka-belanja-default-rtdb.firebaseio.com",
+    "project_id": "merdeka-belanja",
+    "storage_bucket": "merdeka-belanja.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:735199345594:android:4513c002f5e12427ee7b83",
+        "android_client_info": {
+          "package_name": "com.nuryadincjr.merdekabelanja"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "735199345594-eq60vaamtd82ogp4dqejr2fo9aglk0j2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ77p0bBLbhoTWR3ZP-I1Jk3whmKTlb0M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "735199345594-eq60vaamtd82ogp4dqejr2fo9aglk0j2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "735199345594-72f81mom3vjfrc5h2a8ea4kcfng6pimh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nuryadincjr.merdekabelanja"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

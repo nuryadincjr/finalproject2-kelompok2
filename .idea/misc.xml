@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.21614583333333334" />
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/drawable/bg_input.xml" value="0.21614583333333334" />
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21614583333333334" />
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/layout/activity_about.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/layout/activity_logged_out.xml" value="0.22" />
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/layout/activity_otpactivity.xml" value="0.22" />
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/layout/activity_register.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/MerdekaBelanja/app/src/main/res/layout/activity_splash_screen.xml" value="0.22" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

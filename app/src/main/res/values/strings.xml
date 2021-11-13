@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Merdeka Belanja</string>
+
+    <string name="textVerifyMessage">Naon App will send an SMS message to verify your phone number</string>
+    <string name="textOtpyMessage">Enter the OTP code to verify your phone number</string>
+    <string name="textProfilMessage">Please set your name and an optional profil image</string>
+
+    <string name="textVerify">verify your phone number</string>
+    <string name="textOTP">verify +62XXXXXXXXX</string>
+
+    <string name="btnContinue">continue</string>
+
+</resources>
