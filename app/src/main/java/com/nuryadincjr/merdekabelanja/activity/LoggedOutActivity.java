@@ -33,26 +33,30 @@ public class LoggedOutActivity extends AppCompatActivity {
         p.setOnClickListener(v -> {
             switch (p.getId()){
                 case R.id.tvLoginAdmin:
-                    startActivity(new Intent(this, LoginActivity.class).putExtra("LOGIN", "ADMIN"));
+                    startActivity(new Intent(this, LoginActivity.class)
+                            .putExtra("LOGIN", "ADMIN"));
                     break;
                 case R.id.tvLoginStaff:
-                    startActivity(new Intent(this, LoginActivity.class).putExtra("LOGIN", "STAFF"));
+                    startActivity(new Intent(this, LoginActivity.class)
+                            .putExtra("LOGIN", "STAFF"));
                     break;
                 case R.id.tvAbout:
                     startActivity(new Intent(this, AboutActivity.class));
                     break;
-
             }
         });
     }
+
     private void getItemUser(Button b) {
         b.setOnClickListener(v -> {
             switch (b.getId()){
                 case R.id.btnLogin:
-                    startActivity(new Intent(this, LoginActivity.class).putExtra("LOGIN", "USER"));
+                    startActivity(new Intent(this, LoginActivity.class)
+                            .putExtra("LOGIN", "USER"));
                     break;
                 case R.id.btnRegister:
-                    startActivity(new Intent(this, RegisterActivity.class).putExtra("REGISTER", "USER"));
+                    startActivity(new Intent(this, RegisterActivity.class)
+                            .putExtra("REGISTER", "USER"));
                     break;
             }
         });

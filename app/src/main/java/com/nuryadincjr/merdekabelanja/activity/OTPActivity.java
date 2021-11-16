@@ -23,8 +23,10 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.nuryadincjr.merdekabelanja.MainActivity;
 import com.nuryadincjr.merdekabelanja.R;
-import com.nuryadincjr.merdekabelanja.activity.api.UsersRepository;
+import com.nuryadincjr.merdekabelanja.api.UsersRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityOtpactivityBinding;
+import com.nuryadincjr.merdekabelanja.pojo.Admins;
+import com.nuryadincjr.merdekabelanja.pojo.Staffs;
 import com.nuryadincjr.merdekabelanja.pojo.Users;
 
 import java.util.concurrent.TimeUnit;
@@ -35,7 +37,12 @@ public class OTPActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ProgressDialog dialog;
     private Users users;
+    private Admins admins;
+    private Staffs staffs;
+    private String action;
+    private String islogin;
     private String verificationId;
+    private String phone;
     private static final String TAG = Activity.class.getName();
 
     @Override
@@ -47,11 +54,34 @@ public class OTPActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         firebaseAuth = FirebaseAuth.getInstance();
-        users = getIntent().getParcelableExtra("REGISTER");
+        action = getIntent().getStringExtra("TAG");
+        getIsLogin();
 
         dialog = new ProgressDialog(this);
-        onAuthentication(users);
+        onAuthentication(phone);
+    }
 
+    private void getIsLogin() {
+        if(action.equals("LOGIN")) {
+            islogin = getIntent().getStringExtra("ISLOGIN");
+            switch (islogin) {
+                case "USER":
+                    users = getIntent().getParcelableExtra("LOGIN");
+                    phone = users.getPhone();
+                    break;
+                case "ADMIN":
+                    admins = getIntent().getParcelableExtra("LOGIN");
+                    phone = admins.getPhone();
+                    break;
+                case "STAFF":
+                    staffs = getIntent().getParcelableExtra("LOGIN");
+                    phone = staffs.getPhone();
+                    break;
+            }
+        } else {
+            users = getIntent().getParcelableExtra("REGISTER");
+            phone = users.getPhone();
+        }
     }
 
     private void setTimer() {
@@ -66,21 +96,21 @@ public class OTPActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 binding.tvTimer.setText("Resend");
-                binding.tvTimer.setOnClickListener(view -> onAuthentication(users));
+                binding.tvTimer.setOnClickListener(view -> onAuthentication(phone));
             }
         }.start();
     }
 
-    private void onAuthentication(Users users) {
+    private void onAuthentication(String phone) {
         dialog.setMessage("Sending OTP..");
         dialog.setCancelable(false);
         dialog.show();
 
-        String labelNumber = "Verify " + users.getPhone();
+        String labelNumber = "Verify " + phone;
         binding.txtNumber.setText(labelNumber);
 
         PhoneAuthOptions options = PhoneAuthOptions.newBuilder(firebaseAuth)
-                .setPhoneNumber(users.getPhone())
+                .setPhoneNumber(phone)
                 .setTimeout(120L, TimeUnit.SECONDS)
                 .setActivity(this)
                 .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -103,7 +133,7 @@ public class OTPActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
                         }
                         binding.tvTimer.setText("Resend");
-                        binding.tvTimer.setOnClickListener(view -> onAuthentication(users));
+                        binding.tvTimer.setOnClickListener(view -> onAuthentication(phone));
 
                         binding.tvTimer.setVisibility(View.VISIBLE);
                     }
@@ -134,8 +164,11 @@ public class OTPActivity extends AppCompatActivity {
 
                     Log.d(TAG, "signInWithCredential:success");
                     Toast.makeText(this, "signInWithCredential:success", Toast.LENGTH_SHORT).show();
-                    onRegister();
-                } else {
+
+                    if(action.equals("LOGIN")) onLogin();
+                    else onRegister();
+                }
+                else {
                     dialog.dismiss();
                     Toast.makeText(this, "signInWithCredential:failure", Toast.LENGTH_SHORT).show();
                     Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -147,11 +180,35 @@ public class OTPActivity extends AppCompatActivity {
         });
     }
 
+    private void onLogin() {
+        switch (islogin) {
+            case "USER":
+                users = getIntent().getParcelableExtra("LOGIN");
+                startActivity(new Intent(this, MainActivity.class)
+                        .putExtra("USERS", users)
+                        .putExtra("ISLOGIN", islogin));
+                break;
+            case "ADMIN":
+                admins = getIntent().getParcelableExtra("LOGIN");
+                startActivity(new Intent(this, MainActivity.class)
+                        .putExtra("USERS", admins)
+                        .putExtra("ISLOGIN", islogin));
+                break;
+            case "STAFF":
+                staffs = getIntent().getParcelableExtra("LOGIN");
+                startActivity(new Intent(this, MainActivity.class)
+                        .putExtra("USERS", staffs)
+                        .putExtra("ISLOGIN", islogin));
+                break;
+        }
+        finishAffinity();
+    }
+
     private void onRegister() {
         users.setUid(firebaseAuth.getUid());
 
         new UsersRepository().insertUser(users).addOnSuccessListener(documentReference -> {
-            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
             Toast.makeText(getApplicationContext(), "Success.", Toast.LENGTH_SHORT).show();
 
             startActivity(new Intent(this, MainActivity.class));
