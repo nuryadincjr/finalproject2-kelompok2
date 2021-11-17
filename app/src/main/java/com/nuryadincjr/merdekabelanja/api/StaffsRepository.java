@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.nuryadincjr.merdekabelanja.pojo.Staffs;
+import com.nuryadincjr.merdekabelanja.models.Staffs;
 
 import java.util.ArrayList;
 

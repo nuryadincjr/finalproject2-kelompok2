@@ -5,9 +5,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.nuryadincjr.merdekabelanja.pojo.Admins;
-import com.nuryadincjr.merdekabelanja.pojo.Staffs;
-import com.nuryadincjr.merdekabelanja.pojo.Users;
+import com.nuryadincjr.merdekabelanja.models.Admins;
+import com.nuryadincjr.merdekabelanja.models.Staffs;
+import com.nuryadincjr.merdekabelanja.models.Users;
 
 public class MainActivity extends AppCompatActivity {
     private Users users;

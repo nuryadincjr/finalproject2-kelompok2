@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityRegisterBinding;
-import com.nuryadincjr.merdekabelanja.pojo.Users;
+import com.nuryadincjr.merdekabelanja.models.Users;
 
 public class RegisterActivity extends AppCompatActivity {
 

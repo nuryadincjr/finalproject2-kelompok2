@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MerdekaBelanja.NoActionBar">
         <activity
+            android:name=".adminacitvity.AddStafsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".adminacitvity.AdminsActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.OTPActivity"
             android:exported="false" />
         <activity

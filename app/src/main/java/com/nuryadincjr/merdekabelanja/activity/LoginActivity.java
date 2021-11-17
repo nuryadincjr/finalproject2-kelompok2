@@ -14,9 +14,9 @@ import com.nuryadincjr.merdekabelanja.api.AdminsRepository;
 import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.api.UsersRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityLoginBinding;
-import com.nuryadincjr.merdekabelanja.pojo.Admins;
-import com.nuryadincjr.merdekabelanja.pojo.Staffs;
-import com.nuryadincjr.merdekabelanja.pojo.Users;
+import com.nuryadincjr.merdekabelanja.models.Admins;
+import com.nuryadincjr.merdekabelanja.models.Staffs;
+import com.nuryadincjr.merdekabelanja.models.Users;
 
 import java.util.ArrayList;
 

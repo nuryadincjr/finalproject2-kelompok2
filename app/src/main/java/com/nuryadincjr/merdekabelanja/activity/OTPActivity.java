@@ -23,17 +23,20 @@ import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.nuryadincjr.merdekabelanja.MainActivity;
 import com.nuryadincjr.merdekabelanja.R;
+import com.nuryadincjr.merdekabelanja.adminacitvity.AdminsActivity;
 import com.nuryadincjr.merdekabelanja.api.UsersRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityOtpactivityBinding;
-import com.nuryadincjr.merdekabelanja.pojo.Admins;
-import com.nuryadincjr.merdekabelanja.pojo.Staffs;
-import com.nuryadincjr.merdekabelanja.pojo.Users;
+import com.nuryadincjr.merdekabelanja.models.Admins;
+import com.nuryadincjr.merdekabelanja.models.Staffs;
+import com.nuryadincjr.merdekabelanja.models.Users;
+import com.nuryadincjr.merdekabelanja.util.LocalPreference;
 
 import java.util.concurrent.TimeUnit;
 
 public class OTPActivity extends AppCompatActivity {
 
     private ActivityOtpactivityBinding binding;
+    private LocalPreference localPreference;
     private FirebaseAuth firebaseAuth;
     private ProgressDialog dialog;
     private Users users;
@@ -52,6 +55,8 @@ public class OTPActivity extends AppCompatActivity {
 
         binding = ActivityOtpactivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        localPreference = LocalPreference.getInstance(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
         action = getIntent().getStringExtra("TAG");
@@ -181,26 +186,32 @@ public class OTPActivity extends AppCompatActivity {
     }
 
     private void onLogin() {
+        int intIsLogin = 0;
+
         switch (islogin) {
             case "USER":
+                intIsLogin = 1;
                 users = getIntent().getParcelableExtra("LOGIN");
                 startActivity(new Intent(this, MainActivity.class)
                         .putExtra("USERS", users)
                         .putExtra("ISLOGIN", islogin));
                 break;
             case "ADMIN":
+                intIsLogin = 2;
                 admins = getIntent().getParcelableExtra("LOGIN");
-                startActivity(new Intent(this, MainActivity.class)
+                startActivity(new Intent(this, AdminsActivity.class)
                         .putExtra("USERS", admins)
                         .putExtra("ISLOGIN", islogin));
                 break;
             case "STAFF":
+                intIsLogin = 3;
                 staffs = getIntent().getParcelableExtra("LOGIN");
                 startActivity(new Intent(this, MainActivity.class)
                         .putExtra("USERS", staffs)
                         .putExtra("ISLOGIN", islogin));
                 break;
         }
+        localPreference.getEditor().putInt("ISLOGIN", intIsLogin).apply();
         finishAffinity();
     }
 

@@ -1,4 +1,4 @@
-package com.nuryadincjr.merdekabelanja.pojo;
+package com.nuryadincjr.merdekabelanja.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

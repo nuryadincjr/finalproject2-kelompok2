@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:24.0.0'
     // https://github.com/mukeshsolanki/android-otpview-pinview
     implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
 
     testImplementation 'junit:junit:4.+'

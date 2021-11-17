@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/homeMenu"
+            android:icon="@drawable/ic_home"
+            android:title="Dashboard"/>
+    </group>
+
+    <item android:title="Data">
+        <menu>
+            <item android:id="@+id/staffMenu"
+                android:icon="@drawable/ic_brand"
+                android:title="Staffs"/>
+
+            <item android:id="@+id/stockMenu"
+                android:icon="@drawable/ic_brand"
+                android:title="Stocks"/>
+        </menu>
+    </item>
+
+    <item android:title="Other">
+        <menu>
+            <item android:id="@+id/settingsMenu"
+                android:icon="@drawable/ic_settings"
+                android:title="Settings"/>
+
+            <item android:id="@+id/aboutMenu"
+                android:icon="@drawable/ic_info"
+                android:title="About"/>
+        </menu>
+    </item>
+
+</menu>

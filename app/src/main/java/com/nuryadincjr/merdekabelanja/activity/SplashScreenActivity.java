@@ -1,28 +1,51 @@
 package com.nuryadincjr.merdekabelanja.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.nuryadincjr.merdekabelanja.MainActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.nuryadincjr.merdekabelanja.R;
+import com.nuryadincjr.merdekabelanja.adminacitvity.AdminsActivity;
+import com.nuryadincjr.merdekabelanja.util.LocalPreference;
 
 public class SplashScreenActivity extends AppCompatActivity {
+    private LocalPreference localPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        localPreference = new LocalPreference(this);
+
         transition();
     }
 
     private void transition() {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> {
-            startActivity(new Intent(this, LoggedOutActivity.class));
+            int isLogin = localPreference.getPreferences().getInt("ISLOGIN", 0);
+            isLogin = 2;
+
+            Intent intent = new Intent();
+            switch (isLogin) {
+                case 1:
+//                    intent = new Intent(this, UsersActivity.class);
+                    break;
+                case 2:
+                    intent = new Intent(this, AdminsActivity.class);
+                    break;
+                case 3:
+//                    intent = new Intent(this, StaffsActivity.class);
+                    break;
+                default:
+                    intent = new Intent(this, LoggedOutActivity.class);
+            }
+
+            startActivity(intent);
             finish();
         }, 3000);
     }
