@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
            if(password.length() > 7) {
                if(password.equals(confpassword)){
                    Users users = new  Users("", fullname, phone, email,
-                           "", "", email, password, "");
+                           "", "", email, password, "" ,"register","");
 
                    startActivity(new Intent(this, OTPActivity.class)
                            .putExtra("REGISTER", users)

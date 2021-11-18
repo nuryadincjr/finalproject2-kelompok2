@@ -9,9 +9,10 @@ public class Staffs extends Admins implements Parcelable {
     public Staffs() {
     }
 
-    public Staffs(String uid, String name, String phone, String email, String photo,
-                  String address, String username, String password, String devision) {
-        super(uid, name, phone, email, photo, address, username, password);
+    public Staffs(String uid, String name, String phone, String email,
+                  String photo, String address, String username, String password,
+                  String latest_update, String status_account, String devision) {
+        super(uid, name, phone, email, photo, address, username, password, latest_update, status_account);
         this.devision = devision;
     }
 

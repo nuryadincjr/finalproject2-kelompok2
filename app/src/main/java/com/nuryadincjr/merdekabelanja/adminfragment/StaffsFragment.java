@@ -1,5 +1,6 @@
 package com.nuryadincjr.merdekabelanja.adminfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adapters.StaffsAdapter;
+import com.nuryadincjr.merdekabelanja.adminacitvity.DetailsStaffActivity;
 import com.nuryadincjr.merdekabelanja.databinding.FragmentStaffsBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
@@ -54,15 +56,16 @@ public class StaffsFragment extends Fragment {
             binding.rvStaffs.setAdapter(staffsAdapter);
             binding.rvStaffs.setItemAnimator(new DefaultItemAnimator());
 
-            onListener(staffsAdapter);
+            onListener(staffsAdapter, staffsList);
         });
     }
 
-    private void onListener(StaffsAdapter staffsAdapter) {
+    private void onListener(StaffsAdapter staffsAdapter, List<Staffs> staffsList) {
         staffsAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(getContext(), "OnClick", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), DetailsStaffActivity.class)
+                        .putExtra("DATA", staffsList.get(position)));
             }
 
             @Override

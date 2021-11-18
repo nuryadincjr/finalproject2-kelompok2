@@ -9,9 +9,10 @@ public class Users extends Admins implements Parcelable {
     public Users() {
     }
 
-    public Users(String uid, String name, String phone, String email, String photo,
-                 String address, String username, String password, String address2) {
-        super(uid, name, phone, email, photo, address, username, password);
+    public Users(String uid, String name, String phone, String email,
+                 String photo, String address, String username, String password,
+                 String latest_update, String status_account, String address2) {
+        super(uid, name, phone, email, photo, address, username, password, latest_update, status_account);
         this.address2 = address2;
     }
 

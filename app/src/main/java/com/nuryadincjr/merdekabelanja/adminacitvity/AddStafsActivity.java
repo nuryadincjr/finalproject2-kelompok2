@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
@@ -23,6 +22,7 @@ import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddStafsBinding;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
+import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 
 import java.util.UUID;
 
@@ -37,6 +37,7 @@ public class AddStafsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stafs);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         binding = ActivityAddStafsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -61,7 +62,8 @@ public class AddStafsActivity extends AppCompatActivity {
             if(password.length() > 7) {
                 if(password.equals(confpassword)){
                     Staffs staffs = new Staffs("", fullname, phone, email,
-                            "", address, email, password, "staff");
+                            "", address, email, password, Constaint.time(),
+                            "register", "staff");
                     onRegister(staffs);
 
                 } else binding.etPassword.setError("Password canot equals!");
@@ -75,13 +77,14 @@ public class AddStafsActivity extends AppCompatActivity {
         dialog.show();
 
         String uniqueID = UUID.randomUUID().toString();
+
         staffs.setUid(uniqueID);
 
         if(imageUri != null) {
             dialog.setMessage("Uploading file..");
 
             StorageReference filePath = storageReference.child(uniqueID)
-                    .child(uniqueID + "." + getFileExtension(imageUri));
+                    .child(uniqueID + "." + Constaint.getFileExtension(imageUri, this));
             StorageTask<UploadTask.TaskSnapshot> uploadTask = filePath.putFile(imageUri);
 
             uploadTask.continueWithTask(task -> {
@@ -95,15 +98,15 @@ public class AddStafsActivity extends AppCompatActivity {
                     staffs.setPhoto(downdoadUri.toString());
 
                     new StaffsRepository().insertStaffs(staffs).addOnSuccessListener(documentReference -> {
-                        dialog.dismiss();
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-                        Toast.makeText(AddStafsActivity.this.getApplicationContext(),
+                        Toast.makeText(getApplicationContext(),
                                 "Success.", Toast.LENGTH_SHORT).show();
-                        AddStafsActivity.this.finish();
+                        finish();
+                        dialog.dismiss();
                     }).addOnFailureListener(e -> {
                         dialog.dismiss();
                         Log.w(TAG, "Error adding document", e);
-                        Toast.makeText(AddStafsActivity.this.getApplicationContext(),
+                        Toast.makeText(getApplicationContext(),
                                 "Error adding document.", Toast.LENGTH_SHORT).show();
                     });
                 }
@@ -114,13 +117,13 @@ public class AddStafsActivity extends AppCompatActivity {
             new StaffsRepository().insertStaffs(staffs).addOnSuccessListener(documentReference -> {
                 dialog.dismiss();
                 Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-                Toast.makeText(AddStafsActivity.this.getApplicationContext(),
+                Toast.makeText(getApplicationContext(),
                         "Success.", Toast.LENGTH_SHORT).show();
-                AddStafsActivity.this.finish();
+                finish();
             }).addOnFailureListener(e -> {
                 dialog.dismiss();
                 Log.w(TAG, "Error adding document", e);
-                Toast.makeText(AddStafsActivity.this.getApplicationContext(),
+                Toast.makeText(getApplicationContext(),
                         "Error adding document.", Toast.LENGTH_SHORT).show();
             });
         }
@@ -149,9 +152,5 @@ public class AddStafsActivity extends AppCompatActivity {
             imageUri = null;
             binding.btnAddPhoto.setChecked(false);
         }
-    }
-
-    private String getFileExtension(Uri imageUri) {
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(this.getContentResolver().getType(imageUri));
     }
 }

@@ -12,12 +12,15 @@ public class Admins implements Parcelable {
     private String address;
     private String username;
     private String password;
+    private String latest_update;
+    private String status_account;
 
     public Admins() {
     }
 
     public Admins(String uid, String name, String phone, String email,
-                  String photo, String address, String username, String password) {
+                  String photo, String address, String username,
+                  String password, String latest_update, String status_account) {
         this.uid = uid;
         this.name = name;
         this.phone = phone;
@@ -26,6 +29,8 @@ public class Admins implements Parcelable {
         this.address = address;
         this.username = username;
         this.password = password;
+        this.latest_update = latest_update;
+        this.status_account = status_account;
     }
 
     protected Admins(Parcel in) {
@@ -37,6 +42,8 @@ public class Admins implements Parcelable {
         address = in.readString();
         username = in.readString();
         password = in.readString();
+        latest_update = in.readString();
+        status_account = in.readString();
     }
 
     public static final Creator<Admins> CREATOR = new Creator<Admins>() {
@@ -115,6 +122,22 @@ public class Admins implements Parcelable {
         this.password = password;
     }
 
+    public String getLatest_update() {
+        return latest_update;
+    }
+
+    public void setLatest_update(String latest_update) {
+        this.latest_update = latest_update;
+    }
+
+    public String getStatus_account() {
+        return status_account;
+    }
+
+    public void setStatus_account(String status_account) {
+        this.status_account = status_account;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -130,5 +153,7 @@ public class Admins implements Parcelable {
         parcel.writeString(address);
         parcel.writeString(username);
         parcel.writeString(password);
+        parcel.writeString(latest_update);
+        parcel.writeString(status_account);
     }
 }

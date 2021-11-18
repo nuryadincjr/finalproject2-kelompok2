@@ -8,34 +8,46 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MerdekaBelanja.NoActionBar">
+        android:theme="@style/Theme.MerdekaBelanja">
+        <activity
+            android:name=".adminacitvity.DetailsStaffActivity"
+            android:label="Details Staff"
+            android:exported="false" />
         <activity
             android:name=".adminacitvity.AddStafsActivity"
+            android:label="Add Staff"
             android:exported="false" />
         <activity
             android:name=".activity.SettingsActivity"
             android:exported="false" />
         <activity
             android:name=".adminacitvity.AdminsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar"/>
         <activity
             android:name=".activity.OTPActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar"/>
         <activity
             android:name=".activity.RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar"/>
         <activity
             android:name=".activity.AboutActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar"/>
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar"/>
         <activity
             android:name=".activity.LoggedOutActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar"/>
         <activity
             android:name=".activity.SplashScreenActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

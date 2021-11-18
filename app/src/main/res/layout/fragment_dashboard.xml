@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_margin="8dp"
     tools:context=".adminfragment.DashboardFragment">
 
     <ScrollView
@@ -15,7 +14,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <LinearLayout
                 android:id="@+id/llAddStaff"
@@ -39,7 +39,7 @@
                 <ImageView
                     android:id="@+id/ivAddStaff"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="270dp"
                     android:ellipsize="end"
                     android:padding="10dp"
                     android:src="@drawable/ic_brand"/>
@@ -68,7 +68,7 @@
                 <ImageView
                     android:id="@+id/ivAddStock"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="270dp"
                     android:ellipsize="end"
                     android:padding="10dp"
                     android:src="@drawable/ic_brand"/>

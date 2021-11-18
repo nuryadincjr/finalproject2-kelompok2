@@ -29,6 +29,7 @@ import com.nuryadincjr.merdekabelanja.databinding.ActivityOtpactivityBinding;
 import com.nuryadincjr.merdekabelanja.models.Admins;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.models.Users;
+import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 import com.nuryadincjr.merdekabelanja.util.LocalPreference;
 
 import java.util.concurrent.TimeUnit;
@@ -217,6 +218,8 @@ public class OTPActivity extends AppCompatActivity {
 
     private void onRegister() {
         users.setUid(firebaseAuth.getUid());
+        users.setLatest_update(Constaint.time());
+        users.setStatus_account("active");
 
         new UsersRepository().insertUser(users).addOnSuccessListener(documentReference -> {
             Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);

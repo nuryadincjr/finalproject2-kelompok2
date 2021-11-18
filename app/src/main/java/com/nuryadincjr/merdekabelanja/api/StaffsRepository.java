@@ -8,13 +8,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
+import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StaffsRepository {
 
-    private FirebaseFirestore db;
-    private String TAG = "LIA";
+    private final FirebaseFirestore db;
+    private final String TAG = "LIA";
 
     public StaffsRepository() {
         db = FirebaseFirestore.getInstance();
@@ -44,6 +47,18 @@ public class StaffsRepository {
 
     public Task<Void> insertStaffs(Staffs staff) {
           return db.collection("staffs").document(staff.getUid()).set(staff);
+    }
+
+    public Task<Void> updateStaffs(Staffs staff) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("uid", staff.getUid());
+        data.put("name", staff.getName());
+        data.put("phone", staff.getPhone());
+        data.put("email", staff.getEmail());
+        data.put("address", staff.getAddress());
+        data.put("username", staff.getUsername());
+        data.put("latest_update", Constaint.time());
+        return db.collection("staffs").document(staff.getUid()).update(data);
     }
 
     public MutableLiveData<ArrayList<Staffs>> getStaffLogin(Staffs staff) {
