@@ -196,6 +196,7 @@ public class OTPActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MainActivity.class)
                         .putExtra("USERS", users)
                         .putExtra("ISLOGIN", islogin));
+                localPreference.getEditor().putString("UID", users.getUid()).apply();
                 break;
             case "ADMIN":
                 intIsLogin = 2;
@@ -203,6 +204,7 @@ public class OTPActivity extends AppCompatActivity {
                 startActivity(new Intent(this, AdminsActivity.class)
                         .putExtra("USERS", admins)
                         .putExtra("ISLOGIN", islogin));
+                localPreference.getEditor().putString("UID", admins.getUid()).apply();
                 break;
             case "STAFF":
                 intIsLogin = 3;
@@ -210,6 +212,7 @@ public class OTPActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MainActivity.class)
                         .putExtra("USERS", staffs)
                         .putExtra("ISLOGIN", islogin));
+                localPreference.getEditor().putString("UID", staffs.getUid()).apply();
                 break;
         }
         localPreference.getEditor().putInt("ISLOGIN", intIsLogin).apply();

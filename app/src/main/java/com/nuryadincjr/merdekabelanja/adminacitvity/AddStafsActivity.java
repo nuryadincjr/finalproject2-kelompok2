@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -47,6 +48,15 @@ public class AddStafsActivity extends AppCompatActivity {
 
         binding.btnRegister.setOnClickListener(v -> getRegister());
         binding.btnAddPhoto.setOnCheckedChangeListener(this::onCheckedChanged);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void getRegister() {
@@ -101,8 +111,8 @@ public class AddStafsActivity extends AppCompatActivity {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
                         Toast.makeText(getApplicationContext(),
                                 "Success.", Toast.LENGTH_SHORT).show();
-                        finish();
                         dialog.dismiss();
+                        finish();
                     }).addOnFailureListener(e -> {
                         dialog.dismiss();
                         Log.w(TAG, "Error adding document", e);

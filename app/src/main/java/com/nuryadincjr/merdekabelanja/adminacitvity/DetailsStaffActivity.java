@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -32,10 +31,12 @@ public class DetailsStaffActivity extends AppCompatActivity {
 
     private ActivityDetailsStaffBinding binding;
     private StorageReference storageReference;
+    private FirebaseStorage storage;
     private ProgressDialog dialog;
     private Uri imageUri;
     private Staffs data;
     private Menu menu;
+    private boolean isEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +47,13 @@ public class DetailsStaffActivity extends AppCompatActivity {
         binding = ActivityDetailsStaffBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        storage = FirebaseStorage.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference().child("staffs").child("profiles");
         dialog = new ProgressDialog(this);
 
         data = getIntent().getParcelableExtra("DATA");
+        isEdit = getIntent().getBooleanExtra("ISEDIT", false);
+
         onSetData(data);
         setFocusable(false);
     }
@@ -61,6 +65,12 @@ public class DetailsStaffActivity extends AppCompatActivity {
 
         setVisibleMenu(false, true);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if(isEdit) getDataEdited();
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -79,13 +89,22 @@ public class DetailsStaffActivity extends AppCompatActivity {
                 getDataCencled();
                 return true;
             case R.id.act_delete:
-
+                getDataDelete();
                 return true;
             case R.id.act_print:
 
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getDataDelete() {
+        new StaffsRepository().deleteStaffs(data.getUid()).addOnSuccessListener(unused -> {
+            if (data.getPhoto() != null){
+               storage.getReferenceFromUrl(data.getPhoto()).delete();
+            }
+        });
+        finish();
     }
 
     private void getDataCencled() {
@@ -115,8 +134,8 @@ public class DetailsStaffActivity extends AppCompatActivity {
         String etUsername = binding.etUsername.getText().toString();
 
 
-        if(!fullname.isEmpty() && !phone.isEmpty() && !email.isEmpty() &&
-                !address.isEmpty() && !etUsername.isEmpty()) {
+        if(!fullname.isEmpty() && !phone.isEmpty() &&
+                !email.isEmpty() && !etUsername.isEmpty()) {
             Staffs staffs = new Staffs(data.getUid(), fullname, phone, email,
                     "", address, email, data.getPassword(), Constaint.time(),
                     "register", "staff");
@@ -141,6 +160,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
         binding.etAddress.setFocusable(isFocusable);
         binding.etUsername.setFocusable(isFocusable);
         binding.tvPawword.setFocusable(isFocusable);
+        binding.ivPhoto.setEnabled(isFocusable);
     }
 
     private void setFocusableInTouchMode(boolean isFocusable) {
@@ -151,11 +171,14 @@ public class DetailsStaffActivity extends AppCompatActivity {
         binding.etAddress.setFocusableInTouchMode(isFocusable);
         binding.etUsername.setFocusableInTouchMode(isFocusable);
         binding.tvPawword.setFocusableInTouchMode(isFocusable);
+        binding.ivPhoto.setEnabled(isFocusable);
     }
 
     private void onSetData(Staffs staffs) {
         new StaffsRepository().getStaffLogin(staffs).observe(this, (ArrayList<Staffs> staff) -> {
             if(staff.size() != 0) {
+                data = staff.get(0);
+
                 String url = staff.get(0).getPhoto();
                 Glide.with(this)
                         .load(url)
@@ -242,7 +265,6 @@ public class DetailsStaffActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 25 && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
-            binding.ivPhoto.setVisibility(View.VISIBLE);
             binding.ivPhoto.setImageURI(imageUri);
         } else imageUri = null;
     }

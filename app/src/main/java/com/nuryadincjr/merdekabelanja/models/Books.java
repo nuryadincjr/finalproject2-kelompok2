@@ -10,15 +10,15 @@ public class Books extends Products implements Parcelable {
     private String author;
     private String publisher;
     private String publisher_year;
-    private BookTypes book_type;
+    private List<String> book_type;
     private int number_of_page;
 
     public Books() {
     }
 
-    public Books(String id, String name, String descriptions,
-                 List<String> photo, String piece, String quantity, String title, String author,
-                 String publisher, String publisher_year, BookTypes book_type, int number_of_page) {
+    public Books(String id, String name, String descriptions, List<String> photo,
+                 String piece, String quantity, String title, String author, String publisher,
+                 String publisher_year, List<String> book_type, int number_of_page) {
         super(id, name, descriptions, photo, piece, quantity);
         this.title = title;
         this.author = author;
@@ -34,7 +34,7 @@ public class Books extends Products implements Parcelable {
         author = in.readString();
         publisher = in.readString();
         publisher_year = in.readString();
-        book_type = new BookTypes(in);
+        in.readStringList(book_type);
         number_of_page = in.readInt();
     }
 
@@ -82,20 +82,12 @@ public class Books extends Products implements Parcelable {
         this.publisher_year = publisher_year;
     }
 
-    public BookTypes getBook_type() {
+    public List<String> getBook_type() {
         return book_type;
     }
 
-    public void setBook_type(BookTypes book_type) {
+    public void setBook_type(List<String> book_type) {
         this.book_type = book_type;
-    }
-
-    public int getNumber_of_page() {
-        return number_of_page;
-    }
-
-    public void setNumber_of_page(int number_of_page) {
-        this.number_of_page = number_of_page;
     }
 
     @Override
@@ -109,7 +101,7 @@ public class Books extends Products implements Parcelable {
         parcel.writeString(author);
         parcel.writeString(publisher);
         parcel.writeString(publisher_year);
-        book_type.writeToParcel(parcel, i);
+        parcel.writeList(book_type);
         parcel.writeInt(number_of_page);
     }
 }

@@ -56,9 +56,14 @@ public class StaffsRepository {
         data.put("phone", staff.getPhone());
         data.put("email", staff.getEmail());
         data.put("address", staff.getAddress());
+        data.put("photo", staff.getPhoto());
         data.put("username", staff.getUsername());
         data.put("latest_update", Constaint.time());
         return db.collection("staffs").document(staff.getUid()).update(data);
+    }
+
+    public Task<Void> deleteStaffs(String id) {
+        return db.collection("staffs").document(id).delete();
     }
 
     public MutableLiveData<ArrayList<Staffs>> getStaffLogin(Staffs staff) {
