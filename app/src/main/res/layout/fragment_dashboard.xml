@@ -10,75 +10,70 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:id="@+id/llAddStaff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/bg_item_rounded">
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_item_rounded"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvAddStaff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_title"
-                    android:padding="20dp"
                     android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Add Staff"
                     android:textColor="@color/white"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:text="Add Staff" />
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/ivAddStaff"
                     android:layout_width="match_parent"
-                    android:layout_height="270dp"
-                    android:background="?selectableItemBackground"
+                    android:layout_height="150dp"
+                    android:background="?attr/selectableItemBackground"
                     android:ellipsize="end"
                     android:padding="10dp"
-                    android:src="@drawable/ic_brand"/>
+                    android:src="@drawable/ic_brand" />
             </LinearLayout>
-
             <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/llAddStock"
+                android:background="@drawable/bg_item_rounded"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical"
-                android:background="@drawable/bg_item_rounded">
-
+                android:layout_margin="8dp"
+                android:layout_weight="1">
                 <TextView
-                    android:id="@+id/tvAddStock"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_title"
-                    android:padding="20dp"
-                    android:gravity="center"
-                    android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:text="Add Stocks" />
-
-                <ImageView
-                    android:id="@+id/ivAddStock"
-                    android:layout_width="match_parent"
-                    android:layout_height="270dp"
-                    android:background="?selectableItemBackground"
-                    android:ellipsize="end"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:id="@+id/tvAddStock"
+                    android:background="@drawable/bg_title"
                     android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Products"/>
+                <ImageView
+                    android:ellipsize="end"
+                    android:id="@+id/ivAddStock"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
                     android:src="@drawable/ic_brand"/>
-
             </LinearLayout>
-
         </LinearLayout>
-
     </ScrollView>
 
 </FrameLayout>

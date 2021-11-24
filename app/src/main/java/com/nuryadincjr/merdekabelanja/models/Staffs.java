@@ -33,6 +33,13 @@ public class Staffs extends Admins implements Parcelable {
         }
     };
 
+    public String getDevision() {
+        return devision;
+    }
+
+    public void setDevision(String devision) {
+        this.devision = devision;
+    }
 
     @Override
     public int describeContents() {

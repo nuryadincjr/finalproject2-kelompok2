@@ -6,19 +6,19 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class Clothing extends Products implements Parcelable {
-    private String category;
+    private String gender;
     private String brand_name;
-    private List<String> size;
     private List<String> color;
+    private List<String> size;
 
     public Clothing(){
     }
 
-    public Clothing(String id, String name, String descriptions,
-                    List<String> photo, String piece, String quantity,
-                    String category, String brand_name, List<String> size, List<String> color) {
-        super(id, name, descriptions, photo, piece, quantity);
-        this.category = category;
+    public Clothing(String id, String name, String descriptions, List<String> photo,
+                    String piece, String quantity, String category, String gender,
+                    String brand_name, List<String> size, List<String> color) {
+        super(id, name, descriptions, photo, piece, quantity, category);
+        this.gender = gender;
         this.brand_name = brand_name;
         this.size = size;
         this.color = color;
@@ -26,10 +26,10 @@ public class Clothing extends Products implements Parcelable {
 
     protected Clothing(Parcel in) {
         super(in);
-        category = in.readString();
-        brand_name = in.readString();
-        size = in.createStringArrayList();
-        color = in.createStringArrayList();
+        this.gender = in.readString();
+        this.brand_name = in.readString();
+        this.size = in.createStringArrayList();
+        this.color = in.createStringArrayList();
     }
 
     public static final Creator<Clothing> CREATOR = new Creator<Clothing>() {
@@ -44,12 +44,12 @@ public class Clothing extends Products implements Parcelable {
         }
     };
 
-    public String getCategory() {
-        return category;
+    public String getGender() {
+        return gender;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getBrand_name() {
@@ -60,20 +60,20 @@ public class Clothing extends Products implements Parcelable {
         this.brand_name = brand_name;
     }
 
-    public List<String> getSize() {
-        return size;
-    }
-
-    public void setSize(List<String> size) {
-        this.size = size;
-    }
-
     public List<String> getColor() {
         return color;
     }
 
     public void setColor(List<String> color) {
         this.color = color;
+    }
+
+    public List<String> getSize() {
+        return size;
+    }
+
+    public void setSize(List<String> size) {
+        this.size = size;
     }
 
     @Override
@@ -84,9 +84,10 @@ public class Clothing extends Products implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
-        parcel.writeString(category);
+        parcel.writeString(gender);
         parcel.writeString(brand_name);
         parcel.writeStringList(size);
         parcel.writeStringList(color);
+
     }
 }

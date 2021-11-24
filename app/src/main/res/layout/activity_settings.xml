@@ -14,15 +14,28 @@
         android:padding="15dp"
         android:text="Account" />
 
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dfdfdf" />
+
     <TextView
         android:id="@+id/tvProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:padding="15dp"
-        android:background="?selectableItemBackground"
-        android:textStyle="bold"
+        android:text="\t\tProfile"
         android:textColor="@color/black"
-        android:text="Profile" />
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_account" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dfdfdf" />
 
     <Button
         android:id="@+id/btnLogout"

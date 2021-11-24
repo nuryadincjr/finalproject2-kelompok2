@@ -24,6 +24,7 @@ import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityDetailsStaffBinding;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
+import com.nuryadincjr.merdekabelanja.util.PdfConverters;
 
 import java.util.ArrayList;
 
@@ -79,20 +80,21 @@ public class DetailsStaffActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-            case R.id.act_edit:
+            case R.id.itemEdit:
                 getDataEdited();
                 return true;
-            case R.id.act_saves:
+            case R.id.itemSaves:
                 getDataChange();
                 return true;
-            case R.id.act_cencle:
+            case R.id.itemCencle:
                 getDataCencled();
                 return true;
-            case R.id.act_delete:
+            case R.id.itemDelete:
                 getDataDelete();
                 return true;
-            case R.id.act_print:
-
+            case R.id.itemPrint:
+                PdfConverters.getInstance(this, binding.getRoot())
+                        .getDataToPdf(binding.getRoot(), data.getUid());
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -145,11 +147,11 @@ public class DetailsStaffActivity extends AppCompatActivity {
     }
 
     private void setVisibleMenu(boolean visible1, boolean visible2) {
-        menu.findItem(R.id.act_saves).setVisible(visible1);
-        menu.findItem(R.id.act_cencle).setVisible(visible1);
-        menu.findItem(R.id.act_edit).setVisible(visible2);
-        menu.findItem(R.id.act_delete).setVisible(visible2);
-        menu.findItem(R.id.act_print).setVisible(visible2);
+        menu.findItem(R.id.itemSaves).setVisible(visible1);
+        menu.findItem(R.id.itemCencle).setVisible(visible1);
+        menu.findItem(R.id.itemEdit).setVisible(visible2);
+        menu.findItem(R.id.itemDelete).setVisible(visible2);
+        menu.findItem(R.id.itemPrint).setVisible(visible2);
     }
 
     private void setFocusable(boolean isFocusable) {
@@ -164,7 +166,6 @@ public class DetailsStaffActivity extends AppCompatActivity {
     }
 
     private void setFocusableInTouchMode(boolean isFocusable) {
-//        binding.etId.setFocusableInTouchMode(isFocusable);
         binding.etName.setFocusableInTouchMode(isFocusable);
         binding.etPhone.setFocusableInTouchMode(isFocusable);
         binding.etEmail.setFocusableInTouchMode(isFocusable);
@@ -215,49 +216,34 @@ public class DetailsStaffActivity extends AppCompatActivity {
                 return filePath.getDownloadUrl();
             }).addOnCompleteListener(task -> {
                 if(task.isSuccessful()) {
-                    dialog.setMessage("Setuping profile..");
-
                     Uri downdoadUri = task.getResult();
                     staffs.setPhoto(downdoadUri.toString());
 
-                    new StaffsRepository().updateStaffs(staffs).addOnSuccessListener(documentReference -> {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-                        Toast.makeText(getApplicationContext(),
-                                "Success.", Toast.LENGTH_SHORT).show();
-
-                        getSupportActionBar().setTitle("Details Staff");
-                        setFocusable(false);
-                        setVisibleMenu(false, true);
-
-                        dialog.dismiss();
-                    }).addOnFailureListener(e -> {
-                        dialog.dismiss();
-                        Log.w(TAG, "Error adding document", e);
-                        Toast.makeText(getApplicationContext(),
-                                "Error adding document.", Toast.LENGTH_SHORT).show();
-                    });
+                    onCreateData(staffs);
                 }
             });
-        } else{
-            dialog.setMessage("Setuping profile..");
+        } else onCreateData(staffs);
+    }
 
-            new StaffsRepository().updateStaffs(staffs).addOnSuccessListener(documentReference -> {
-                dialog.dismiss();
-                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-                Toast.makeText(getApplicationContext(),
-                        "Success.", Toast.LENGTH_SHORT).show();
+    private void onCreateData(Staffs staffs) {
+        dialog.setMessage("Setuping profile..");
 
-                getSupportActionBar().setTitle("Details Staff");
-                setFocusable(false);
-                setVisibleMenu(false, true);
+        new StaffsRepository().updateStaffs(staffs).addOnSuccessListener(documentReference -> {
+            dialog.dismiss();
+            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
+            Toast.makeText(getApplicationContext(),
+                    "Success.", Toast.LENGTH_SHORT).show();
 
-            }).addOnFailureListener(e -> {
-                dialog.dismiss();
-                Log.w(TAG, "Error adding document", e);
-                Toast.makeText(getApplicationContext(),
-                        "Error adding document.", Toast.LENGTH_SHORT).show();
-            });
-        }
+            getSupportActionBar().setTitle("Details Staff");
+            setFocusable(false);
+            setVisibleMenu(false, true);
+
+        }).addOnFailureListener(e -> {
+            dialog.dismiss();
+            Log.w(TAG, "Error adding document", e);
+            Toast.makeText(getApplicationContext(),
+                    "Error adding document.", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override

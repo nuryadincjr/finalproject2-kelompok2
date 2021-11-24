@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Admins implements Parcelable {
+
     private String uid;
     private String name;
     private String phone;

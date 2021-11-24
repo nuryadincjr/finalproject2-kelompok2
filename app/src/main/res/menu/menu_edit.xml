@@ -3,31 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/act_saves"
+        android:id="@+id/itemSaves"
         android:icon="@drawable/ic_save"
         android:title="Saves"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/act_cencle"
+        android:id="@+id/itemCencle"
         android:icon="@drawable/ic_close"
         android:title="Close"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/act_edit"
+        android:id="@+id/itemEdit"
         android:icon="@drawable/ic_archive"
         android:title="Edit"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/act_delete"
+        android:id="@+id/itemDelete"
         android:icon="@drawable/ic_trash"
         android:title="Delete"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/act_print"
+        android:id="@+id/itemPrint"
         android:icon="@drawable/ic_brand"
         android:title="Print Card"
         app:showAsAction="never"/>

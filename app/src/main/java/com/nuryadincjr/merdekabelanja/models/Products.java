@@ -12,18 +12,20 @@ public class Products implements Parcelable {
     private List<String> photo;
     private String piece;
     private String quantity;
+    private String category;
 
     public Products() {
     }
 
     public Products(String id, String name, String descriptions,
-                    List<String> photo, String piece, String quantity) {
+                    List<String> photo, String piece, String quantity, String category) {
         this.id = id;
         this.name = name;
         this.descriptions = descriptions;
         this.photo = photo;
         this.piece = piece;
         this.quantity = quantity;
+        this.category = category;
     }
 
     protected Products(Parcel in) {
@@ -33,6 +35,7 @@ public class Products implements Parcelable {
         photo = in.createStringArrayList();
         piece = in.readString();
         quantity = in.readString();
+        category = in.readString();
     }
 
     public static final Creator<Products> CREATOR = new Creator<Products>() {
@@ -95,6 +98,14 @@ public class Products implements Parcelable {
         this.quantity = quantity;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -108,5 +119,6 @@ public class Products implements Parcelable {
         parcel.writeStringList(photo);
         parcel.writeString(piece);
         parcel.writeString(quantity);
+        parcel.writeString(category);
     }
 }

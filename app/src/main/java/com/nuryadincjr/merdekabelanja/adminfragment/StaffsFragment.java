@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -51,6 +52,7 @@ public class StaffsFragment extends Fragment {
     @Override
     public void onResume() {
         getData();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Stafs");
         super.onResume();
     }
 
@@ -96,20 +98,20 @@ public class StaffsFragment extends Fragment {
     public void openMenuEditPopup(View view, Staffs staffs) {
         PopupMenu menu = new PopupMenu(view.getContext(), view);
         menu.getMenuInflater().inflate(R.menu.menu_edit, menu.getMenu());
-        menu.getMenu().findItem(R.id.act_saves).setVisible(false);
-        menu.getMenu().findItem(R.id.act_cencle).setVisible(false);
+        menu.getMenu().findItem(R.id.itemSaves).setVisible(false);
+        menu.getMenu().findItem(R.id.itemCencle).setVisible(false);
 
         menu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.act_edit:
+                case R.id.itemEdit:
                     startActivity(new Intent(getContext(), DetailsStaffActivity.class)
                             .putExtra("DATA", staffs)
                             .putExtra("ISEDIT", true));
                     break;
-                case R.id.act_delete:
+                case R.id.itemDelete:
                     getDataDelete(staffs);
                     break;
-                case R.id.act_print:
+                case R.id.itemPrint:
 
                     break;
             }

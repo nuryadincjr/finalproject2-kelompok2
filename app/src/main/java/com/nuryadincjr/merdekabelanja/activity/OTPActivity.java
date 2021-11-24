@@ -43,10 +43,7 @@ public class OTPActivity extends AppCompatActivity {
     private Users users;
     private Admins admins;
     private Staffs staffs;
-    private String action;
-    private String islogin;
-    private String verificationId;
-    private String phone;
+    private String action, islogin, verificationId, phone;
     private static final String TAG = Activity.class.getName();
 
     @Override

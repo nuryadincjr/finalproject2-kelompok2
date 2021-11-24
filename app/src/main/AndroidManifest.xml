@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nuryadincjr.merdekabelanja">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -9,6 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MerdekaBelanja">
+        <activity
+            android:name=".adminacitvity.ProductsActivity"
+            android:exported="true"
+            android:label="Add Products" />
+        <activity
+            android:name=".adminacitvity.AddBookActivity"
+            android:exported="true" />
+        <activity
+            android:name=".adminacitvity.AddClothingActivity"
+            android:exported="true" />
         <activity
             android:name=".adminacitvity.AdminsProfileActivity"
             android:exported="false" />
@@ -23,7 +35,7 @@
         <activity
             android:name=".activity.SettingsActivity"
             android:exported="false"
-            android:label="Settings"/>
+            android:label="Settings" />
         <activity
             android:name=".adminacitvity.AdminsActivity"
             android:exported="false"
@@ -61,6 +73,17 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:authorities="com.nuryadincjr.merdekabelanja.provider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
     </application>
 
 </manifest>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="book_type">
+        <item>~Select Book Type~</item>
+        <item>Novel</item>
+        <item>Cergam</item>
+        <item>Komik</item>
+        <item>Ensiklopedi</item>
+        <item>Nomik</item>
+        <item>Antologi</item>
+        <item>Dongeng</item>
+        <item>Biografi</item>
+        <item>Catatan Harian</item>
+        <item>Novelet</item>
+        <item>Fotografi</item>
+        <item>Karya Ilmiah</item>
+        <item>Tafsir</item>
+        <item>Kamus</item>
+        <item>Panduan (how to)</item>
+        <item>Atlas</item>
+        <item>Buku Ilmiah</item>
+        <item>Teks</item>
+        <item>Majalah</item>
+        <item>Buku Digital</item>
+    </array>
+    <array name="devision">
+        <item>~Select Devision~</item>
+        <item>Keuangan</item>
+        <item>Marketing</item>
+        <item>Gudang</item>
+        <item>HRD</item>
+    </array>
+    <array name="gender">
+        <item>~Select Gender~</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>General</item>
+    </array>
+</resources>

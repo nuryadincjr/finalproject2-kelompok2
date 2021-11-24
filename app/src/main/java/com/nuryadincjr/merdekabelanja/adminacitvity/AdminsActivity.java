@@ -41,7 +41,7 @@ public class AdminsActivity extends AppCompatActivity
 
         binding.navigationView.setNavigationItemSelectedListener(this);
         if(savedInstanceState == null) {
-            binding.navigationView.setCheckedItem(R.id.homeMenu);
+            binding.navigationView.setCheckedItem(R.id.itemDashboard);
             getFragmentPage(new DashboardFragment(),this);
         }
     }
@@ -49,22 +49,20 @@ public class AdminsActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.homeMenu:
+            case R.id.itemDashboard:
                 getFragmentPage(new DashboardFragment(), this);
                 getSupportActionBar().setTitle("Dashboard");
                 break;
-            case R.id.staffMenu:
+            case R.id.itemStaffs:
                 getFragmentPage(new StaffsFragment(), this);
-                getSupportActionBar().setTitle("Staffs");
                 break;
-            case R.id.stockMenu:
-                getSupportActionBar().setTitle("Stocks");
+            case R.id.itemProducts:
                 getFragmentPage(new StocksFragment(), this);
                 break;
-            case R.id.settingsMenu:
+            case R.id.itemSettings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
-            case R.id.aboutMenu:
+            case R.id.itemAbouts:
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
         }

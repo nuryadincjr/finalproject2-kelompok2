@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class Electronics extends Products implements Parcelable {
-    private String category;
     private String brand_name;
     private String product_type;
 
@@ -16,15 +15,13 @@ public class Electronics extends Products implements Parcelable {
     public Electronics(String id, String name, String descriptions,
                        List<String> photo, String piece, String quantity,
                        String category, String brand_name, String product_type) {
-        super(id, name, descriptions, photo, piece, quantity);
-        this.category = category;
+        super(id, name, descriptions, photo, piece, quantity, category);
         this.brand_name = brand_name;
         this.product_type = product_type;
     }
 
     protected Electronics(Parcel in) {
         super(in);
-        category = in.readString();
         brand_name = in.readString();
         product_type = in.readString();
     }
@@ -40,14 +37,6 @@ public class Electronics extends Products implements Parcelable {
             return new Electronics[size];
         }
     };
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     public String getBrand_name() {
         return brand_name;
@@ -73,8 +62,8 @@ public class Electronics extends Products implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
-        parcel.writeString(category);
         parcel.writeString(brand_name);
         parcel.writeString(product_type);
+
     }
 }

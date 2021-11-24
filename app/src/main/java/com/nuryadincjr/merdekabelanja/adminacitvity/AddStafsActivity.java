@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
@@ -27,11 +30,12 @@ import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 
 import java.util.UUID;
 
-public class AddStafsActivity extends AppCompatActivity {
+public class AddStafsActivity extends AppCompatActivity implements OnItemSelectedListener {
 
     private ActivityAddStafsBinding binding;
     private StorageReference storageReference;
     private ProgressDialog dialog;
+    private Staffs staffs;
     private Uri imageUri;
 
     @Override
@@ -45,9 +49,12 @@ public class AddStafsActivity extends AppCompatActivity {
 
         storageReference = FirebaseStorage.getInstance().getReference().child("staffs").child("profiles");
         dialog = new ProgressDialog(this);
+        staffs = new Staffs();
 
-        binding.btnRegister.setOnClickListener(v -> getRegister());
-        binding.btnAddPhoto.setOnCheckedChangeListener(this::onCheckedChanged);
+        binding.btnRegister.setOnClickListener(v -> getInputValidations());
+        binding.btnAddPhoto.setOnCheckedChangeListener(this::onCheckedChange);
+
+        getDevisionsAdapter();
     }
 
     @Override
@@ -59,7 +66,15 @@ public class AddStafsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void getRegister() {
+    private void getDevisionsAdapter() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.devision, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spDevisions.setOnItemSelectedListener(this);
+        binding.spDevisions.setAdapter(adapter);
+    }
+
+    private void getInputValidations() {
         String fullname = binding.etName.getText().toString();
         String phone = binding.etPhone.getText().toString();
         String email = binding.etEmail.getText().toString();
@@ -68,12 +83,13 @@ public class AddStafsActivity extends AppCompatActivity {
         String address = binding.etAddress.getText().toString();
 
         if(!fullname.isEmpty() && !phone.isEmpty() && !email.isEmpty() &&
-                !password.isEmpty() && !confpassword.isEmpty()) {
+                !password.isEmpty() && !confpassword.isEmpty() && staffs.getDevision() != null) {
             if(password.length() > 7) {
                 if(password.equals(confpassword)){
-                    Staffs staffs = new Staffs("", fullname, phone, email,
-                            "", address, email, password, Constaint.time(),
-                            "register", "staff");
+                    String uniqueID = UUID.randomUUID().toString();
+                    Staffs staffs = new Staffs(uniqueID, fullname, phone, email, "", address, email,
+                            password, Constaint.time(), "register", this.staffs.getDevision());
+
                     onRegister(staffs);
 
                 } else binding.etPassword.setError("Password canot equals!");
@@ -86,61 +102,49 @@ public class AddStafsActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
 
-        String uniqueID = UUID.randomUUID().toString();
-
-        staffs.setUid(uniqueID);
-
         if(imageUri != null) {
             dialog.setMessage("Uploading file..");
 
-            StorageReference filePath = storageReference.child(uniqueID)
-                    .child(uniqueID + "." + Constaint.getFileExtension(imageUri, this));
+            StorageReference filePath = storageReference.child(staffs.getUid())
+                    .child(staffs.getUid() + "." + Constaint.getFileExtension(imageUri, this));
             StorageTask<UploadTask.TaskSnapshot> uploadTask = filePath.putFile(imageUri);
 
             uploadTask.continueWithTask(task -> {
-                if(!task.isSuccessful()) throw task.getException(); dialog.dismiss();
+                if(!task.isSuccessful()) {
+                    dialog.dismiss();
+                    throw task.getException();
+                }
                 return filePath.getDownloadUrl();
             }).addOnCompleteListener(task -> {
                 if(task.isSuccessful()) {
-                    dialog.setMessage("Setuping profile..");
-
                     Uri downdoadUri = task.getResult();
                     staffs.setPhoto(downdoadUri.toString());
 
-                    new StaffsRepository().insertStaffs(staffs).addOnSuccessListener(documentReference -> {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-                        Toast.makeText(getApplicationContext(),
-                                "Success.", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        finish();
-                    }).addOnFailureListener(e -> {
-                        dialog.dismiss();
-                        Log.w(TAG, "Error adding document", e);
-                        Toast.makeText(getApplicationContext(),
-                                "Error adding document.", Toast.LENGTH_SHORT).show();
-                    });
+                    onCreateData(staffs);
                 }
             });
-        } else{
-            dialog.setMessage("Setuping profile..");
-
-            new StaffsRepository().insertStaffs(staffs).addOnSuccessListener(documentReference -> {
-                dialog.dismiss();
-                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-                Toast.makeText(getApplicationContext(),
-                        "Success.", Toast.LENGTH_SHORT).show();
-                finish();
-            }).addOnFailureListener(e -> {
-                dialog.dismiss();
-                Log.w(TAG, "Error adding document", e);
-                Toast.makeText(getApplicationContext(),
-                        "Error adding document.", Toast.LENGTH_SHORT).show();
-            });
-        }
+        } else onCreateData(staffs);
     }
 
-    private void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if (b) {
+    private void onCreateData(Staffs staffs) {
+        dialog.setMessage("Setuping profile..");
+
+        new StaffsRepository().insertStaffs(staffs).addOnSuccessListener(documentReference -> {
+            dialog.dismiss();
+            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
+            Toast.makeText(getApplicationContext(),
+                    "Success.", Toast.LENGTH_SHORT).show();
+            finish();
+        }).addOnFailureListener(e -> {
+            dialog.dismiss();
+            Log.w(TAG, "Error adding document", e);
+            Toast.makeText(getApplicationContext(),
+                    "Error adding document.", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void onCheckedChange(CompoundButton compoundButton, boolean isChecked) {
+        if (isChecked) {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -162,5 +166,20 @@ public class AddStafsActivity extends AppCompatActivity {
             imageUri = null;
             binding.btnAddPhoto.setChecked(false);
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(position !=0 ){
+            staffs.setDevision(parent.getSelectedItem().toString());
+        }else{
+            view.setEnabled(false);
+            staffs.setDevision(null);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

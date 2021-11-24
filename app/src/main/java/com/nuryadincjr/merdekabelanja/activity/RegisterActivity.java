@@ -23,10 +23,10 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.btnRegister.setOnClickListener(v -> getRegister());
+        binding.btnRegister.setOnClickListener(v -> getInputValidations());
     }
 
-    private void getRegister() {
+    private void getInputValidations() {
         String fullname = binding.etName.getText().toString();
         String phone = binding.etPhone.getText().toString();
         String email = binding.etEmail.getText().toString();
@@ -39,13 +39,15 @@ public class RegisterActivity extends AppCompatActivity {
                if(password.equals(confpassword)){
                    Users users = new  Users("", fullname, phone, email,
                            "", "", email, password, "" ,"register","");
-
-                   startActivity(new Intent(this, OTPActivity.class)
-                           .putExtra("REGISTER", users)
-                           .putExtra("TAG", "REGISTER"));
-
+                   onRegisters(users);
                } else binding.etPassword.setError("Password canot equals!");
            } else binding.etConfPassword.setError("Password too short!");
        } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
+    }
+
+    private void onRegisters(Users users) {
+        startActivity(new Intent(this, OTPActivity.class)
+                .putExtra("REGISTER", users)
+                .putExtra("TAG", "REGISTER"));
     }
 }

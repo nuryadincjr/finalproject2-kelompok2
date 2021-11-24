@@ -6,21 +6,18 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class Books extends Products implements Parcelable {
-    private String title;
     private String author;
+    private String book_type;
+    private int number_of_page;
     private String publisher;
     private String publisher_year;
-    private List<String> book_type;
-    private int number_of_page;
+
 
     public Books() {
     }
 
-    public Books(String id, String name, String descriptions, List<String> photo,
-                 String piece, String quantity, String title, String author, String publisher,
-                 String publisher_year, List<String> book_type, int number_of_page) {
-        super(id, name, descriptions, photo, piece, quantity);
-        this.title = title;
+    public Books(String id, String name, String descriptions, List<String> photo, String piece, String quantity, String category, String author, String publisher, String publisher_year, String book_type, int number_of_page) {
+        super(id, name, descriptions, photo, piece, quantity, category);
         this.author = author;
         this.publisher = publisher;
         this.publisher_year = publisher_year;
@@ -30,12 +27,11 @@ public class Books extends Products implements Parcelable {
 
     protected Books(Parcel in) {
         super(in);
-        title = in.readString();
-        author = in.readString();
-        publisher = in.readString();
-        publisher_year = in.readString();
-        in.readStringList(book_type);
-        number_of_page = in.readInt();
+        this.author = in.readString();
+        this.publisher = in.readString();
+        this.publisher_year = in.readString();
+        this.book_type = in.readString();
+        this.number_of_page = in.readInt();
     }
 
     public static final Creator<Books> CREATOR = new Creator<Books>() {
@@ -50,20 +46,28 @@ public class Books extends Products implements Parcelable {
         }
     };
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getAuthor() {
         return author;
     }
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getBook_type() {
+        return book_type;
+    }
+
+    public void setBook_type(String book_type) {
+        this.book_type = book_type;
+    }
+
+    public int getNumber_of_page() {
+        return number_of_page;
+    }
+
+    public void setNumber_of_page(int number_of_page) {
+        this.number_of_page = number_of_page;
     }
 
     public String getPublisher() {
@@ -82,14 +86,6 @@ public class Books extends Products implements Parcelable {
         this.publisher_year = publisher_year;
     }
 
-    public List<String> getBook_type() {
-        return book_type;
-    }
-
-    public void setBook_type(List<String> book_type) {
-        this.book_type = book_type;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -98,10 +94,10 @@ public class Books extends Products implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
-        parcel.writeString(author);
-        parcel.writeString(publisher);
-        parcel.writeString(publisher_year);
-        parcel.writeList(book_type);
-        parcel.writeInt(number_of_page);
+        parcel.writeString(this.author);
+        parcel.writeString(this.publisher);
+        parcel.writeString(this.publisher_year);
+        parcel.writeString(this.book_type);
+        parcel.writeInt(this.number_of_page);
     }
 }
