@@ -20,9 +20,11 @@
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_settings.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_trash.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_about.xml" value="0.2" />
-        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_add_book.xml" value="0.2" />
-        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_add_clothing.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_add_book.xml" value="0.33" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_add_clothing.xml" value="0.25" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_add_electronic.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_add_electronics.xml" value="0.33" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_add_others.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_add_products.xml" value="0.22007722007722008" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_add_stafs.xml" value="0.25" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_admin.xml" value="0.2" />
@@ -32,6 +34,7 @@
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_logged_out.xml" value="0.22" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_others.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_otpactivity.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_products.xml" value="0.16" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_register.xml" value="0.2" />
@@ -61,7 +64,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

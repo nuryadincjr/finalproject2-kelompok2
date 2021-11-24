@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nuryadincjr.merdekabelanja">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    package="com.nuryadincjr.merdekabelanja" >
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +11,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MerdekaBelanja">
+        android:theme="@style/Theme.MerdekaBelanja" >
+        <activity
+            android:name=".adminacitvity.AddOthersActivity"
+            android:exported="true" />
+        <activity
+            android:name=".adminacitvity.AddElectronicsActivity"
+            android:exported="true" />
         <activity
             android:name=".adminacitvity.ProductsActivity"
             android:exported="true"
@@ -63,7 +70,7 @@
         <activity
             android:name=".activity.SplashScreenActivity"
             android:exported="true"
-            android:theme="@style/Theme.MerdekaBelanja.NoActionBar">
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -76,14 +83,13 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:exported="false"
             android:authorities="com.nuryadincjr.merdekabelanja.provider"
-            android:grantUriPermissions="true">
+            android:exported="false"
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
-
     </application>
 
 </manifest>

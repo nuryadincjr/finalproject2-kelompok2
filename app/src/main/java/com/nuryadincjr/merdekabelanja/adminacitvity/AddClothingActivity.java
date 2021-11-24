@@ -35,7 +35,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
     private List<Uri> uriImageList;
     private final String TAG = "LIA";
     private Clothing clothing;
-    private int positionOfSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

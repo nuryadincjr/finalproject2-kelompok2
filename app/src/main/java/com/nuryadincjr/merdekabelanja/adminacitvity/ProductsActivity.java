@@ -24,22 +24,22 @@ public class ProductsActivity extends AppCompatActivity {
 
         binding.llClothing.setOnClickListener(v -> {
             startActivity(new Intent(this, AddClothingActivity.class)
-                    .putExtra("PRODUCT", "colething"));
+                    .putExtra("PRODUCT", "Colething"));
         });
 
         binding.llBooks.setOnClickListener(v -> {
             startActivity(new Intent(this, AddBookActivity.class)
-                    .putExtra("PRODUCT", "book"));
+                    .putExtra("PRODUCT", "Book"));
         });
 
         binding.llElectronic.setOnClickListener(v -> {
-//            startActivity(new Intent(this, AddElectronicActivity.class)
-//                    .putExtra("PRODUCT", "electronic"));
+            startActivity(new Intent(this, AddElectronicsActivity.class)
+                    .putExtra("PRODUCT", "Electronic"));
         });
 
         binding.llOther.setOnClickListener(v -> {
-//            startActivity(new Intent(this, AddOtherProcuctsActivity.class)
-//                    .putExtra("PRODUCT", "other"));
+            startActivity(new Intent(this, AddOthersActivity.class)
+                    .putExtra("PRODUCT", "Other Products"));
         });
     }
 

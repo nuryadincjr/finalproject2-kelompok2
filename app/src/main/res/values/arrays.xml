@@ -36,4 +36,11 @@
         <item>Female</item>
         <item>General</item>
     </array>
+
+    <array name="electronic_type">
+        <item>~Electronic Type~</item>
+        <item>Commputer</item>
+        <item>Smartphone</item>
+    </array>
+
 </resources>
