@@ -85,7 +85,7 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         String colors  = binding.etColors.getText().toString();
 
         if(!name.isEmpty() && !piece.isEmpty() &&
-                !quantity.isEmpty() && clothing.getGender() != null) {
+                !quantity.isEmpty() && !clothing.getGender().equals("Select Gender")) {
 
             clothing = new Clothing(id, name, descriptions, null, piece,
                     quantity, this.clothing.getCategory(), this.clothing.getGender(),
@@ -111,7 +111,8 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
                 StorageReference filePath = storageReference
                         .child(clothing.getCategory())
                         .child(clothing.getId())
-                        .child("preview" + i + "." + Constaint.getFileExtension(uriImageList.get(i), this));
+                        .child("preview" + i + "." +
+                                Constaint.getFileExtension(uriImageList.get(i), this));
                 int finalI = i;
 
                 filePath.putFile(uriImageList.get(i)).continueWithTask(task -> {
@@ -159,16 +160,12 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position !=0){
-            clothing.setGender(parent.getSelectedItem().toString());
-        }else {
-            view.setEnabled(false);
-            clothing.setGender(null);
-        }
+        if(position ==0) view.setEnabled(false);
+        clothing.setGender(parent.getSelectedItem().toString());
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        clothing.setGender(parent.getSelectedItem().toString());
     }
 }

@@ -38,11 +38,13 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
     private ProgressDialog dialog;
     private List<Uri> uriImageList;
     private Electronics electronics;
+    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_electronics);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         binding = ActivityAddElectronicsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -82,13 +84,13 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
         String quantity = binding.etQuantity.getText().toString();
         String brand_name  = binding.etBrandName.getText().toString();
 
-        if(!name.isEmpty() && !piece.isEmpty() &&
-                !quantity.isEmpty() && electronics.getProduct_type() != null) {
+        if(!name.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() &&
+                !electronics.getProduct_type().equals("Select Electronic Type")) {
 
-            electronics = new Electronics(id, name, descriptions, null, piece, quantity,
-                    this.electronics.getCategory(), brand_name, this.electronics.getProduct_type());
+            Electronics data = new Electronics(id, name, descriptions, null, piece, quantity,
+                    electronics.getCategory(), brand_name, electronics.getProduct_type());
 
-            onCreateProduct(electronics);
+            onCreateProduct(data);
 
         } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
     }
@@ -147,16 +149,12 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position !=0){
-            electronics.setProduct_type(parent.getSelectedItem().toString());
-        }else {
-            view.setEnabled(false);
-            electronics.setProduct_type(null);
-        }
+        if(position ==0) view.setEnabled(false);
+        electronics.setProduct_type(parent.getSelectedItem().toString());
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        electronics.setProduct_type(parent.getSelectedItem().toString());
     }
 }

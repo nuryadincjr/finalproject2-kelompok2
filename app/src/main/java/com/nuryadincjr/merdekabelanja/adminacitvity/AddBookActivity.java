@@ -86,8 +86,8 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
         String piece = binding.etPiece.getText().toString();
         String quantity = binding.etQuantity.getText().toString();
 
-        if(!title.isEmpty() && !piece.isEmpty() &&
-                !quantity.isEmpty() && books.getBook_type() != null) {
+        if(!title.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() &&
+                !books.getBook_type().equals("Select Book Type")) {
             books = new Books(id, title, descriptions, null, piece, quantity,
                     this.books.getCategory(), author, publisher, publisherYear,
                     this.books.getBook_type(), Integer.parseInt(numberOfPage));
@@ -150,16 +150,12 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position !=0 ){
-            books.setBook_type(parent.getSelectedItem().toString());
-        }else {
-            view.setEnabled(false);
-            books.setBook_type(null);
-        }
+        if(position ==0 ) view.setEnabled(false);
+        books.setBook_type(parent.getSelectedItem().toString());
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        books.setBook_type(parent.getSelectedItem().toString());
     }
 }

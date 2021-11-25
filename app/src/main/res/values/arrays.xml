@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="book_type">
-        <item>~Select Book Type~</item>
+        <item>Select Book Type</item>
         <item>Novel</item>
         <item>Cergam</item>
         <item>Komik</item>
@@ -24,21 +24,21 @@
         <item>Buku Digital</item>
     </array>
     <array name="devision">
-        <item>~Select Devision~</item>
+        <item>Select Devision</item>
         <item>Keuangan</item>
         <item>Marketing</item>
         <item>Gudang</item>
         <item>HRD</item>
     </array>
     <array name="gender">
-        <item>~Select Gender~</item>
+        <item>Select Gender</item>
         <item>Male</item>
         <item>Female</item>
         <item>General</item>
     </array>
 
     <array name="electronic_type">
-        <item>~Electronic Type~</item>
+        <item>Select Electronic Type</item>
         <item>Commputer</item>
         <item>Smartphone</item>
     </array>

@@ -77,8 +77,8 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
         String confpassword = binding.etConfPassword.getText().toString();
         String address = binding.etAddress.getText().toString();
 
-        if(!fullname.isEmpty() && !phone.isEmpty() && !email.isEmpty() &&
-                !password.isEmpty() && !confpassword.isEmpty() && staffs.getDevision() != null) {
+        if(!fullname.isEmpty() && !phone.isEmpty() && !email.isEmpty() && !password.isEmpty() &&
+                !confpassword.isEmpty() && !staffs.getDevision().equals("Select Devision")) {
             if(password.length() > 7) {
                 if(password.equals(confpassword)){
                     String uniqueID = UUID.randomUUID().toString();
@@ -165,16 +165,12 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position !=0 ){
-            staffs.setDevision(parent.getSelectedItem().toString());
-        }else{
-            view.setEnabled(false);
-            staffs.setDevision(null);
-        }
+        if(position ==0 )view.setEnabled(false);
+        staffs.setDevision(parent.getSelectedItem().toString());
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+        staffs.setDevision(parent.getSelectedItem().toString());
     }
 }

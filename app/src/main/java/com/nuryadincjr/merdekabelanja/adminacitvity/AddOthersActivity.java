@@ -37,6 +37,7 @@ public class AddOthersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_others);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         binding = ActivityAddOthersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
