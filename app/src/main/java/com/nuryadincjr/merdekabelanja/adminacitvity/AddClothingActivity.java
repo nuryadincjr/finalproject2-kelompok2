@@ -4,12 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -18,10 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nuryadincjr.merdekabelanja.R;
-import com.nuryadincjr.merdekabelanja.api.ProductsRepository;
+import com.nuryadincjr.merdekabelanja.adapters.SpinnersAdapter;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddClothingBinding;
 import com.nuryadincjr.merdekabelanja.models.Clothing;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
+import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
+import com.nuryadincjr.merdekabelanja.pojo.ProductsPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +31,11 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
     private ActivityAddClothingBinding binding;
     private StorageReference storageReference;
+    private ProductsPreference productsPreference;
+    private ImagesPreference imagesPreference;
+    private SpinnersAdapter spinnersAdapter;
     private ProgressDialog dialog;
     private List<Uri> uriImageList;
-    private final String TAG = "LIA";
     private Clothing clothing;
 
     @Override
@@ -46,6 +48,9 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         setContentView(binding.getRoot());
 
         storageReference = FirebaseStorage.getInstance().getReference().child("product");
+        productsPreference = ProductsPreference.getInstance(this);
+        imagesPreference = ImagesPreference.getInstance(this);
+        spinnersAdapter = SpinnersAdapter.getInstance(this);
 
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
@@ -55,15 +60,9 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         getSupportActionBar().setTitle("Add " + clothing.getCategory());
 
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
-        binding.btnAddPhoto.setOnClickListener(view -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 25);
-        });
+        binding.btnAddPhoto.setOnClickListener(view -> imagesPreference.getMultipleImage(this));
 
-        getGenderAdapter();
+        spinnersAdapter.getSpinnerAdapter(binding.spGender, R.array.gender);
     }
 
     @Override
@@ -73,14 +72,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void getGenderAdapter() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(this, R.array.gender, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spGender.setOnItemSelectedListener(this);
-        binding.spGender.setAdapter(adapter);
     }
 
     private void getInputValidations() {
@@ -134,30 +125,12 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
                         photo.add(finalI, task.getResult().toString());
                         if ((finalI + 1) == uriImageList.size()) {
                             clothing.setPhoto(photo);
-                            onCreateData(clothing);
+                            productsPreference.onCreateData(clothing, this);
                         }
                     }
                 });
             }
-        } else onCreateData(clothing);
-    }
-
-    private void onCreateData(Clothing clothing) {
-        dialog.setMessage("Setuping data..");
-
-        new ProductsRepository().insertProducts(clothing).addOnSuccessListener(documentReference -> {
-            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-            Toast.makeText(getApplicationContext(),
-                    "Success.", Toast.LENGTH_SHORT).show();
-
-            dialog.dismiss();
-            finish();
-        }).addOnFailureListener(e -> {
-            dialog.dismiss();
-            Log.w(TAG, "Error adding document", e);
-            Toast.makeText(getApplicationContext(),
-                    "Error adding document.", Toast.LENGTH_SHORT).show();
-        });
+        } else productsPreference.onCreateData(clothing, this);
     }
 
     private List<String> getList(String str) {
@@ -196,5 +169,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

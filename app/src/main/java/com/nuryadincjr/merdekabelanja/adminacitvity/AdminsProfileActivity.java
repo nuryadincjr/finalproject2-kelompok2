@@ -24,8 +24,9 @@ import com.nuryadincjr.merdekabelanja.api.AdminsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAdminsProfileBinding;
 import com.nuryadincjr.merdekabelanja.models.Admins;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
-import com.nuryadincjr.merdekabelanja.util.LocalPreference;
-import com.nuryadincjr.merdekabelanja.util.PdfConverters;
+import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
+import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
+import com.nuryadincjr.merdekabelanja.pojo.PdfConverters;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
     private ActivityAdminsProfileBinding binding;
     private StorageReference storageReference;
     private LocalPreference localPreference;
+    private ImagesPreference imagesPreference;
     private ProgressDialog dialog;
     private Uri imageUri;
     private Admins data;
@@ -49,6 +51,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         storageReference = FirebaseStorage.getInstance().getReference().child("admins").child("profiles");
+        imagesPreference = ImagesPreference.getInstance(this);
         localPreference = new LocalPreference(this);
         dialog = new ProgressDialog(this);
 
@@ -125,12 +128,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Edits Admins");
         setFocusableInTouchMode(true);
         setVisibleMenu(true, false);
-        binding.ivPhoto.setOnClickListener(view -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(intent, 25);
-        });
+        binding.ivPhoto.setOnClickListener(view -> imagesPreference.getSinggleImage(this));
     }
 
     private void getDataChange() {
@@ -139,7 +137,6 @@ public class AdminsProfileActivity extends AppCompatActivity {
         String email = binding.etEmail.getText().toString();
         String address = binding.etAddress.getText().toString();
         String etUsername = binding.etUsername.getText().toString();
-
 
         if(!fullname.isEmpty() && !phone.isEmpty() &&
                 !email.isEmpty() && !etUsername.isEmpty()) {

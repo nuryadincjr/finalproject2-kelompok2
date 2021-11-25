@@ -6,11 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,10 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nuryadincjr.merdekabelanja.R;
-import com.nuryadincjr.merdekabelanja.api.ProductsRepository;
+import com.nuryadincjr.merdekabelanja.adapters.SpinnersAdapter;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddBookBinding;
 import com.nuryadincjr.merdekabelanja.models.Books;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
+import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
+import com.nuryadincjr.merdekabelanja.pojo.ProductsPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +32,12 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
 
     private ActivityAddBookBinding binding;
     private StorageReference storageReference;
+    private ProductsPreference productsPreference;
+    private ImagesPreference imagesPreference;
+    private SpinnersAdapter spinnersAdapter;
     private List<Uri> uriImageList;
     private ProgressDialog dialog;
     private Books books;
-    private final String TAG = "LIA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,10 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
         setContentView(binding.getRoot());
 
         storageReference = FirebaseStorage.getInstance().getReference().child("product");
+        productsPreference = ProductsPreference.getInstance(this);
+        imagesPreference = ImagesPreference.getInstance(this);
+        spinnersAdapter = SpinnersAdapter.getInstance(this);
+
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
         books = new Books();
@@ -54,17 +60,10 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
         books.setCategory(getIntent().getStringExtra("PRODUCT"));
         getSupportActionBar().setTitle("Add " + books.getCategory());
 
-
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
-        binding.btnAddPhoto.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 25);
-        });
+        binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getMultipleImage(this));
 
-        getBookTypeAdapter();
+        spinnersAdapter.getSpinnerAdapter(binding.spBookType, R.array.book_type);
     }
 
     @Override
@@ -74,14 +73,6 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void getBookTypeAdapter() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(this, R.array.book_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spBookType.setOnItemSelectedListener(this);
-        binding.spBookType.setAdapter(adapter);
     }
 
     private void getInputValidations() {
@@ -134,29 +125,12 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
                         photo.add(finalI, task.getResult().toString());
                         if ((finalI + 1) == uriImageList.size()) {
                             books.setPhoto(photo);
-                            onCreateData(books);
+                            productsPreference.onCreateData(books, this);
                         }
                     }
                 });
             }
-        } else onCreateData(books);
-    }
-
-    private void onCreateData(Books books) {
-        dialog.setMessage("Setuping data..");
-        new ProductsRepository().insertProducts(books).addOnSuccessListener(documentReference -> {
-            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-            Toast.makeText(getApplicationContext(),
-                    "Success.", Toast.LENGTH_SHORT).show();
-
-            dialog.dismiss();
-            finish();
-        }).addOnFailureListener(e -> {
-            dialog.dismiss();
-            Log.w(TAG, "Error adding document", e);
-            Toast.makeText(getApplicationContext(),
-                    "Error adding document.", Toast.LENGTH_SHORT).show();
-        });
+        } else productsPreference.onCreateData(books, this);
     }
 
     @Override

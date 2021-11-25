@@ -11,7 +11,7 @@ import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adminacitvity.AdminsProfileActivity;
 import com.nuryadincjr.merdekabelanja.databinding.ActivitySettingsBinding;
 import com.nuryadincjr.merdekabelanja.models.Admins;
-import com.nuryadincjr.merdekabelanja.util.LocalPreference;
+import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
 
 public class SettingsActivity extends AppCompatActivity {
 

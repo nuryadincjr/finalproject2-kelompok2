@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -14,10 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nuryadincjr.merdekabelanja.R;
-import com.nuryadincjr.merdekabelanja.api.ProductsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddOthersBinding;
 import com.nuryadincjr.merdekabelanja.models.Products;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
+import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
+import com.nuryadincjr.merdekabelanja.pojo.ProductsPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +27,11 @@ public class AddOthersActivity extends AppCompatActivity {
 
     private ActivityAddOthersBinding binding;
     private StorageReference storageReference;
+    private ProductsPreference productsPreference;
+    private ImagesPreference imagesPreference;
     private List<Uri> uriImageList;
     private ProgressDialog dialog;
     private Products products;
-    private final String TAG = "LIA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,9 @@ public class AddOthersActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         storageReference = FirebaseStorage.getInstance().getReference().child("product");
+        productsPreference = ProductsPreference.getInstance(this);
+        imagesPreference = ImagesPreference.getInstance(this);
+
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
         products = new Products();
@@ -48,15 +52,8 @@ public class AddOthersActivity extends AppCompatActivity {
         products.setCategory(getIntent().getStringExtra("PRODUCT"));
         getSupportActionBar().setTitle("Add " + products.getCategory());
 
-
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
-        binding.btnAddPhoto.setOnClickListener(v -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 25);
-        });
+        binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getMultipleImage(this));
     }
 
     @Override
@@ -112,29 +109,12 @@ public class AddOthersActivity extends AppCompatActivity {
                         photo.add(finalI, task.getResult().toString());
                         if ((finalI + 1) == uriImageList.size()) {
                             products.setPhoto(photo);
-                            onCreateData(products);
+                            productsPreference.onCreateData(products, this);
                         }
                     }
                 });
             }
-        } else onCreateData(products);
-    }
-
-    private void onCreateData(Products products) {
-        dialog.setMessage("Setuping data..");
-        new ProductsRepository().insertProducts(products).addOnSuccessListener(documentReference -> {
-            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-            Toast.makeText(getApplicationContext(),
-                    "Success.", Toast.LENGTH_SHORT).show();
-
-            dialog.dismiss();
-            finish();
-        }).addOnFailureListener(e -> {
-            dialog.dismiss();
-            Log.w(TAG, "Error adding document", e);
-            Toast.makeText(getApplicationContext(),
-                    "Error adding document.", Toast.LENGTH_SHORT).show();
-        });
+        } else productsPreference.onCreateData(products, this);
     }
 
     @Override

@@ -6,11 +6,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -19,10 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nuryadincjr.merdekabelanja.R;
-import com.nuryadincjr.merdekabelanja.api.ProductsRepository;
+import com.nuryadincjr.merdekabelanja.adapters.SpinnersAdapter;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddElectronicsBinding;
 import com.nuryadincjr.merdekabelanja.models.Electronics;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
+import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
+import com.nuryadincjr.merdekabelanja.pojo.ProductsPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +32,11 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
 
     private ActivityAddElectronicsBinding binding;
     private StorageReference storageReference;
+    private ProductsPreference productsPreference;
+    private ImagesPreference imagesPreference;
+    private SpinnersAdapter spinnersAdapter;
     private ProgressDialog dialog;
     private List<Uri> uriImageList;
-    private final String TAG = "LIA";
     private Electronics electronics;
 
     @Override
@@ -46,6 +48,9 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
         setContentView(binding.getRoot());
 
         storageReference = FirebaseStorage.getInstance().getReference().child("product");
+        productsPreference = ProductsPreference.getInstance(this);
+        imagesPreference = ImagesPreference.getInstance(this);
+        spinnersAdapter = SpinnersAdapter.getInstance(this);
 
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
@@ -55,15 +60,9 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
         getSupportActionBar().setTitle("Add " + electronics.getCategory());
 
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
-        binding.btnAddPhoto.setOnClickListener(view -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 25);
-        });
+        binding.btnAddPhoto.setOnClickListener(view -> imagesPreference.getMultipleImage(this));
 
-        getGenderAdapter();
+        spinnersAdapter.getSpinnerAdapter(binding.spElectronicType, R.array.electronic_type);
     }
 
     @Override
@@ -73,14 +72,6 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void getGenderAdapter() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(this, R.array.electronic_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spElectronicType.setOnItemSelectedListener(this);
-        binding.spElectronicType.setAdapter(adapter);
     }
 
     private void getInputValidations() {
@@ -131,39 +122,12 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
                         photo.add(finalI, task.getResult().toString());
                         if ((finalI + 1) == uriImageList.size()) {
                             electronics.setPhoto(photo);
-                            onCreateData(electronics);
+                            productsPreference.onCreateData(electronics, this);
                         }
                     }
                 });
             }
-        } else onCreateData(electronics);
-    }
-
-    private void onCreateData(Electronics electronics) {
-        dialog.setMessage("Setuping data..");
-
-        new ProductsRepository().insertProducts(electronics).addOnSuccessListener(documentReference -> {
-            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-            Toast.makeText(getApplicationContext(),
-                    "Success.", Toast.LENGTH_SHORT).show();
-
-            dialog.dismiss();
-            finish();
-        }).addOnFailureListener(e -> {
-            dialog.dismiss();
-            Log.w(TAG, "Error adding document", e);
-            Toast.makeText(getApplicationContext(),
-                    "Error adding document.", Toast.LENGTH_SHORT).show();
-        });
-    }
-
-    private List<String> getList(String str) {
-        String[] myStrings = str.split(",");
-        List<String> stringList = new ArrayList<>();
-        for (int i = 0; i < myStrings.length; i++) {
-            stringList.add(i, myStrings[i]);
-        }
-        return stringList;
+        } else productsPreference.onCreateData(electronics, this);
     }
 
     @Override

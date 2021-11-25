@@ -1,6 +1,5 @@
 package com.nuryadincjr.merdekabelanja.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +29,7 @@ import com.nuryadincjr.merdekabelanja.models.Admins;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.models.Users;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
-import com.nuryadincjr.merdekabelanja.util.LocalPreference;
+import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
 
 import java.util.concurrent.TimeUnit;
 
@@ -44,7 +43,6 @@ public class OTPActivity extends AppCompatActivity {
     private Admins admins;
     private Staffs staffs;
     private String action, islogin, verificationId, phone;
-    private static final String TAG = Activity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,14 +117,14 @@ public class OTPActivity extends AppCompatActivity {
                 .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
                     public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                        Log.d(TAG, "onVerificationCompleted:" + phoneAuthCredential);
+                        Log.d(Constaint.TAG, "onVerificationCompleted:" + phoneAuthCredential);
                         binding.inputOtp.setText(phoneAuthCredential.getSmsCode());
                     }
 
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
                         dialog.dismiss();
-                        Log.w(TAG, "onVerificationFailed", e);
+                        Log.w(Constaint.TAG, "onVerificationFailed", e);
                         Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             // Invalid request
@@ -165,7 +163,7 @@ public class OTPActivity extends AppCompatActivity {
                     dialog.setCancelable(false);
                     dialog.show();
 
-                    Log.d(TAG, "signInWithCredential:success");
+                    Log.d(Constaint.TAG, "signInWithCredential:success");
                     Toast.makeText(this, "signInWithCredential:success", Toast.LENGTH_SHORT).show();
 
                     if(action.equals("LOGIN")) onLogin();
@@ -174,7 +172,7 @@ public class OTPActivity extends AppCompatActivity {
                 else {
                     dialog.dismiss();
                     Toast.makeText(this, "signInWithCredential:failure", Toast.LENGTH_SHORT).show();
-                    Log.w(TAG, "signInWithCredential:failure", task.getException());
+                    Log.w(Constaint.TAG, "signInWithCredential:failure", task.getException());
                     if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                         // The verification code entered was invalid
                     }
@@ -222,13 +220,13 @@ public class OTPActivity extends AppCompatActivity {
         users.setStatus_account("active");
 
         new UsersRepository().insertUser(users).addOnSuccessListener(documentReference -> {
-            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
+            Log.d(Constaint.TAG, "DocumentSnapshot added with ID: " + documentReference);
             Toast.makeText(getApplicationContext(), "Success.", Toast.LENGTH_SHORT).show();
 
             startActivity(new Intent(this, MainActivity.class));
             finishAffinity();
         }).addOnFailureListener(e -> {
-            Log.w(TAG, "Error adding document", e);
+            Log.w(Constaint.TAG, "Error adding document", e);
             Toast.makeText(getApplicationContext(), "Error adding document.", Toast.LENGTH_SHORT).show();
         });
         dialog.dismiss();

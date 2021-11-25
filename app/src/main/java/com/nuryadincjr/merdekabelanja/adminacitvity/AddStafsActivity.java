@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
@@ -23,6 +22,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.nuryadincjr.merdekabelanja.R;
+import com.nuryadincjr.merdekabelanja.adapters.SpinnersAdapter;
 import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddStafsBinding;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
@@ -34,6 +34,7 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
 
     private ActivityAddStafsBinding binding;
     private StorageReference storageReference;
+    private SpinnersAdapter spinnersAdapter;
     private ProgressDialog dialog;
     private Staffs staffs;
     private Uri imageUri;
@@ -48,13 +49,15 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
         setContentView(binding.getRoot());
 
         storageReference = FirebaseStorage.getInstance().getReference().child("staffs").child("profiles");
+        spinnersAdapter = SpinnersAdapter.getInstance(this);
+
         dialog = new ProgressDialog(this);
         staffs = new Staffs();
 
         binding.btnRegister.setOnClickListener(v -> getInputValidations());
         binding.btnAddPhoto.setOnCheckedChangeListener(this::onCheckedChange);
 
-        getDevisionsAdapter();
+        spinnersAdapter.getSpinnerAdapter(binding.spDevisions, R.array.devision);
     }
 
     @Override
@@ -64,14 +67,6 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void getDevisionsAdapter() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.devision, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.spDevisions.setOnItemSelectedListener(this);
-        binding.spDevisions.setAdapter(adapter);
     }
 
     private void getInputValidations() {

@@ -24,7 +24,8 @@ import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityDetailsStaffBinding;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
-import com.nuryadincjr.merdekabelanja.util.PdfConverters;
+import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
+import com.nuryadincjr.merdekabelanja.pojo.PdfConverters;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
 
     private ActivityDetailsStaffBinding binding;
     private StorageReference storageReference;
+    private ImagesPreference imagesPreference;
     private FirebaseStorage storage;
     private ProgressDialog dialog;
     private Uri imageUri;
@@ -50,6 +52,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference().child("staffs").child("profiles");
+        imagesPreference = ImagesPreference.getInstance(this);
         dialog = new ProgressDialog(this);
 
         data = getIntent().getParcelableExtra("DATA");
@@ -120,12 +123,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Edits Staff");
         setFocusableInTouchMode(true);
         setVisibleMenu(true, false);
-        binding.ivPhoto.setOnClickListener(view -> {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(intent, 25);
-        });
+        binding.ivPhoto.setOnClickListener(view -> imagesPreference.getSinggleImage(this));
     }
 
     private void getDataChange() {

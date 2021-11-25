@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adminacitvity.AdminsActivity;
-import com.nuryadincjr.merdekabelanja.util.LocalPreference;
+import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private LocalPreference localPreference;

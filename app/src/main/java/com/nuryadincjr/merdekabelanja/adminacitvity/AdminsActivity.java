@@ -40,6 +40,7 @@ public class AdminsActivity extends AppCompatActivity
                 R.string.navigation_open, R.string.navigation_close).syncState();
 
         binding.navigationView.setNavigationItemSelectedListener(this);
+
         if(savedInstanceState == null) {
             binding.navigationView.setCheckedItem(R.id.itemDashboard);
             getFragmentPage(new DashboardFragment(),this);
