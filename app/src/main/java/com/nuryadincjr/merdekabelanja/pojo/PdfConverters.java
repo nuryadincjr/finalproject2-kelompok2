@@ -27,16 +27,14 @@ public class PdfConverters {
 
     public static PdfConverters pdfDocument;
     public Context context;
-    public LinearLayout layout;
 
-    public PdfConverters(Context context, LinearLayout layout) {
+    public PdfConverters(Context context ) {
         this.context = context;
-        this.layout = layout;
     }
 
-    public static PdfConverters getInstance(Context context, LinearLayout layout) {
+    public static PdfConverters getInstance(Context context ) {
         if (pdfDocument == null) {
-            pdfDocument = new PdfConverters(context, layout);
+            pdfDocument = new PdfConverters(context);
         }
         return pdfDocument;
     }

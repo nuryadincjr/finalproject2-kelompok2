@@ -89,7 +89,7 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
 
             clothing = new Clothing(id, name, descriptions, null, piece,
                     quantity, this.clothing.getCategory(), this.clothing.getGender(),
-                    brand_name, getList(sizes), getList(colors));
+                    brand_name, imagesPreference.getList(sizes), imagesPreference.getList(colors));
 
             onCreateProduct(clothing);
 
@@ -134,14 +134,6 @@ public class AddClothingActivity extends AppCompatActivity implements OnItemSele
         } else productsPreference.onCreateData(clothing, this);
     }
 
-    private List<String> getList(String str) {
-        String[] myStrings = str.split(",");
-        List<String> stringList = new ArrayList<>();
-        for (int i = 0; i < myStrings.length; i++) {
-            stringList.add(i, myStrings[i]);
-        }
-        return stringList;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

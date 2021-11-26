@@ -58,7 +58,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
         data = getIntent().getParcelableExtra("DATA");
         isEdit = getIntent().getBooleanExtra("ISEDIT", false);
 
-        onSetData(data);
+        onDataSet(data);
         setFocusable(false);
     }
 
@@ -96,7 +96,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
                 getDataDelete();
                 return true;
             case R.id.itemPrint:
-                PdfConverters.getInstance(this, binding.getRoot())
+                PdfConverters.getInstance(this)
                         .getDataToPdf(binding.getRoot(), data.getUid());
                 return true;
         }
@@ -113,7 +113,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
     }
 
     private void getDataCencled() {
-        onSetData(data);
+        onDataSet(data);
         getSupportActionBar().setTitle("Details Staff");
         setFocusable(false);
         setVisibleMenu(false, true);
@@ -173,7 +173,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
         binding.ivPhoto.setEnabled(isFocusable);
     }
 
-    private void onSetData(Staffs staffs) {
+    private void onDataSet(Staffs staffs) {
         new StaffsRepository().getStaffLogin(staffs).observe(this, (ArrayList<Staffs> staff) -> {
             if(staff.size() != 0) {
                 data = staff.get(0);
@@ -217,13 +217,13 @@ public class DetailsStaffActivity extends AppCompatActivity {
                     Uri downdoadUri = task.getResult();
                     staffs.setPhoto(downdoadUri.toString());
 
-                    onCreateData(staffs);
+                    onDataCreate(staffs);
                 }
             });
-        } else onCreateData(staffs);
+        } else onDataCreate(staffs);
     }
 
-    private void onCreateData(Staffs staffs) {
+    private void onDataCreate(Staffs staffs) {
         dialog.setMessage("Setuping profile..");
 
         new StaffsRepository().updateStaffs(staffs).addOnSuccessListener(documentReference -> {

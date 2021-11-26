@@ -21,7 +21,7 @@ public class UsersRepository {
     }
 
     public MutableLiveData<ArrayList<Users>> getAllUsers() {
-        ArrayList<Users> users = new ArrayList<>();;
+        ArrayList<Users> users = new ArrayList<>();
         final MutableLiveData<ArrayList<Users>> usersMutableLiveData = new MutableLiveData<>();
 
         db.collection("users").get().addOnCompleteListener(task -> {
@@ -29,7 +29,7 @@ public class UsersRepository {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Users user = document.toObject(Users.class);
                     user.setUid(document.getId());
-                    users.add(user);;
+                    users.add(user);
                     Log.d(TAG, document.getId() + " => " + document.getData());
                 }
                 usersMutableLiveData.postValue(users);

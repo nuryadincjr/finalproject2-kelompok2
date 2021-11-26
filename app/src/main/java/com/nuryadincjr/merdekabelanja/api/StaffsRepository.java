@@ -24,7 +24,7 @@ public class StaffsRepository {
     }
 
     public MutableLiveData<ArrayList<Staffs>> getAllStaffs() {
-        ArrayList<Staffs> staffs = new ArrayList<>();;
+        ArrayList<Staffs> staffs = new ArrayList<>();
         final MutableLiveData<ArrayList<Staffs>> staffsMutableLiveData = new MutableLiveData<>();
 
         db.collection("staffs").get().addOnCompleteListener(task -> {
@@ -32,7 +32,7 @@ public class StaffsRepository {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Staffs staff = document.toObject(Staffs.class);
                     staff.setUid(document.getId());
-                    staffs.add(staff);;
+                    staffs.add(staff);
                     Log.d(TAG, document.getId() + " => " + document.getData());
                 }
                 staffsMutableLiveData.postValue(staffs);

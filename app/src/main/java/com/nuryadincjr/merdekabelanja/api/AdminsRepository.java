@@ -24,7 +24,7 @@ public class AdminsRepository {
     }
 
     public MutableLiveData<ArrayList<Admins>> getAllAdmins() {
-        ArrayList<Admins> admins = new ArrayList<>();;
+        ArrayList<Admins> admins = new ArrayList<>();
         final MutableLiveData<ArrayList<Admins>> adminsMutableLiveData = new MutableLiveData<>();
 
         db.collection("admins").get().addOnCompleteListener(task -> {

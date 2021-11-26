@@ -86,7 +86,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
                 getDataCencled();
                 return true;
             case R.id.itemPrint:
-                PdfConverters.getInstance(this, binding.getRoot())
+                PdfConverters.getInstance(this)
                         .getDataToPdf(binding.getRoot(), data.getUid());
                 return true;
         }

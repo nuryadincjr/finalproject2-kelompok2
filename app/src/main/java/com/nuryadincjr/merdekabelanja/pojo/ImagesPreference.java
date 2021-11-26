@@ -58,4 +58,14 @@ public class ImagesPreference {
 
         return uriImageList;
     }
+
+    public List<String> getList(String str) {
+        String[] myStrings = str.split(",");
+        List<String> stringList = new ArrayList<>();
+        for (int i = 0; i < myStrings.length; i++) {
+            stringList.add(i, myStrings[i]);
+        }
+        return stringList;
+    }
+
 }

@@ -7,9 +7,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.nuryadincjr.merdekabelanja.api.AdminsRepository;
+import com.nuryadincjr.merdekabelanja.api.ProductsRepository;
 import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.api.UsersRepository;
 import com.nuryadincjr.merdekabelanja.models.Admins;
+import com.nuryadincjr.merdekabelanja.models.Products;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.models.Users;
 
@@ -20,9 +22,11 @@ public class MainViewModel extends AndroidViewModel {
     private final UsersRepository usersRepository;
     private final AdminsRepository adminsRepository;
     private final StaffsRepository staffsRepository;
+    private final ProductsRepository productsRepository;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
+        this.productsRepository = new ProductsRepository();
         this.usersRepository = new UsersRepository();
         this.adminsRepository = new AdminsRepository();
         this.staffsRepository = new StaffsRepository();
@@ -40,12 +44,8 @@ public class MainViewModel extends AndroidViewModel {
         return staffsRepository.getAllStaffs();
     }
 
-//    public MutableLiveData<ArrayList<Users>> getUserLoginLiveData(Users user) {
-//        return usersRepository.getUserLogin(user);
-//    }
-//
-//    public Task<DocumentReference> insertUser(Users user) {
-//        return usersRepository.insertUser(user);
-//    }
+    public MutableLiveData<ArrayList<Products>> getAllProductsLiveData() {
+        return productsRepository.getAllProducts();
+    }
 
 }

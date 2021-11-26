@@ -19,7 +19,7 @@ import com.nuryadincjr.merdekabelanja.activity.SettingsActivity;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAdminsBinding;
 import com.nuryadincjr.merdekabelanja.adminfragment.DashboardFragment;
 import com.nuryadincjr.merdekabelanja.adminfragment.StaffsFragment;
-import com.nuryadincjr.merdekabelanja.adminfragment.StocksFragment;
+import com.nuryadincjr.merdekabelanja.adminfragment.ProductsFragment;
 
 public class AdminsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -58,7 +58,7 @@ public class AdminsActivity extends AppCompatActivity
                 getFragmentPage(new StaffsFragment(), this);
                 break;
             case R.id.itemProducts:
-                getFragmentPage(new StocksFragment(), this);
+                getFragmentPage(new ProductsFragment(), this);
                 break;
             case R.id.itemSettings:
                 startActivity(new Intent(this, SettingsActivity.class));

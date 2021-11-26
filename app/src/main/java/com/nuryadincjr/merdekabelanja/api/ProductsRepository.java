@@ -10,6 +10,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.nuryadincjr.merdekabelanja.models.Products;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ProductsRepository {
 
@@ -21,7 +22,7 @@ public class ProductsRepository {
     }
 
     public MutableLiveData<ArrayList<Products>> getAllProducts() {
-        ArrayList<Products> productsList = new ArrayList<>();;
+        ArrayList<Products> productsList = new ArrayList<>();
         final MutableLiveData<ArrayList<Products>> productsMutableLiveData = new MutableLiveData<>();
 
         db.collection("products").get().addOnCompleteListener(task -> {
@@ -42,7 +43,28 @@ public class ProductsRepository {
         return productsMutableLiveData;
     }
 
+    public Task<Void> deleteProduct(String id) {
+        return db.collection("products").document(id).delete();
+    }
+
     public Task<Void> insertProducts(Products products) {
         return db.collection("products").document(products.getId()).set(products);
+    }
+
+    public MutableLiveData<Map<String, Object>> getSinggleProduct(Products product) {
+        final MutableLiveData<Map<String, Object>> staffsMutableLiveData = new MutableLiveData<>();
+        db.collection("products")
+                .whereEqualTo("id", product.getId())
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot  snapshot : task.getResult()) {
+                staffsMutableLiveData.postValue(snapshot.getData());
+                }
+            }else{
+                staffsMutableLiveData.setValue(null);
+                Log.w(TAG, "Error getting documents.", task.getException());
+            }
+        });
+        return staffsMutableLiveData;
     }
 }

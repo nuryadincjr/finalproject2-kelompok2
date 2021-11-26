@@ -21,6 +21,7 @@ import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.FragmentStaffsBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
+import com.nuryadincjr.merdekabelanja.pojo.PdfConverters;
 import com.nuryadincjr.merdekabelanja.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
@@ -112,7 +113,8 @@ public class StaffsFragment extends Fragment {
                     getDataDelete(staffs);
                     break;
                 case R.id.itemPrint:
-
+                    PdfConverters.getInstance(getContext())
+                            .getDataToPdf(binding.getRoot(), staffs.getUid());
                     break;
             }
             return true;
