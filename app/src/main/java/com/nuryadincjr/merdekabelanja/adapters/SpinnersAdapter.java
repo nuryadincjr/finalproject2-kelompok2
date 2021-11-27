@@ -1,9 +1,8 @@
 package com.nuryadincjr.merdekabelanja.adapters;
 
 import android.content.Context;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.AutoCompleteTextView;
 
 public class SpinnersAdapter {
     private static SpinnersAdapter instance;
@@ -20,12 +19,17 @@ public class SpinnersAdapter {
         return instance;
     }
 
-    public void getSpinnerAdapter(Spinner spinner, int array) {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(context, array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setOnItemSelectedListener((OnItemSelectedListener) context);
+    public void getSpinnerAdapter(AutoCompleteTextView spinner, int array, String item) {
+        String[] COUNTRIES = context.getResources().getStringArray(array);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
+                android.R.layout.simple_spinner_dropdown_item, COUNTRIES);
         spinner.setAdapter(adapter);
+
+        if(item != null) {
+            int itemSelected = adapter.getPosition(item);
+            spinner.setText(String.valueOf(adapter.getItem(itemSelected)), false);
+        }
     }
 
 }

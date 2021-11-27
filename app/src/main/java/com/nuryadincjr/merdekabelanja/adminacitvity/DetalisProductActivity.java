@@ -1,5 +1,6 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,11 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.storage.FirebaseStorage;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adapters.ItemLableAdapter;
 import com.nuryadincjr.merdekabelanja.api.ProductsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityDetalisProductBinding;
+import com.nuryadincjr.merdekabelanja.models.Books;
+import com.nuryadincjr.merdekabelanja.models.Clothing;
+import com.nuryadincjr.merdekabelanja.models.Electronics;
 import com.nuryadincjr.merdekabelanja.models.Products;
 import com.nuryadincjr.merdekabelanja.pojo.PdfConverters;
 
@@ -23,14 +28,17 @@ public class DetalisProductActivity extends AppCompatActivity {
 
     private ActivityDetalisProductBinding binding;
     private FirebaseStorage storage;
+    private Books books;
     private Products data;
-    private Menu menu;
+    private Clothing clothing;
+    private Electronics electronics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalis_product);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Details Product");
 
         binding = ActivityDetalisProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -44,9 +52,8 @@ public class DetalisProductActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_edit, menu);
-        this.menu = menu;
-
-        setVisibleMenu(false, true);
+        menu.findItem(R.id.itemSaves).setVisible(false);
+        menu.findItem(R.id.itemCencle).setVisible(false);
         return true;
     }
 
@@ -71,9 +78,29 @@ public class DetalisProductActivity extends AppCompatActivity {
     }
 
     private void getDataEdited() {
-//       startActivity(new Intent(getContext(), EditProductActivity.class)
-//               .putExtra("DATA", products)
-//               .putExtra("ISEDIT", true));
+        switch (data.getCategory()){
+            case "Electronic":
+                startActivity(new Intent(this, AddElectronicsActivity.class)
+                        .putExtra("DATA", electronics)
+                        .putExtra("ISEDIT", true));
+                break;
+            case "Clothing":
+                startActivity(new Intent(this, AddClothingActivity.class)
+                        .putExtra("DATA", clothing)
+                        .putExtra("ISEDIT", true));
+                break;
+            case "Book":
+                startActivity(new Intent(this, AddBookActivity.class)
+                        .putExtra("DATA", books)
+                        .putExtra("ISEDIT", true));
+                break;
+            case "Other Products":
+                startActivity(new Intent(this, AddOthersActivity.class)
+                        .putExtra("DATA", data)
+                        .putExtra("ISEDIT", true));
+                break;
+        }
+
     }
 
     private void getDataDelete() {
@@ -88,18 +115,26 @@ public class DetalisProductActivity extends AppCompatActivity {
         finish();
     }
 
-    private void setVisibleMenu(boolean visible1, boolean visible2) {
-        menu.findItem(R.id.itemSaves).setVisible(visible1);
-        menu.findItem(R.id.itemCencle).setVisible(visible1);
-        menu.findItem(R.id.itemEdit).setVisible(visible2);
-        menu.findItem(R.id.itemDelete).setVisible(visible2);
-        menu.findItem(R.id.itemPrint).setVisible(visible2);
-    }
-
     private void onDataSet(Products product) {
-        new ProductsRepository().getSinggleProduct(product).observe(this, maps -> {
+        new ProductsRepository().getSinggleProduct(product).observe(this, (Map<String, Object> maps) -> {
             Object[] key = maps.keySet().toArray();
             Map<String, Object> value = maps;
+
+            ObjectMapper mapper = new ObjectMapper();
+            switch (product.getCategory()){
+                case "Electronic":
+                    electronics = mapper.convertValue(maps, Electronics.class);
+                    break;
+                case "Clothing":
+                    clothing = mapper.convertValue(maps, Clothing.class);
+                    break;
+                case "Book":
+                    books = mapper.convertValue(maps, Books.class);
+                    break;
+                case "Other Products":
+                    data = mapper.convertValue(maps, Products.class);
+                    break;
+            }
 
             ItemLableAdapter itemLableAdapter = new ItemLableAdapter(key, value, binding);
             binding.rvLable.setLayoutManager(new LinearLayoutManager(this));

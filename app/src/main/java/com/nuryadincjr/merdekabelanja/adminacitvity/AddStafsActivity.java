@@ -9,14 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -27,17 +25,20 @@ import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddStafsBinding;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
+import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
 
 import java.util.UUID;
 
-public class AddStafsActivity extends AppCompatActivity implements OnItemSelectedListener {
+public class AddStafsActivity extends AppCompatActivity {
 
     private ActivityAddStafsBinding binding;
     private StorageReference storageReference;
     private SpinnersAdapter spinnersAdapter;
+    private ImagesPreference imagesPreference;
     private ProgressDialog dialog;
     private Staffs staffs;
     private Uri imageUri;
+    private boolean isEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +51,22 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
 
         storageReference = FirebaseStorage.getInstance().getReference().child("staffs").child("profiles");
         spinnersAdapter = SpinnersAdapter.getInstance(this);
+        imagesPreference = ImagesPreference.getInstance(this);
 
         dialog = new ProgressDialog(this);
         staffs = new Staffs();
+        isEdit = getIntent().getBooleanExtra("ISEDIT", false);
 
         binding.btnRegister.setOnClickListener(v -> getInputValidations());
-        binding.btnAddPhoto.setOnCheckedChangeListener(this::onCheckedChange);
+        binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getSinggleImage(this));
 
-        spinnersAdapter.getSpinnerAdapter(binding.spDevisions, R.array.devision);
+        if(isEdit) {
+            staffs = getIntent().getParcelableExtra("DATA");
+            onDataSet(staffs);
+            binding.btnRegister.setText("Save Data");
+        }
+        spinnersAdapter.getSpinnerAdapter(binding.actDevisions, R.array.devision , staffs.getDevision());
+
     }
 
     @Override
@@ -69,21 +78,37 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
         return super.onOptionsItemSelected(item);
     }
 
+    private void onDataSet(Staffs staff) {
+            Glide.with(this)
+                    .load(staff.getPhoto())
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_brand)
+                    .into(binding.ivPhoto);
+
+            binding.etName.setText(staff.getName());
+            binding.etPhone.setText(staff.getPhone());
+            binding.etEmail.setText(staff.getEmail());
+            binding.etAddress.setText(staff.getAddress());
+            binding.etPassword.setText(staff.getPassword());
+            binding.etConfPassword.setText(staff.getPassword());
+    }
     private void getInputValidations() {
+        String id = UUID.randomUUID().toString();
+        if(isEdit) id = staffs.getUid();
         String fullname = binding.etName.getText().toString();
         String phone = binding.etPhone.getText().toString();
         String email = binding.etEmail.getText().toString();
         String password = binding.etPassword.getText().toString();
         String confpassword = binding.etConfPassword.getText().toString();
         String address = binding.etAddress.getText().toString();
+        String devision = binding.actDevisions.getText().toString();
 
-        if(!fullname.isEmpty() && !phone.isEmpty() && !email.isEmpty() && !password.isEmpty() &&
-                !confpassword.isEmpty() && !staffs.getDevision().equals("Select Devision")) {
+        if(!fullname.isEmpty() && !phone.isEmpty() && !email.isEmpty() &&
+                !password.isEmpty() && !confpassword.isEmpty() && !devision.isEmpty()) {
             if(password.length() > 7) {
                 if(password.equals(confpassword)){
-                    String uniqueID = UUID.randomUUID().toString();
-                    Staffs staffs = new Staffs(uniqueID, fullname, phone, email, "", address, email,
-                            password, Constaint.time(), "register", this.staffs.getDevision());
+                    Staffs staffs = new Staffs(id, fullname, phone, email, "", address, email,
+                            password, Constaint.time(), "register", devision);
 
                     onRegister(staffs);
 
@@ -115,10 +140,14 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
                     Uri downdoadUri = task.getResult();
                     staffs.setPhoto(downdoadUri.toString());
 
-                    onCreateData(staffs);
+                    if(isEdit) onUpdateData(staffs);
+                    else onCreateData(staffs);
                 }
             });
-        } else onCreateData(staffs);
+        } else {
+            if(isEdit) onUpdateData(staffs);
+            else onCreateData(staffs);
+        }
     }
 
     private void onCreateData(Staffs staffs) {
@@ -138,18 +167,6 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
         });
     }
 
-    private void onCheckedChange(CompoundButton compoundButton, boolean isChecked) {
-        if (isChecked) {
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(intent, 25);
-        } else {
-            binding.ivPhoto.setVisibility(View.GONE);
-            imageUri = null;
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -162,15 +179,21 @@ public class AddStafsActivity extends AppCompatActivity implements OnItemSelecte
             binding.btnAddPhoto.setChecked(false);
         }
     }
+    
+    private void onUpdateData(Staffs staffs) {
+        dialog.setMessage("Setuping profile..");
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position ==0 )view.setEnabled(false);
-        staffs.setDevision(parent.getSelectedItem().toString());
-    }
+        new StaffsRepository().updateStaffs(staffs).addOnSuccessListener(documentReference -> {
+            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
+            Toast.makeText(getApplicationContext(),
+                    "Success.", Toast.LENGTH_SHORT).show();
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        staffs.setDevision(parent.getSelectedItem().toString());
+            dialog.dismiss();
+        }).addOnFailureListener(e -> {
+            dialog.dismiss();
+            Log.w(TAG, "Error adding document", e);
+            Toast.makeText(getApplicationContext(),
+                    "Error adding document.", Toast.LENGTH_SHORT).show();
+        });
     }
 }

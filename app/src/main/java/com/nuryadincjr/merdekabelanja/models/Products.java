@@ -13,12 +13,13 @@ public class Products implements Parcelable {
     private String piece;
     private String quantity;
     private String category;
+    private String latest_update;
 
     public Products() {
     }
 
-    public Products(String id, String name, String descriptions,
-                    List<String> photo, String piece, String quantity, String category) {
+    public Products(String id, String name, String descriptions, List<String> photo,
+                    String piece, String quantity, String category, String latest_update) {
         this.id = id;
         this.name = name;
         this.descriptions = descriptions;
@@ -26,6 +27,7 @@ public class Products implements Parcelable {
         this.piece = piece;
         this.quantity = quantity;
         this.category = category;
+        this.latest_update = latest_update;
     }
 
     protected Products(Parcel in) {
@@ -36,6 +38,7 @@ public class Products implements Parcelable {
         piece = in.readString();
         quantity = in.readString();
         category = in.readString();
+        latest_update = in.readString();
     }
 
     public static final Creator<Products> CREATOR = new Creator<Products>() {
@@ -106,6 +109,14 @@ public class Products implements Parcelable {
         this.category = category;
     }
 
+    public String getLatest_update() {
+        return latest_update;
+    }
+
+    public void setLatest_update(String latest_update) {
+        this.latest_update = latest_update;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -120,5 +131,6 @@ public class Products implements Parcelable {
         parcel.writeString(piece);
         parcel.writeString(quantity);
         parcel.writeString(category);
+        parcel.writeString(latest_update);
     }
 }

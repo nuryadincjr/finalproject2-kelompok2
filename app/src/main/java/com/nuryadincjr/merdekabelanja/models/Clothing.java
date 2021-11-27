@@ -15,13 +15,13 @@ public class Clothing extends Products implements Parcelable {
     }
 
     public Clothing(String id, String name, String descriptions, List<String> photo,
-                    String piece, String quantity, String category, String gender,
-                    String brand_name, List<String> size, List<String> color) {
-        super(id, name, descriptions, photo, piece, quantity, category);
+                    String piece, String quantity, String category, String latest_update,
+                    String gender, String brand_name, List<String> color, List<String> size) {
+        super(id, name, descriptions, photo, piece, quantity, category, latest_update);
         this.gender = gender;
         this.brand_name = brand_name;
-        this.size = size;
         this.color = color;
+        this.size = size;
     }
 
     protected Clothing(Parcel in) {

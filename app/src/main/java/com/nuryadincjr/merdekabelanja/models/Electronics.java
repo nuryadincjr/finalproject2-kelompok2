@@ -12,10 +12,10 @@ public class Electronics extends Products implements Parcelable {
     public Electronics() {
     }
 
-    public Electronics(String id, String name, String descriptions,
-                       List<String> photo, String piece, String quantity,
-                       String category, String brand_name, String product_type) {
-        super(id, name, descriptions, photo, piece, quantity, category);
+    public Electronics(String id, String name, String descriptions, List<String> photo,
+                       String piece, String quantity, String category,
+                       String latest_update, String brand_name, String product_type) {
+        super(id, name, descriptions, photo, piece, quantity, category, latest_update);
         this.brand_name = brand_name;
         this.product_type = product_type;
     }

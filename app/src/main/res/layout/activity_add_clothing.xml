@@ -16,92 +16,129 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <EditText
-                android:id="@+id/etName"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_input"
-                android:ems="10"
+                android:hint="Gender"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:inputType="none"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:hint="Product Name"
-                android:inputType="text"
-                android:padding="15dp" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/etBrandName"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    tools:text="Nuryadin Abutani"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_input"
-                android:ems="10"
                 android:hint="Brand Name"
-                android:inputType="text"
-                android:padding="15dp" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <Spinner
-                android:id="@+id/spGender"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBrandName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    tools:text="Naonnya"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_input"
-                android:entries="@array/gender"
-                android:padding="15dp"
-                android:spinnerMode="dropdown" />
-
-            <EditText
-                android:id="@+id/etDescriptions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/bg_input"
                 android:hint="Descriptions"
-                android:inputType="textMultiLine"
-                android:maxLength="500"
-                android:padding="15dp" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/etSizes"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDescriptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    tools:text="@string/str_lorem"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_input"
-                android:ems="10"
-                android:hint="Sizes ex: XL, L, S"
-                android:inputType="text"
-                android:padding="15dp" />
+                android:hint="Sizes"
+                app:helperText="ex: XL, L, M, S"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/etColors"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etSizes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    tools:text="X, L, S"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_input"
-                android:ems="10"
-                android:hint="Colors ex: White, Blue, Red"
-                android:inputType="text"
-                android:padding="15dp" />
+                android:hint="Colors"
+                app:helperText="ex: White, Blue, Red"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/etPiece"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etColors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    tools:text="White, Blue, Red"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_input"
-                android:ems="10"
                 android:hint="Piece"
-                android:inputType="numberDecimal"
-                android:padding="15dp" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <EditText
-                android:id="@+id/etQuantity"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPiece"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    tools:text="200000"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_input"
-                android:ems="10"
                 android:hint="Quantity"
-                android:inputType="numberDecimal"
-                android:padding="15dp" />
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    tools:text="100"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:id="@+id/layout"
@@ -154,6 +191,5 @@
                 android:text="Add Product" />
         </LinearLayout>
     </ScrollView>
-
 
 </RelativeLayout>

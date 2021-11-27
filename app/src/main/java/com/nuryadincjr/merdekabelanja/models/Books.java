@@ -16,8 +16,10 @@ public class Books extends Products implements Parcelable {
     public Books() {
     }
 
-    public Books(String id, String name, String descriptions, List<String> photo, String piece, String quantity, String category, String author, String publisher, String publisher_year, String book_type, int number_of_page) {
-        super(id, name, descriptions, photo, piece, quantity, category);
+    public Books(String id, String name, String descriptions, List<String> photo, String piece,
+                 String quantity, String category, String author, String latest_update, String publisher,
+                 String publisher_year, String book_type, int number_of_page) {
+        super(id, name, descriptions, photo, piece, quantity, category, latest_update);
         this.author = author;
         this.publisher = publisher;
         this.publisher_year = publisher_year;

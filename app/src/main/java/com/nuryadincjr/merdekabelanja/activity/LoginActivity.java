@@ -52,7 +52,8 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case "USER":
                 binding.btnLogin.setText("LOG IN");
-                binding.etUsername.setHint("Phone number");
+                binding.tiLayout.setHint("Phone number");
+
                 binding.etUsername.setInputType(InputType.TYPE_CLASS_PHONE);
                 break;
         }

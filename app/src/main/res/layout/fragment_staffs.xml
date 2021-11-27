@@ -15,7 +15,7 @@
             android:id="@+id/rvStaffs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/list_lable" />
+            tools:listitem="@layout/list_item" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

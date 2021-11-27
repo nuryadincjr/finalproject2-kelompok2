@@ -24,7 +24,7 @@ public class ProductsActivity extends AppCompatActivity {
 
         binding.llClothing.setOnClickListener(v -> {
             startActivity(new Intent(this, AddClothingActivity.class)
-                    .putExtra("PRODUCT", "Colething"));
+                    .putExtra("PRODUCT", "Clothing"));
         });
 
         binding.llBooks.setOnClickListener(v -> {

@@ -1,14 +1,10 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
-import static android.widget.AdapterView.OnItemSelectedListener;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -28,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AddBookActivity extends AppCompatActivity implements OnItemSelectedListener{
+public class AddBookActivity extends AppCompatActivity {
 
     private ActivityAddBookBinding binding;
     private StorageReference storageReference;
@@ -38,6 +34,7 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
     private List<Uri> uriImageList;
     private ProgressDialog dialog;
     private Books books;
+    private boolean isEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,14 +53,34 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
         books = new Books();
-
-        books.setCategory(getIntent().getStringExtra("PRODUCT"));
-        getSupportActionBar().setTitle("Add " + books.getCategory());
+        isEdit = getIntent().getBooleanExtra("ISEDIT", false);
 
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
         binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getMultipleImage(this));
 
-        spinnersAdapter.getSpinnerAdapter(binding.spBookType, R.array.book_type);
+        books.setCategory(getIntent().getStringExtra("PRODUCT"));
+        String titleBar = "Add ";
+
+        if(isEdit) {
+            books = getIntent().getParcelableExtra("DATA");
+            titleBar = "Edit ";
+            onDataSet(books);
+            binding.btnAddProduct.setText("Save Product");
+        }
+
+        spinnersAdapter.getSpinnerAdapter(binding.actBookType, R.array.book_type, books.getBook_type());
+        getSupportActionBar().setTitle(titleBar + books.getCategory());
+    }
+
+    private void onDataSet(Books books) {
+        binding.etTitle.setText(books.getName());
+        binding.etAuthor.setText(books.getAuthor());
+        binding.etPublisher.setText(books.getPublisher());
+        binding.etPublisherYear.setText(String.valueOf(books.getPublisher_year()));
+        binding.etNumberOfPage.setText(String.valueOf(books.getNumber_of_page()));
+        binding.etDescriptions.setText(books.getDescriptions());
+        binding.etPiece.setText(books.getPiece());
+        binding.etQuantity.setText(books.getQuantity());
     }
 
     @Override
@@ -77,6 +94,8 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
 
     private void getInputValidations() {
         String id = UUID.randomUUID().toString();
+        if(isEdit) id = books.getId();
+
         String title = binding.etTitle.getText().toString();
         String author = binding.etAuthor.getText().toString();
         String publisher = binding.etPublisher.getText().toString();
@@ -85,12 +104,12 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
         String descriptions = binding.etDescriptions.getText().toString();
         String piece = binding.etPiece.getText().toString();
         String quantity = binding.etQuantity.getText().toString();
+        String bookType = binding.actBookType.getText().toString();
 
-        if(!title.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() &&
-                !books.getBook_type().equals("Select Book Type")) {
+        if(!title.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() && !bookType.isEmpty()) {
             books = new Books(id, title, descriptions, null, piece, quantity,
-                    this.books.getCategory(), author, publisher, publisherYear,
-                    this.books.getBook_type(), Integer.parseInt(numberOfPage));
+                    this.books.getCategory(), Constaint.time(), author, publisher, publisherYear,
+                    bookType, Integer.parseInt(numberOfPage));
             onCreateProduct(books);
 
         } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
@@ -125,12 +144,17 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
                         photo.add(finalI, task.getResult().toString());
                         if ((finalI + 1) == uriImageList.size()) {
                             books.setPhoto(photo);
-                            productsPreference.onCreateData(books, this);
+
+                            if(isEdit) productsPreference.onUpdateData(books, dialog);
+                            else productsPreference.onCreateData(books, this);
                         }
                     }
                 });
             }
-        } else productsPreference.onCreateData(books, this);
+        }  else {
+            if(isEdit) productsPreference.onUpdateData(books, dialog);
+            else productsPreference.onCreateData(books, this);
+        }
     }
 
     @Override
@@ -146,16 +170,5 @@ public class AddBookActivity extends AppCompatActivity implements OnItemSelected
         } else if (data.getData() != null) {
             uriImageList.add(0, data.getData());
         } else binding.btnAddPhoto.setChecked(false);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position ==0 ) view.setEnabled(false);
-        books.setBook_type(parent.getSelectedItem().toString());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        books.setBook_type(parent.getSelectedItem().toString());
     }
 }

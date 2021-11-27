@@ -32,6 +32,7 @@ public class AddOthersActivity extends AppCompatActivity {
     private List<Uri> uriImageList;
     private ProgressDialog dialog;
     private Products products;
+    private boolean isEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +50,29 @@ public class AddOthersActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
         products = new Products();
-
-        products.setCategory(getIntent().getStringExtra("PRODUCT"));
-        getSupportActionBar().setTitle("Add " + products.getCategory());
+        isEdit = getIntent().getBooleanExtra("ISEDIT", false);
 
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
         binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getMultipleImage(this));
+
+        products.setCategory(getIntent().getStringExtra("PRODUCT"));
+        String titleBar = "Add ";
+
+        if(isEdit) {
+            products = getIntent().getParcelableExtra("DATA");
+            titleBar = "Edit ";
+            onDataSet(products);
+            binding.btnAddProduct.setText("Save Product");
+
+        }
+        getSupportActionBar().setTitle(titleBar + products.getCategory());
+    }
+
+    private void onDataSet(Products products) {
+        binding.etName.setText(products.getName());
+        binding.etDescriptions.setText(products.getDescriptions());
+        binding.etPiece.setText(products.getPiece());
+        binding.etQuantity.setText(products.getQuantity());
     }
 
     @Override
@@ -68,6 +86,8 @@ public class AddOthersActivity extends AppCompatActivity {
 
     private void getInputValidations() {
         String id = UUID.randomUUID().toString();
+        if(isEdit) id = products.getId();
+
         String name = binding.etName.getText().toString();
         String descriptions = binding.etDescriptions.getText().toString();
         String piece = binding.etPiece.getText().toString();
@@ -75,7 +95,7 @@ public class AddOthersActivity extends AppCompatActivity {
 
         if(!name.isEmpty() && !piece.isEmpty() && !quantity.isEmpty()) {
             products = new Products(id, name, descriptions, null,
-                    piece, quantity, this.products.getCategory());
+                    piece, quantity, this.products.getCategory(), Constaint.time());
             onCreateProduct(products);
 
         } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
@@ -110,12 +130,17 @@ public class AddOthersActivity extends AppCompatActivity {
                         photo.add(finalI, task.getResult().toString());
                         if ((finalI + 1) == uriImageList.size()) {
                             products.setPhoto(photo);
-                            productsPreference.onCreateData(products, this);
+
+                            if(isEdit) productsPreference.onUpdateData(products, dialog);
+                            else productsPreference.onCreateData(products, this);
                         }
                     }
                 });
             }
-        } else productsPreference.onCreateData(products, this);
+        } else {
+            if(isEdit) productsPreference.onUpdateData(products, dialog);
+            else productsPreference.onCreateData(products, this);
+        }
     }
 
     @Override

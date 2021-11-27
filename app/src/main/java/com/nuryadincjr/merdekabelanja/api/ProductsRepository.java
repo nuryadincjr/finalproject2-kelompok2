@@ -51,7 +51,12 @@ public class ProductsRepository {
         return db.collection("products").document(products.getId()).set(products);
     }
 
+    public Task<Void> updateProducts(Products products) {
+        return db.collection("products").document(products.getId()).set(products);
+    }
+
     public MutableLiveData<Map<String, Object>> getSinggleProduct(Products product) {
+
         final MutableLiveData<Map<String, Object>> staffsMutableLiveData = new MutableLiveData<>();
         db.collection("products")
                 .whereEqualTo("id", product.getId())

@@ -1,14 +1,10 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
-import static android.widget.AdapterView.OnItemSelectedListener;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -28,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AddElectronicsActivity extends AppCompatActivity implements OnItemSelectedListener {
+public class AddElectronicsActivity extends AppCompatActivity {
 
     private ActivityAddElectronicsBinding binding;
     private StorageReference storageReference;
@@ -38,7 +34,7 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
     private ProgressDialog dialog;
     private List<Uri> uriImageList;
     private Electronics electronics;
-    private View view;
+    private boolean isEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +53,32 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
         electronics = new Electronics();
-
-        electronics.setCategory(getIntent().getStringExtra("PRODUCT"));
-        getSupportActionBar().setTitle("Add " + electronics.getCategory());
+        isEdit = getIntent().getBooleanExtra("ISEDIT", false);
 
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
         binding.btnAddPhoto.setOnClickListener(view -> imagesPreference.getMultipleImage(this));
 
-        spinnersAdapter.getSpinnerAdapter(binding.spElectronicType, R.array.electronic_type);
+        electronics.setCategory(getIntent().getStringExtra("PRODUCT"));
+        String titleBar = "Add ";
+
+        if(isEdit) {
+            electronics = getIntent().getParcelableExtra("DATA");
+            titleBar = "Edit ";
+            onDataSet(electronics);
+            binding.btnAddProduct.setText("Save Product");
+        }
+
+        spinnersAdapter.getSpinnerAdapter(binding.actElectronicType,
+                R.array.electronic_type, electronics.getProduct_type());
+        getSupportActionBar().setTitle(titleBar + electronics.getCategory());
+    }
+
+    private void onDataSet(Electronics electronics) {
+        binding.etName.setText(electronics.getName());
+        binding.etDescriptions.setText(electronics.getDescriptions());
+        binding.etPiece.setText(electronics.getPiece());
+        binding.etQuantity.setText(electronics.getQuantity());
+        binding.etBrandName.setText(electronics.getBrand_name());
     }
 
     @Override
@@ -78,17 +92,18 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
 
     private void getInputValidations() {
         String id = UUID.randomUUID().toString();
+        if(isEdit) id = electronics.getId();
+
         String name = binding.etName.getText().toString();
         String descriptions = binding.etDescriptions.getText().toString();
         String piece = binding.etPiece.getText().toString();
         String quantity = binding.etQuantity.getText().toString();
-        String brand_name  = binding.etBrandName.getText().toString();
+        String brandName  = binding.etBrandName.getText().toString();
+        String electronicType  = binding.actElectronicType.getText().toString();
 
-        if(!name.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() &&
-                !electronics.getProduct_type().equals("Select Electronic Type")) {
-
+        if(!name.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() && !electronicType.isEmpty()) {
             Electronics data = new Electronics(id, name, descriptions, null, piece, quantity,
-                    electronics.getCategory(), brand_name, electronics.getProduct_type());
+                    electronics.getCategory(), Constaint.time(), brandName, electronicType);
 
             onCreateProduct(data);
 
@@ -124,12 +139,17 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
                         photo.add(finalI, task.getResult().toString());
                         if ((finalI + 1) == uriImageList.size()) {
                             electronics.setPhoto(photo);
-                            productsPreference.onCreateData(electronics, this);
+
+                            if(isEdit) productsPreference.onUpdateData(electronics, dialog);
+                            else productsPreference.onCreateData(electronics, this);
                         }
                     }
                 });
             }
-        } else productsPreference.onCreateData(electronics, this);
+        }else {
+            if(isEdit) productsPreference.onUpdateData(electronics, dialog);
+            else productsPreference.onCreateData(electronics, this);
+        }
     }
 
     @Override
@@ -145,16 +165,5 @@ public class AddElectronicsActivity extends AppCompatActivity implements OnItemS
         } else if (data.getData() != null) {
             uriImageList.add(0, data.getData());
         } else binding.btnAddPhoto.setChecked(false);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if(position ==0) view.setEnabled(false);
-        electronics.setProduct_type(parent.getSelectedItem().toString());
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-        electronics.setProduct_type(parent.getSelectedItem().toString());
     }
 }
