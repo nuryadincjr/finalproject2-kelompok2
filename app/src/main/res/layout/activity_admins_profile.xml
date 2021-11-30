@@ -18,7 +18,7 @@
             android:padding="8dp">
 
             <ImageView
-                android:id="@+id/iv_photo"
+                android:id="@+id/ivPhoto"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
@@ -30,7 +30,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/tv_lable_id"
+                    android:id="@+id/tvLableId"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
@@ -39,10 +39,10 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_id"
+                    android:id="@+id/tvId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/tv_lable_id"
+                    android:layout_toEndOf="@+id/tvLableId"
                     android:maxLines="2"
                     android:padding="8dp"
                     android:textColor="@color/black"
@@ -50,21 +50,21 @@
                     tools:text="stffid01kzfgdh" />
 
                 <TextView
-                    android:id="@+id/tv_lable_full_name"
+                    android:id="@+id/tvLableName"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_id"
+                    android:layout_below="@+id/tvId"
                     android:padding="8dp"
                     android:text="Full Name"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_name"
+                    android:id="@+id/tvName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_id"
-                    android:layout_toEndOf="@+id/tv_lable_full_name"
+                    android:layout_below="@+id/tvId"
+                    android:layout_toEndOf="@+id/tvLableName"
                     android:maxLines="1"
                     android:padding="8dp"
                     android:textColor="@color/black"
@@ -72,21 +72,21 @@
                     tools:text="Nuryadin Abutani" />
 
                 <TextView
-                    android:id="@+id/tv_lable_phone"
+                    android:id="@+id/tvLablePhone"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_name"
+                    android:layout_below="@+id/tvName"
                     android:padding="8dp"
                     android:text="Phone Number"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_phone"
+                    android:id="@+id/tvPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_name"
-                    android:layout_toEndOf="@+id/tv_lable_phone"
+                    android:layout_below="@+id/tvName"
+                    android:layout_toEndOf="@+id/tvLablePhone"
                     android:maxLines="1"
                     android:padding="8dp"
                     android:textColor="@color/black"
@@ -94,128 +94,126 @@
                     tools:text="+6281541181633" />
 
                 <TextView
-                    android:id="@+id/tv_lable_email"
+                    android:id="@+id/tvLableEmail"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_phone"
+                    android:layout_below="@+id/tvPhone"
                     android:padding="8dp"
                     android:text="E-Mail Address"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_email"
+                    android:id="@+id/tvEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_phone"
-                    android:layout_toEndOf="@+id/tv_lable_email"
+                    android:layout_below="@+id/tvPhone"
+                    android:layout_toEndOf="@+id/tvLableEmail"
                     android:maxLines="5"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:textStyle="italic"
                     tools:text="nuryadin.cjr@gmail.com" />
 
                 <TextView
-                    android:id="@+id/tv_lable_address"
+                    android:id="@+id/tvLableAddress"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_email"
+                    android:layout_below="@+id/tvEmail"
                     android:padding="8dp"
                     android:text="Address"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_address"
+                    android:id="@+id/tvAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_lable_email"
-                    android:layout_toEndOf="@+id/tv_lable_email"
+                    android:layout_below="@+id/tvLableEmail"
+                    android:layout_toEndOf="@+id/tvLableEmail"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:textStyle="italic"
                     tools:text="kp ciasalada kp ciasalada kp ciasalada kp ciasalada kp ciasalada kp ciasalada" />
 
                 <TextView
-                    android:id="@+id/tv_lable_username"
+                    android:id="@+id/tvLableUsername"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_address"
+                    android:layout_below="@+id/tvAddress"
                     android:padding="8dp"
                     android:text="Username"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/et_username"
+                    android:id="@+id/tvUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_address"
-                    android:layout_toEndOf="@+id/tv_lable_username"
+                    android:layout_below="@+id/tvAddress"
+                    android:layout_toEndOf="@+id/tvLableUsername"
                     android:padding="8dp"
                     android:textSize="14sp"
                     tools:text="nuryadincjr" />
 
                 <TextView
-                    android:id="@+id/tv_lable_password"
+                    android:id="@+id/tvLablePassword"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_username"
+                    android:layout_below="@+id/tvUsername"
                     android:padding="8dp"
                     android:text="Password"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_pawword"
+                    android:id="@+id/tvPawword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_username"
-                    android:layout_toEndOf="@+id/tv_lable_password"
+                    android:layout_below="@+id/tvUsername"
+                    android:layout_toEndOf="@+id/tvLablePassword"
                     android:padding="8dp"
                     android:text="reset password"
                     android:textColor="#038AF4"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tv_lable_latest_update"
+                    android:id="@+id/tvLableUpdate"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_pawword"
+                    android:layout_below="@+id/tvPawword"
                     android:padding="8dp"
                     android:text="Latest Update"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_latest_update"
+                    android:id="@+id/tvLatestUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_pawword"
-                    android:layout_toEndOf="@+id/tv_lable_latest_update"
+                    android:layout_below="@+id/tvPawword"
+                    android:layout_toEndOf="@+id/tvLableUpdate"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     tools:text="07-10-2000" />
 
                 <TextView
-                    android:id="@+id/tv_lable_account"
+                    android:id="@+id/tvLableAccount"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_latest_update"
+                    android:layout_below="@+id/tvLatestUpdate"
                     android:padding="8dp"
                     android:text="Status"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_account"
+                    android:id="@+id/tvAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_latest_update"
-                    android:layout_toEndOf="@+id/tv_lable_account"
+                    android:layout_below="@+id/tvLatestUpdate"
+                    android:layout_toEndOf="@+id/tvLableAccount"
                     android:padding="8dp"
                     android:textColor="@color/black"
                     android:textSize="14sp"

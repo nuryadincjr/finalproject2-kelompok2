@@ -167,7 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_input"
+                    android:background="@drawable/bg_item_rounded"
                     app:layout_constraintDimensionRatio="1:1" />
 
                 <ImageView
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_input"
+                    android:background="@drawable/bg_item_rounded"
                     app:layout_constraintDimensionRatio="1:1" />
 
                 <ImageView
@@ -183,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_input"
+                    android:background="@drawable/bg_item_rounded"
                     app:layout_constraintDimensionRatio="1:1" />
             </LinearLayout>
 
@@ -192,7 +192,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_input"
+                android:background="@drawable/bg_item_rounded"
                 android:padding="15dp"
                 android:textOff="Add Photo"
                 android:textOn="Remove Photo" />

@@ -105,12 +105,12 @@ public class AdminsProfileActivity extends AppCompatActivity {
                         .placeholder(R.drawable.ic_brand)
                         .into(binding.ivPhoto);
 
-                binding.etId.setText(admin.get(0).getUid());
-                binding.etName.setText(admin.get(0).getName());
-                binding.etPhone.setText(admin.get(0).getPhone());
-                binding.etEmail.setText(admin.get(0).getEmail());
-                binding.etAddress.setText(admin.get(0).getAddress());
-                binding.etUsername.setText(admin.get(0).getUsername());
+                binding.tvId.setText(admin.get(0).getUid());
+                binding.tvName.setText(admin.get(0).getName());
+                binding.tvPhone.setText(admin.get(0).getPhone());
+                binding.tvEmail.setText(admin.get(0).getEmail());
+                binding.tvAddress.setText(admin.get(0).getAddress());
+                binding.tvUsername.setText(admin.get(0).getUsername());
                 binding.tvAccount.setText(admin.get(0).getStatus_account());
                 binding.tvLatestUpdate.setText(admin.get(0).getLatest_update());
             }
@@ -132,11 +132,11 @@ public class AdminsProfileActivity extends AppCompatActivity {
     }
 
     private void getDataChange() {
-        String fullname = binding.etName.getText().toString();
-        String phone = binding.etPhone.getText().toString();
-        String email = binding.etEmail.getText().toString();
-        String address = binding.etAddress.getText().toString();
-        String etUsername = binding.etUsername.getText().toString();
+        String fullname = binding.tvName.getText().toString();
+        String phone = binding.tvPhone.getText().toString();
+        String email = binding.tvEmail.getText().toString();
+        String address = binding.tvAddress.getText().toString();
+        String etUsername = binding.tvUsername.getText().toString();
 
         if(!fullname.isEmpty() && !phone.isEmpty() &&
                 !email.isEmpty() && !etUsername.isEmpty()) {
@@ -155,22 +155,22 @@ public class AdminsProfileActivity extends AppCompatActivity {
     }
 
     private void setFocusable(boolean isFocusable) {
-        binding.etId.setFocusable(isFocusable);
-        binding.etName.setFocusable(isFocusable);
-        binding.etPhone.setFocusable(isFocusable);
-        binding.etEmail.setFocusable(isFocusable);
-        binding.etAddress.setFocusable(isFocusable);
-        binding.etUsername.setFocusable(isFocusable);
+        binding.tvId.setFocusable(isFocusable);
+        binding.tvName.setFocusable(isFocusable);
+        binding.tvPhone.setFocusable(isFocusable);
+        binding.tvEmail.setFocusable(isFocusable);
+        binding.tvAddress.setFocusable(isFocusable);
+        binding.tvUsername.setFocusable(isFocusable);
         binding.tvPawword.setFocusable(isFocusable);
         binding.ivPhoto.setEnabled(isFocusable);
     }
 
     private void setFocusableInTouchMode(boolean isFocusable) {
-        binding.etName.setFocusableInTouchMode(isFocusable);
-        binding.etPhone.setFocusableInTouchMode(isFocusable);
-        binding.etEmail.setFocusableInTouchMode(isFocusable);
-        binding.etAddress.setFocusableInTouchMode(isFocusable);
-        binding.etUsername.setFocusableInTouchMode(isFocusable);
+        binding.tvName.setFocusableInTouchMode(isFocusable);
+        binding.tvPhone.setFocusableInTouchMode(isFocusable);
+        binding.tvEmail.setFocusableInTouchMode(isFocusable);
+        binding.tvAddress.setFocusableInTouchMode(isFocusable);
+        binding.tvUsername.setFocusableInTouchMode(isFocusable);
         binding.tvPawword.setFocusableInTouchMode(isFocusable);
         binding.ivPhoto.setEnabled(isFocusable);
     }

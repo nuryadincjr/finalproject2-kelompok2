@@ -11,6 +11,7 @@ import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,4 +90,30 @@ public class StaffsRepository {
         });
         return staffsMutableLiveData;
     }
+
+    public MutableLiveData<ArrayList<Staffs>> getFilterStaffs(String[] value) {
+        ArrayList<Staffs> staffsList = new ArrayList<>();
+
+        final MutableLiveData<ArrayList<Staffs>> staffsMutableLiveData = new MutableLiveData<>();
+
+        db.collection("staffs")
+                .whereIn("devision", Arrays.asList(value))
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Staffs staffs = document.toObject(Staffs.class);
+
+                    staffsList.add(staffs);
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+                }
+                staffsMutableLiveData.postValue(staffsList);
+            }
+            else{
+                staffsMutableLiveData.setValue(null);
+                Log.w(TAG, "Error getting documents.", task.getException());
+            }
+        });
+        return staffsMutableLiveData;
+    }
+
 }

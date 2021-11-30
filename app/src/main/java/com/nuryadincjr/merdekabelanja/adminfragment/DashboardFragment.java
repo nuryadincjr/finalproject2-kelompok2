@@ -25,9 +25,11 @@ public class DashboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
 
-        binding.llAddStaff.setOnClickListener(v -> startActivity(new Intent(getContext(), AddStafsActivity.class)));
+        binding.llAddStaff.setOnClickListener(v ->
+                startActivity(new Intent(getContext(), AddStafsActivity.class)));
 
-        binding.llAddStock.setOnClickListener(v -> startActivity(new Intent(getContext(), ProductsActivity.class)));
+        binding.llAddStock.setOnClickListener(v ->
+                startActivity(new Intent(getContext(), ProductsActivity.class)));
 
         return binding.getRoot();
     }

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/itemSearch"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView" />
+
+    <item android:id="@+id/itemFilter"
+        android:icon="@drawable/ic_filter"
+        android:title="Filter"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/itemFilter0"
+                android:checkable="true"
+                android:titleCondensed="All"
+                android:title="All Category"
+                app:actionViewClass="android.widget.CheckBox"
+                app:showAsAction="collapseActionView|withText" />
+            <item
+                android:id="@+id/itemFilter1"
+                android:checkable="true"
+                android:titleCondensed="Finance"
+                android:title="Finance"
+                app:actionViewClass="android.widget.CheckBox"
+                app:showAsAction="collapseActionView|withText" />
+            <item
+                android:id="@+id/itemFilter2"
+                android:checkable="true"
+                android:titleCondensed="Marketing"
+                android:title="Marketing"
+                app:actionViewClass="android.widget.CheckBox"
+                app:showAsAction="collapseActionView|withText" />
+            <item
+                android:id="@+id/itemFilter3"
+                android:checkable="true"
+                android:titleCondensed="Warehouse"
+                android:title="Warehouse"
+                app:actionViewClass="android.widget.CheckBox"
+                app:showAsAction="collapseActionView|withText" />
+            <item
+                android:id="@+id/itemFilter4"
+                android:checkable="true"
+                android:titleCondensed="HRD"
+                android:title="HRD"
+                app:actionViewClass="android.widget.CheckBox"
+                app:showAsAction="collapseActionView|withText" />
+        </menu>
+    </item>
+
+</menu>

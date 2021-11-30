@@ -48,4 +48,13 @@ public class MainViewModel extends AndroidViewModel {
         return productsRepository.getAllProducts();
     }
 
+    public MutableLiveData<ArrayList<Products>> getFilterProductsLiveData(String[] value) {
+        return productsRepository.getFilterProducts(value);
+    }
+
+
+    public MutableLiveData<ArrayList<Staffs>> getFilterStaffsLiveData(String[] value) {
+        return staffsRepository.getFilterStaffs(value);
+    }
+
 }

@@ -16,10 +16,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.activity.AboutActivity;
 import com.nuryadincjr.merdekabelanja.activity.SettingsActivity;
-import com.nuryadincjr.merdekabelanja.databinding.ActivityAdminsBinding;
 import com.nuryadincjr.merdekabelanja.adminfragment.DashboardFragment;
-import com.nuryadincjr.merdekabelanja.adminfragment.StaffsFragment;
 import com.nuryadincjr.merdekabelanja.adminfragment.ProductsFragment;
+import com.nuryadincjr.merdekabelanja.adminfragment.StaffsFragment;
+import com.nuryadincjr.merdekabelanja.databinding.ActivityAdminsBinding;
 
 public class AdminsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

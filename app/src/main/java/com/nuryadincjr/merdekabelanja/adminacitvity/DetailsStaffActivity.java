@@ -94,12 +94,13 @@ public class DetailsStaffActivity extends AppCompatActivity {
                         .placeholder(R.drawable.ic_brand)
                         .into(binding.ivPhoto);
 
-                binding.etId.setText(staff.get(0).getUid());
-                binding.etName.setText(staff.get(0).getName());
-                binding.etPhone.setText(staff.get(0).getPhone());
-                binding.etEmail.setText(staff.get(0).getEmail());
-                binding.etAddress.setText(staff.get(0).getAddress());
-                binding.etUsername.setText(staff.get(0).getUsername());
+                binding.tvId.setText(staff.get(0).getUid());
+                binding.tvDevision.setText(staff.get(0).getDevision());
+                binding.tvName.setText(staff.get(0).getName());
+                binding.tvPhone.setText(staff.get(0).getPhone());
+                binding.tvEmail.setText(staff.get(0).getEmail());
+                binding.tvAddress.setText(staff.get(0).getAddress());
+                binding.tvUsername.setText(staff.get(0).getUsername());
                 binding.tvAccount.setText(staff.get(0).getStatus_account());
                 binding.tvLatestUpdate.setText(staff.get(0).getLatest_update());
             }
