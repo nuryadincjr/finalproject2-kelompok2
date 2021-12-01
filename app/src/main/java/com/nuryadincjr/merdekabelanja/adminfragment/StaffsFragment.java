@@ -79,6 +79,12 @@ public class StaffsFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        getData();
+        super.onResume();
+    }
+
     @NonNull
     private RecyclerView.OnScrollListener getScrollListener() {
         return new RecyclerView.OnScrollListener() {

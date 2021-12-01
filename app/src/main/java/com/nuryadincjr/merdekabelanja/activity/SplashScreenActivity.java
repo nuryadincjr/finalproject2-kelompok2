@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adminacitvity.AdminsActivity;
 import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
+import com.nuryadincjr.merdekabelanja.usrsactivity.UsersActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private LocalPreference localPreference;
@@ -28,12 +29,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> {
             int isLogin = localPreference.getPreferences().getInt("ISLOGIN", 0);
-            isLogin = 2;
+            isLogin = 1;
 
             Intent intent = new Intent();
             switch (isLogin) {
                 case 1:
-//                    intent = new Intent(this, UsersActivity.class);
+                    intent = new Intent(this, UsersActivity.class);
                     break;
                 case 2:
                     intent = new Intent(this, AdminsActivity.class);

@@ -91,6 +91,12 @@ public class ProductsFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        getData();
+        super.onResume();
+    }
+
     @NonNull
     private RecyclerView.OnScrollListener getScrollListener() {
         return new RecyclerView.OnScrollListener() {
@@ -201,7 +207,7 @@ public class ProductsFragment extends Fragment {
             mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
             mainViewModel.getFilterProductsLiveData(valueList).observe(getViewLifecycleOwner(), products -> {
                 List<Products> productsList = new ArrayList<>(products);
-                ProductsAdapter productsAdapter = new ProductsAdapter(productsList);
+                ProductsAdapter productsAdapter = new ProductsAdapter(0, productsList);
                 binding.rvProducts.setLayoutManager(new LinearLayoutManager(getContext()));
                 binding.rvProducts.setAdapter(productsAdapter);
                 binding.rvProducts.setItemAnimator(new DefaultItemAnimator());

@@ -82,18 +82,21 @@ public class AddStafsActivity extends AppCompatActivity {
     }
 
     private void onDataSet(Staffs staff) {
+        if(!staff.getPhoto().isEmpty()) {
             Glide.with(this)
-                    .load(staff.getPhoto())
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_brand)
-                    .into(binding.ivPhoto);
-
-            binding.etName.setText(staff.getName());
-            binding.etPhone.setText(staff.getPhone());
-            binding.etEmail.setText(staff.getEmail());
-            binding.etAddress.setText(staff.getAddress());
-            binding.etPassword.setText(staff.getPassword());
-            binding.etConfPassword.setText(staff.getPassword());
+                        .load(staff.getPhoto())
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_brand)
+                        .into(binding.ivPhoto);
+            binding.ivPhoto.setVisibility(View.VISIBLE);
+            binding.btnAddPhoto.setChecked(true);
+        }
+        binding.etName.setText(staff.getName());
+        binding.etPhone.setText(staff.getPhone());
+        binding.etEmail.setText(staff.getEmail());
+        binding.etAddress.setText(staff.getAddress());
+        binding.etPassword.setText(staff.getPassword());
+        binding.etConfPassword.setText(staff.getPassword());
     }
     private void getInputValidations() {
         String id = UUID.randomUUID().toString();

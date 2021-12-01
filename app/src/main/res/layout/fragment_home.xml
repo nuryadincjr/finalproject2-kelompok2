@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".usersfragment.HomeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHeadline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:ignore="SpeakableTextPresentCheck"
+                tools:listitem="@layout/list_hadline" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvElectronicsMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="?selectableItemBackground"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@string/electronics"
+                    android:textSize="18sp"
+                    tools:visibility="visible"
+                    android:visibility="gone"
+                    app:drawableRightCompat="@drawable/ic_baseline_arrow" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvElectronics"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/list_product" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvClothingMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="?selectableItemBackground"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    tools:visibility="visible"
+                    android:visibility="gone"
+                    android:text="@string/clothing_amp_accesoriss"
+                    android:textSize="18sp"
+                    app:drawableRightCompat="@drawable/ic_baseline_arrow" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvClothing"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/list_product" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvBooksMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="?selectableItemBackground"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    tools:visibility="visible"
+                    android:visibility="gone"
+                    android:text="@string/books"
+                    android:textSize="18sp"
+                    app:drawableRightCompat="@drawable/ic_baseline_arrow" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvBooks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/list_product" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvOtherMore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="?selectableItemBackground"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    tools:visibility="visible"
+                    android:visibility="gone"
+                    android:text="@string/other_products"
+                    android:textSize="18sp"
+                    app:drawableRightCompat="@drawable/ic_baseline_arrow" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvOther"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/list_product" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

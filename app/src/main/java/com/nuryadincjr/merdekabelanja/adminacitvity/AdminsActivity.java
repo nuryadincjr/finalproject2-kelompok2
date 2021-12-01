@@ -1,6 +1,5 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,7 +9,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.material.navigation.NavigationView;
 import com.nuryadincjr.merdekabelanja.R;
@@ -43,7 +41,7 @@ public class AdminsActivity extends AppCompatActivity
 
         if(savedInstanceState == null) {
             binding.navigationView.setCheckedItem(R.id.itemDashboard);
-            getFragmentPage(new DashboardFragment(),this);
+            getFragmentPage(new DashboardFragment());
         }
     }
 
@@ -51,14 +49,14 @@ public class AdminsActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.itemDashboard:
-                getFragmentPage(new DashboardFragment(), this);
+                getFragmentPage(new DashboardFragment());
                 getSupportActionBar().setTitle("Dashboard");
                 break;
             case R.id.itemStaffs:
-                getFragmentPage(new StaffsFragment(), this);
+                getFragmentPage(new StaffsFragment());
                 break;
             case R.id.itemProducts:
-                getFragmentPage(new ProductsFragment(), this);
+                getFragmentPage(new ProductsFragment());
                 break;
             case R.id.itemSettings:
                 startActivity(new Intent(this, SettingsActivity.class));
@@ -71,9 +69,9 @@ public class AdminsActivity extends AppCompatActivity
         return true;
     }
 
-    public static boolean getFragmentPage(Fragment fragment, Context context) {
+    public boolean getFragmentPage(Fragment fragment) {
         if (fragment != null) {
-            ((FragmentActivity)context).getSupportFragmentManager()
+            getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.flContainer, fragment)
                     .commit();

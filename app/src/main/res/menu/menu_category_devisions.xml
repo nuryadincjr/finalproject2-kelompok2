@@ -17,7 +17,7 @@
                 android:id="@+id/itemFilter0"
                 android:checkable="true"
                 android:titleCondensed="All"
-                android:title="All Category"
+                android:title="All Devisions"
                 app:actionViewClass="android.widget.CheckBox"
                 app:showAsAction="collapseActionView|withText" />
             <item

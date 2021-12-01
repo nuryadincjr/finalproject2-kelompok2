@@ -45,8 +45,12 @@ public class DetalisProductActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         data = getIntent().getParcelableExtra("DATA");
+    }
 
+    @Override
+    protected void onResume() {
         onDataSet(data);
+        super.onResume();
     }
 
     @Override

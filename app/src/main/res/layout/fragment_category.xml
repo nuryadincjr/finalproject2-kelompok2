@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".usersfragment.CategoryFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvClothing"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:backgroundTint="?attr/colorPrimary"
+                app:cardCornerRadius="10dp">
+
+                <ImageView
+                    android:id="@+id/ivClothing"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_brand" />
+
+                <TextView
+                    android:id="@+id/tvClothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:text="Clothing &amp; Accessories" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvElectronics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:backgroundTint="?attr/colorPrimary"
+                app:cardCornerRadius="10dp">
+
+                <ImageView
+                    android:id="@+id/ivElectronic"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_brand" />
+
+                <TextView
+                    android:id="@+id/tvElectronic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:text="Electronics" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvBooks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                android:backgroundTint="?attr/colorPrimary"
+                app:cardCornerRadius="10dp">
+
+                <ImageView
+                    android:id="@+id/ivBook"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_brand" />
+
+                <TextView
+                    android:id="@+id/tvBook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:text="Books" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvOTher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="?attr/colorPrimary"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="10dp">
+
+                <ImageView
+                    android:id="@+id/ivOther"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_brand" />
+
+                <TextView
+                    android:id="@+id/tvOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:text="Other Products" />
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

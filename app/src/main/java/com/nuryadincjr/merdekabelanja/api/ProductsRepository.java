@@ -22,28 +22,6 @@ public class ProductsRepository {
         db = FirebaseFirestore.getInstance();
     }
 
-    public MutableLiveData<ArrayList<Products>> getAllProducts() {
-        ArrayList<Products> productsList = new ArrayList<>();
-        final MutableLiveData<ArrayList<Products>> productsMutableLiveData = new MutableLiveData<>();
-
-        db.collection("products").get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Products products = document.toObject(Products.class);
-
-                    productsList.add(products);;
-                    Log.d(TAG, document.getId() + " => " + document.getData());
-                }
-                productsMutableLiveData.postValue(productsList);
-            }
-            else{
-                productsMutableLiveData.setValue(null);
-                Log.w(TAG, "Error getting documents.", task.getException());
-            }
-        });
-        return productsMutableLiveData;
-    }
-
     public Task<Void> deleteProduct(String id) {
         return db.collection("products").document(id).delete();
     }

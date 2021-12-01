@@ -30,5 +30,9 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="clothing_amp_accesoriss"><![CDATA[Clothing & Accesoriss]]></string>
+    <string name="electronics">Electronics</string>
+    <string name="books">Books</string>
+    <string name="other_products">Other Products</string>
 
 </resources>
