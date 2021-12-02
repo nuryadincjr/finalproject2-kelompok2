@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.storage.FirebaseStorage;
 import com.nuryadincjr.merdekabelanja.R;
-import com.nuryadincjr.merdekabelanja.adapters.ItemLableAdapter;
+import com.nuryadincjr.merdekabelanja.adapters.ProductItemAdapter;
 import com.nuryadincjr.merdekabelanja.api.ProductsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityDetalisProductBinding;
 import com.nuryadincjr.merdekabelanja.models.Books;
@@ -140,9 +140,9 @@ public class DetalisProductActivity extends AppCompatActivity {
                     break;
             }
 
-            ItemLableAdapter itemLableAdapter = new ItemLableAdapter(key, value, binding);
+            ProductItemAdapter productItemAdapter = new ProductItemAdapter(key, value, 0, binding);
             binding.rvLable.setLayoutManager(new LinearLayoutManager(this));
-            binding.rvLable.setAdapter(itemLableAdapter);
+            binding.rvLable.setAdapter(productItemAdapter);
             binding.rvLable.setItemAnimator(new DefaultItemAnimator());
         });
     }

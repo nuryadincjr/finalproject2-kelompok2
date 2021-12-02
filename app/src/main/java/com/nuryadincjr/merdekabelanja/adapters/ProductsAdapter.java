@@ -20,9 +20,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public List<Products> data;
     public ItemClickListener itemClickListener;
-    public static final int SECTION_VIEW = 0;
-    public static final int CONTENT_VIEW = 1;
-    private  int sesssion;
+    public final int SECTION_VIEW = 0;
+    public final int CONTENT_VIEW = 1;
+    public final int sesssion;
 
 
     public ProductsAdapter(int sesssion, List<Products> data) {
@@ -126,7 +126,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public void setDataToView(Products products) {
             binding.tvTitle.setText(products.getName());
-            binding.tvPiece.setText(products.getPiece() + " IDR");
+            binding.tvPiece.setText("IDR "+products.getPiece() );
+            binding.tvStock.setText(products.getQuantity() + " PIC");
 
             if(!products.getPhoto().isEmpty()) {
                 Glide.with(itemView.getContext())

@@ -13,11 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MerdekaBelanja">
         <activity
+            android:name=".usrsactivity.DetailItemProductActivity"
+            android:exported="true" />
+        <activity
             android:name=".usrsactivity.CategoryActivity"
             android:exported="true" />
         <activity
             android:name=".usrsactivity.UsersActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar" />
         <activity
             android:name=".adminacitvity.DetalisProductActivity"
             android:exported="true" />

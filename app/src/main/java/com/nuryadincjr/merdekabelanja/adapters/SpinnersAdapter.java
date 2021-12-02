@@ -31,5 +31,4 @@ public class SpinnersAdapter {
             spinner.setText(String.valueOf(adapter.getItem(itemSelected)), false);
         }
     }
-
 }

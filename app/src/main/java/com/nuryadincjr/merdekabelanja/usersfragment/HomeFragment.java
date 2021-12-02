@@ -18,6 +18,7 @@ import com.nuryadincjr.merdekabelanja.databinding.FragmentHomeBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Products;
 import com.nuryadincjr.merdekabelanja.usrsactivity.CategoryActivity;
+import com.nuryadincjr.merdekabelanja.usrsactivity.DetailItemProductActivity;
 import com.nuryadincjr.merdekabelanja.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
@@ -37,8 +38,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        setHasOptionsMenu(true);
-
         collect = getResources().getStringArray(R.array.products_type);
 
         if(savedInstanceState == null) {
@@ -100,7 +99,8 @@ public class HomeFragment extends Fragment {
         productsAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(getContext(), productsList.get(position).getName(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), DetailItemProductActivity.class).
+                        putExtra("DATA", productsList.get(position)));
             }
 
             @Override

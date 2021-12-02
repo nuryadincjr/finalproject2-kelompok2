@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".usersfragment.CategoryFragment">
 
-    <ScrollView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorOnPrimary"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <SearchView
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_search"
+                android:iconifiedByDefault="false"
+                android:queryBackground="@android:color/transparent"
+                android:queryHint="Searching"
+                android:searchIcon="@drawable/ic_search"
+                android:stateListAnimator="@android:anim/accelerate_decelerate_interpolator" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -34,9 +65,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:text="Clothing &amp; Accessories"
                     android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:text="Clothing &amp; Accessories" />
+                    android:textSize="24sp" />
 
             </androidx.cardview.widget.CardView>
 
@@ -59,9 +90,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:text="Electronics"
                     android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:text="Electronics" />
+                    android:textSize="24sp" />
 
             </androidx.cardview.widget.CardView>
 
@@ -84,9 +115,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:text="Books"
                     android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:text="Books" />
+                    android:textSize="24sp" />
 
             </androidx.cardview.widget.CardView>
 
@@ -94,8 +125,8 @@
                 android:id="@+id/cvOTher"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="?attr/colorPrimary"
                 android:layout_margin="8dp"
+                android:backgroundTint="?attr/colorPrimary"
                 app:cardCornerRadius="10dp">
 
                 <ImageView
@@ -109,13 +140,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:text="Other Products"
                     android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:text="Other Products" />
+                    android:textSize="24sp" />
 
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

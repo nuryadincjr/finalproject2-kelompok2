@@ -1,5 +1,6 @@
 package com.nuryadincjr.merdekabelanja.usrsactivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,8 +66,8 @@ public class CategoryActivity extends AppCompatActivity {
         productsAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(getApplicationContext(),
-                        productsList.get(position).getName(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), DetailItemProductActivity.class).
+                        putExtra("DATA", productsList.get(position)));
             }
 
             @Override

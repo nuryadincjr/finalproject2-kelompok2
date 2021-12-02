@@ -108,7 +108,7 @@ public class AddBookActivity extends AppCompatActivity {
 
         if(!title.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() && !bookType.isEmpty()) {
             books = new Books(id, title, descriptions, null, piece, quantity,
-                    this.books.getCategory(), Constaint.time(), author, publisher, publisherYear,
+                    this.books.getCategory(), author, Constaint.time(), publisher, publisherYear,
                     bookType, Integer.parseInt(numberOfPage));
             onCreateProduct(books);
 
