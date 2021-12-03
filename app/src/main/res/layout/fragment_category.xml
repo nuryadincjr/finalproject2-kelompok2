@@ -14,7 +14,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="70dp"
             android:background="?attr/colorOnPrimary"
             app:layout_scrollFlags="scroll|enterAlways">
 
@@ -43,7 +43,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="70dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView

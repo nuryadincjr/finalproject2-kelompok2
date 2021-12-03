@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityDetalisProductBinding;
-import com.nuryadincjr.merdekabelanja.databinding.ListLableBinding;
+import com.nuryadincjr.merdekabelanja.databinding.ListItemProductBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
 
@@ -40,7 +40,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ListLableBinding binding = ListLableBinding
+        ListItemProductBinding binding = ListItemProductBinding
                 .inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
         if (viewType == SECTION_VIEW) {
@@ -79,9 +79,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             implements View.OnClickListener, View.OnLongClickListener{
 
         private final ProductItemAdapter productItemAdapter;
-        private final ListLableBinding binding;
+        private final ListItemProductBinding binding;
 
-        public ProductItemsViewHolder(ProductItemAdapter productItemAdapter, ListLableBinding binding) {
+        public ProductItemsViewHolder(ProductItemAdapter productItemAdapter, ListItemProductBinding binding) {
             super(binding.getRoot());
             this.productItemAdapter = productItemAdapter;
             this.binding = binding;
@@ -143,9 +143,9 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public class ProductInfoViewHolder extends RecyclerView.ViewHolder {
         private final ProductItemAdapter productItemAdapter;
-        private final ListLableBinding binding;
+        private final ListItemProductBinding binding;
 
-        public ProductInfoViewHolder(ProductItemAdapter productItemAdapter, ListLableBinding binding) {
+        public ProductInfoViewHolder(ProductItemAdapter productItemAdapter, ListItemProductBinding binding) {
             super(binding.getRoot());
             this.productItemAdapter = productItemAdapter;
             this.binding = binding;

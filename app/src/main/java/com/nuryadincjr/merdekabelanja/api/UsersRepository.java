@@ -47,4 +47,27 @@ public class UsersRepository {
         });
         return usersMutableLiveData;
     }
+
+    public MutableLiveData<ArrayList<Users>> getUserData(String uid) {
+        ArrayList<Users> users = new ArrayList<>();
+        final MutableLiveData<ArrayList<Users>> usersMutableLiveData = new MutableLiveData<>();
+
+        db.collection("users")
+                .whereEqualTo("uid", uid)
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot  snapshot : task.getResult()) {
+                    Users data = snapshot.toObject(Users.class);
+                    data.setUid(snapshot.getId());
+                    users.add(data);;
+                    Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
+                }
+                usersMutableLiveData.postValue(users);
+            }else{
+                usersMutableLiveData.setValue(null);
+                Log.w(TAG, "Error getting documents.", task.getException());
+            }
+        });
+        return usersMutableLiveData;
+    }
 }

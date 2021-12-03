@@ -34,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
                     .putInt("ISLOGIN", 0)
                     .putString("UID", null).apply();
             startActivity(new Intent(this, LoggedOutActivity.class));
+            finishAffinity();
         });
 
         FirebaseAuth auth = FirebaseAuth.getInstance();

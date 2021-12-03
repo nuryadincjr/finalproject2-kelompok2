@@ -13,6 +13,7 @@ import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityUsersBinding;
 import com.nuryadincjr.merdekabelanja.usersfragment.CategoryFragment;
 import com.nuryadincjr.merdekabelanja.usersfragment.HomeFragment;
+import com.nuryadincjr.merdekabelanja.usersfragment.UserProfileFragment;
 
 public class UsersActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
@@ -46,7 +47,7 @@ public class UsersActivity extends AppCompatActivity implements NavigationBarVie
 //                getFragmentPage(new CartFragment());
                 break;
             case R.id.itemAccount:
-//                startActivity(new AccountFragment());
+                getFragmentPage(new UserProfileFragment());
                 break;
         }
         return true;
