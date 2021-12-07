@@ -30,6 +30,7 @@ import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.models.Users;
 import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
+import com.nuryadincjr.merdekabelanja.usrsactivity.UsersActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -60,6 +61,8 @@ public class OTPActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         onAuthentication(phone);
+
+        binding.inputOtp.setOtpCompletionListener(this::onOtpCompleted);
     }
 
     private void getIsLogin() {
@@ -91,7 +94,7 @@ public class OTPActivity extends AppCompatActivity {
             @Override
             public void onTick(long l) {
                 String onDuration = String.format("%02d", TimeUnit.MILLISECONDS.toSeconds(l));
-                binding.tvTimer.setText("Please white "+onDuration+" second for send again.");
+                binding.tvTimer.setText("Please wait "+onDuration+" second for send again.");
             }
 
             @Override
@@ -153,31 +156,30 @@ public class OTPActivity extends AppCompatActivity {
                 }).build();
 
         PhoneAuthProvider.verifyPhoneNumber(options);
+    }
 
-        binding.inputOtp.setOtpCompletionListener(otp -> {
-            PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
+    private void onOtpCompleted(String otp) {
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, otp);
 
-            firebaseAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
-                if(task.isSuccessful()) {
-                    dialog.setMessage("Updating Profile..");
-                    dialog.setCancelable(false);
-                    dialog.show();
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                dialog.setMessage("Updating Profile..");
+                dialog.setCancelable(false);
+                dialog.show();
 
-                    Log.d(Constaint.TAG, "signInWithCredential:success");
-                    Toast.makeText(this, "signInWithCredential:success", Toast.LENGTH_SHORT).show();
+                Log.d(Constaint.TAG, "signInWithCredential:success");
+                Toast.makeText(this, "signInWithCredential:success", Toast.LENGTH_SHORT).show();
 
-                    if(action.equals("LOGIN")) onLogin();
-                    else onRegister();
+                if (action.equals("LOGIN")) onLogin();
+                else onRegister();
+            } else {
+                dialog.dismiss();
+                Toast.makeText(this, "signInWithCredential:failure", Toast.LENGTH_SHORT).show();
+                Log.w(Constaint.TAG, "signInWithCredential:failure", task.getException());
+                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
+                    // The verification code entered was invalid
                 }
-                else {
-                    dialog.dismiss();
-                    Toast.makeText(this, "signInWithCredential:failure", Toast.LENGTH_SHORT).show();
-                    Log.w(Constaint.TAG, "signInWithCredential:failure", task.getException());
-                    if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                        // The verification code entered was invalid
-                    }
-                }
-            });
+            }
         });
     }
 
@@ -188,25 +190,19 @@ public class OTPActivity extends AppCompatActivity {
             case "USER":
                 intIsLogin = 1;
                 users = getIntent().getParcelableExtra("LOGIN");
-                startActivity(new Intent(this, MainActivity.class)
-                        .putExtra("USERS", users)
-                        .putExtra("ISLOGIN", islogin));
+                startActivity(new Intent(this, UsersActivity.class));
                 localPreference.getEditor().putString("UID", users.getUid()).apply();
                 break;
             case "ADMIN":
                 intIsLogin = 2;
                 admins = getIntent().getParcelableExtra("LOGIN");
-                startActivity(new Intent(this, AdminsActivity.class)
-                        .putExtra("USERS", admins)
-                        .putExtra("ISLOGIN", islogin));
+                startActivity(new Intent(this, AdminsActivity.class));
                 localPreference.getEditor().putString("UID", admins.getUid()).apply();
                 break;
             case "STAFF":
                 intIsLogin = 3;
                 staffs = getIntent().getParcelableExtra("LOGIN");
-                startActivity(new Intent(this, MainActivity.class)
-                        .putExtra("USERS", staffs)
-                        .putExtra("ISLOGIN", islogin));
+                startActivity(new Intent(this, MainActivity.class));
                 localPreference.getEditor().putString("UID", staffs.getUid()).apply();
                 break;
         }
@@ -223,7 +219,11 @@ public class OTPActivity extends AppCompatActivity {
             Log.d(Constaint.TAG, "DocumentSnapshot added with ID: " + documentReference);
             Toast.makeText(getApplicationContext(), "Success.", Toast.LENGTH_SHORT).show();
 
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, UsersActivity.class));
+            localPreference.getEditor()
+                    .putString("UID", users.getUid())
+                    .putInt("ISLOGIN", 1).apply();
+
             finishAffinity();
         }).addOnFailureListener(e -> {
             Log.w(Constaint.TAG, "Error adding document", e);

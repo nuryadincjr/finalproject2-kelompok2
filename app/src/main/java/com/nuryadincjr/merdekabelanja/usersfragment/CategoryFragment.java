@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.nuryadincjr.merdekabelanja.databinding.FragmentCategoryBinding;
 import com.nuryadincjr.merdekabelanja.usrsactivity.CategoryActivity;
+import com.nuryadincjr.merdekabelanja.usrsactivity.SearchActivity;
 
 public class CategoryFragment extends Fragment {
 
@@ -30,7 +31,21 @@ public class CategoryFragment extends Fragment {
         getOnClickListener(binding.cvBooks, "Book");
         getOnClickListener(binding.cvOTher, "Other Products");
 
+        binding.searchBar.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus) {
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        binding.searchBar.clearFocus();
+        super.onResume();
     }
 
     private void getOnClickListener(CardView cardView, String category) {

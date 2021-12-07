@@ -7,30 +7,29 @@
         <item android:id="@+id/itemDashboard"
             android:icon="@drawable/ic_home"
             android:title="Dashboard"/>
+
+        <item android:title="Data">
+            <menu>
+                <item android:id="@+id/itemStaffs"
+                    android:icon="@drawable/ic_brand"
+                    android:title="Staffs"/>
+
+                <item android:id="@+id/itemProducts"
+                    android:icon="@drawable/ic_brand"
+                    android:title="Products"/>
+            </menu>
+        </item>
+
+        <item android:title="Other">
+            <menu>
+                <item android:id="@+id/itemSettings"
+                    android:icon="@drawable/ic_settings"
+                    android:title="Settings"/>
+
+                <item android:id="@+id/itemAbouts"
+                    android:icon="@drawable/ic_info"
+                    android:title="About"/>
+            </menu>
+        </item>
     </group>
-
-    <item android:title="Data">
-        <menu>
-            <item android:id="@+id/itemStaffs"
-                android:icon="@drawable/ic_brand"
-                android:title="Staffs"/>
-
-            <item android:id="@+id/itemProducts"
-                android:icon="@drawable/ic_brand"
-                android:title="Products"/>
-        </menu>
-    </item>
-
-    <item android:title="Other">
-        <menu>
-            <item android:id="@+id/itemSettings"
-                android:icon="@drawable/ic_settings"
-                android:title="Settings"/>
-
-            <item android:id="@+id/itemAbouts"
-                android:icon="@drawable/ic_info"
-                android:title="About"/>
-        </menu>
-    </item>
-
 </menu>

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".usersfragment.HomeFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,7 +18,7 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <SearchView
-                android:id="@+id/search_bar"
+                android:id="@+id/searchBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
@@ -29,8 +28,7 @@
                 android:iconifiedByDefault="false"
                 android:queryBackground="@android:color/transparent"
                 android:queryHint="Searching"
-                android:searchIcon="@drawable/ic_search"
-                android:stateListAnimator="@android:anim/accelerate_decelerate_interpolator" />
+                android:searchIcon="@drawable/ic_search"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -66,12 +64,13 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView

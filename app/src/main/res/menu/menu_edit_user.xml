@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/groupTools"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/itemSaves"
+            android:icon="@drawable/ic_save"
+            android:title="Saves"
+            app:showAsAction="always"/>
+
+        <item
+            android:id="@+id/itemCencle"
+            android:icon="@drawable/ic_close"
+            android:title="Close"
+            app:showAsAction="always"/>
+    </group>
+
+    <item
+        android:id="@+id/itemMore"
+        android:icon="@drawable/ic_more"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/itemEdit"
+                android:icon="@drawable/ic_edit"
+                android:title="Edit"
+                app:showAsAction="withText"/>
+
+            <item
+                android:id="@+id/itemHelp"
+                android:icon="@drawable/ic_info"
+                android:title="Help"
+                app:showAsAction="withText"/>
+        </menu>
+    </item>
+
+</menu>

@@ -24,6 +24,10 @@ public class UsersRepository {
           return db.collection("users").document(user.getUid()).set(user);
     }
 
+    public Task<Void> updateUser(Users users) {
+        return db.collection("users").document(users.getUid()).set(users);
+    }
+
     public MutableLiveData<ArrayList<Users>> getUserLogin(Users user) {
         ArrayList<Users> users = new ArrayList<>();
         final MutableLiveData<ArrayList<Users>> usersMutableLiveData = new MutableLiveData<>();

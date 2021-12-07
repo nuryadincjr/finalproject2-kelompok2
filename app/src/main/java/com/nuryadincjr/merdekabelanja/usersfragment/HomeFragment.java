@@ -19,6 +19,7 @@ import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Products;
 import com.nuryadincjr.merdekabelanja.usrsactivity.CategoryActivity;
 import com.nuryadincjr.merdekabelanja.usrsactivity.DetailItemProductActivity;
+import com.nuryadincjr.merdekabelanja.usrsactivity.SearchActivity;
 import com.nuryadincjr.merdekabelanja.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
@@ -49,7 +50,21 @@ public class HomeFragment extends Fragment {
         getOnClickListener(binding.tvBooksMore, "Book");
         getOnClickListener(binding.tvOtherMore, "Other Products");
 
+        binding.searchBar.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus) {
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
+            }
+        });
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        binding.searchBar.clearFocus();
+        super.onResume();
     }
 
     private void getOnClickListener(TextView cardView, String category) {
@@ -109,5 +124,4 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
 }

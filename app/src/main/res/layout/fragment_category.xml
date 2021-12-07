@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".usersfragment.CategoryFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,7 +18,7 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <SearchView
-                android:id="@+id/search_bar"
+                android:id="@+id/searchBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
@@ -38,12 +37,13 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView

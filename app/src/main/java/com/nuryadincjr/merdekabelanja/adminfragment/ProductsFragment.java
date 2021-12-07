@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -121,6 +122,24 @@ public class ProductsFragment extends Fragment {
         inflater.inflate(R.menu.menu_category_product, menu);
         this.menu = menu;
 
+        SearchView searchView = (SearchView) menu.findItem(R.id.itemSearch).getActionView();
+        searchView.setIconifiedByDefault(true);
+        searchView.setQueryHint("Search");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                getData(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                getData(s);
+                return false;
+            }
+        });
+
         if(fliterProduct.size() == 0 || fliterProduct.size() == 4){
             isSetFilters(true,  true, false);
             fliterProduct.addAll(Arrays.asList(collect));
@@ -198,6 +217,20 @@ public class ProductsFragment extends Fragment {
         menu.findItem(R.id.itemFilter2).setChecked(bChecked).setEnabled(bEnable);
         menu.findItem(R.id.itemFilter3).setChecked(bChecked).setEnabled(bEnable);
         menu.findItem(R.id.itemFilter4).setChecked(bChecked).setEnabled(bEnable);
+    }
+
+    private void getData(String name) {
+        MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel.getSearchProducts(name).observe(this, products -> {
+            List<Products> productsList = new ArrayList<>(products);
+            ProductsAdapter productsAdapter = new ProductsAdapter(0, productsList);
+
+            binding.rvProducts.setLayoutManager(new LinearLayoutManager(getContext()));
+            binding.rvProducts.setAdapter(productsAdapter);
+            binding.rvProducts.setItemAnimator(new DefaultItemAnimator());
+
+            onListener(productsAdapter, productsList);
+        });
     }
 
     private void getData() {

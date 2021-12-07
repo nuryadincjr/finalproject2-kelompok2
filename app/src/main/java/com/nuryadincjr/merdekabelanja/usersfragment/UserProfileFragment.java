@@ -39,7 +39,6 @@ public class UserProfileFragment extends Fragment {
         localPreference = LocalPreference.getInstance(getContext());
         String uid = localPreference.getPreferences().getString("UID", "");
 
-        uid = "71DKdinEJVTbs2sORDwnsRzGBqJ3";
         onDataSet(uid);
 
         binding.llLogiut.setOnClickListener(v -> {

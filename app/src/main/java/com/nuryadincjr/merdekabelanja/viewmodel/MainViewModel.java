@@ -28,6 +28,15 @@ public class MainViewModel extends AndroidViewModel {
         return productsRepository.getFilterProducts(value);
     }
 
+
+    public MutableLiveData<ArrayList<Staffs>> getSearchStaffs(String value) {
+        return staffsRepository.getSearchStaffs(value);
+    }
+
+    public MutableLiveData<ArrayList<Products>> getSearchProducts(String value) {
+        return productsRepository.getSearchProducts(value);
+    }
+
     public MutableLiveData<ArrayList<Staffs>> getFilterStaffsLiveData(String[] value) {
         return staffsRepository.getFilterStaffs(value);
     }

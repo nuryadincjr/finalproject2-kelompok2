@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.databinding.ListItemBinding;
 import com.nuryadincjr.merdekabelanja.databinding.ListProductBinding;
+import com.nuryadincjr.merdekabelanja.databinding.ListSearchProductBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Products;
 
@@ -22,6 +23,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public ItemClickListener itemClickListener;
     public final int SECTION_VIEW = 0;
     public final int CONTENT_VIEW = 1;
+    public final int CONTENT_SEARCH = 2;
     public final int sesssion;
 
 
@@ -38,11 +40,16 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     .inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
             return new ProductsViewHolder(this, binding);
-        } else {
+        } else if (viewType == CONTENT_VIEW) {
             ListProductBinding binding = ListProductBinding
                     .inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
             return new OtherProductsViewHolder(this, binding);
+        } else {
+            ListSearchProductBinding binding = ListSearchProductBinding
+                    .inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+            return new SearchProductsViewHolder(this, binding);
         }
     }
 
@@ -50,9 +57,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemViewType(int position) {
         if (sesssion == 0) {
             return SECTION_VIEW;
-        } else {
+        } else if (sesssion == 1) {
             return CONTENT_VIEW;
-        }
+        } else return CONTENT_SEARCH;
     }
 
     @Override
@@ -60,9 +67,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (SECTION_VIEW == getItemViewType(position)) {
             ProductsViewHolder productsViewHolder = (ProductsViewHolder) holder;
             productsViewHolder.setDataToView(data.get(position));
-        } else {
+        } else if(CONTENT_VIEW == getItemViewType(position)) {
             OtherProductsViewHolder otherProductsViewHolder = (OtherProductsViewHolder) holder;
             otherProductsViewHolder.setDataToView(data.get(position));
+        } else {
+            SearchProductsViewHolder searchProductsViewHolder = (SearchProductsViewHolder) holder;
+            searchProductsViewHolder.setDataToView(data.get(position));
         }
     }
 
@@ -136,6 +146,41 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         .placeholder(R.drawable.ic_brand)
                         .into(binding.ivPhoto);
             }
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (productsAdapter.itemClickListener != null)
+                productsAdapter.itemClickListener.onClick(view, getAdapterPosition());
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (productsAdapter.itemClickListener != null)
+                productsAdapter.itemClickListener.onLongClick(view, getAdapterPosition());
+            return true;
+        }
+    }
+
+    public class SearchProductsViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
+
+        private final ProductsAdapter productsAdapter;
+        private final ListSearchProductBinding binding;
+
+        public SearchProductsViewHolder(ProductsAdapter productsAdapter, ListSearchProductBinding binding) {
+            super(binding.getRoot());
+            this.productsAdapter = productsAdapter;
+            this.binding = binding;
+
+            binding.getRoot().setOnLongClickListener(this);
+            binding.getRoot().setOnClickListener(this);
+        }
+
+        public void setDataToView(Products products) {
+            binding.tvTitle.setText(products.getName());
+            binding.tvPiece.setText(products.getCategory() );
+            binding.tvStock.setText(products.getQuantity() + " PIC");
         }
 
         @Override

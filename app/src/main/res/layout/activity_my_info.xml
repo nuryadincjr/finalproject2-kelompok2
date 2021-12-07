@@ -8,6 +8,39 @@
     android:padding="10dp"
     tools:context=".usrsactivity.MyInfoActivity">
 
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:id="@+id/layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp">
+
+    <ImageView
+        android:id="@+id/ivPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_item_rounded"
+        android:src="@drawable/ic_brand"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddPhoto"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/btnAddPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_item_rounded"
+        android:padding="15dp"
+        android:textOff="Add Photo"
+        android:textOn="Remove Photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPhoto" />
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
   <com.google.android.material.textfield.TextInputLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

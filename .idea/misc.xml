@@ -18,14 +18,17 @@
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_brand_white.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_category.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_close.xml" value="0.21614583333333334" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_edit.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_filter.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_home.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_info.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_menu.xml" value="0.21614583333333334" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_more.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_outline_account.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_outline_category.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_outline_home.xml" value="0.21614583333333334" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_save.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_search.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_search_black_24dp.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_settings.xml" value="0.21614583333333334" />
@@ -57,12 +60,13 @@
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_otpactivity.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_products.xml" value="0.31851851851851853" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_search.xml" value="0.25" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_security.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_settings.xml" value="0.25" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_splash_screen.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_user_profile.xml" value="0.33" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/activity_users.xml" value="0.18" />
-        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/fragment_category.xml" value="0.18" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/fragment_category.xml" value="0.15" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/fragment_dashboard.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/fragment_home_product.xml" value="0.2" />
@@ -76,6 +80,7 @@
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/list_item_product.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/list_lable.xml" value="0.33" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/list_product.xml" value="0.33" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/list_search_product.xml" value="0.22" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/nav_header.xml" value="0.22" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/serch_view.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/settings_activity.xml" value="0.2" />
@@ -87,6 +92,8 @@
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/menu/menu_drawer.xml" value="0.25" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/menu/menu_edit.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/menu/menu_edit_admin.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/menu/menu_edit_user.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/menu/menu_search.xml" value="0.10677083333333333" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/menu/menu_search_product.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/menu/menu_user_setting.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/xml/provider_paths.xml" value="0.2" />
@@ -104,7 +111,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_X" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

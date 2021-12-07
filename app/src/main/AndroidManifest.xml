@@ -13,9 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MerdekaBelanja">
         <activity
+            android:name=".usrsactivity.SearchActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MerdekaBelanja.NoActionBar" />
+        <activity
             android:name=".usrsactivity.SecurityActivity"
             android:exported="true"
-            android:label="Sign-In &amp; Security"/>
+            android:label="Sign-In &amp; Security" />
         <activity
             android:name=".usrsactivity.MyInfoActivity"
             android:exported="true"

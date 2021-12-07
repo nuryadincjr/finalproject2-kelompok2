@@ -75,4 +75,30 @@ public class ProductsRepository {
         });
         return productsMutableLiveData;
     }
+
+    public MutableLiveData<ArrayList<Products>> getSearchProducts(String value) {
+        ArrayList<Products> productsList = new ArrayList<>();
+
+        final MutableLiveData<ArrayList<Products>> productsMutableLiveData = new MutableLiveData<>();
+
+        db.collection("products")
+                .whereGreaterThanOrEqualTo("name", value)
+                .whereLessThanOrEqualTo("name",value+"~")
+                .get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Products products = document.toObject(Products.class);
+
+                            productsList.add(products);
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        }
+                        productsMutableLiveData.postValue(productsList);
+                    }
+                    else{
+                        productsMutableLiveData.setValue(null);
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                    }
+        });
+        return productsMutableLiveData;
+    }
 }

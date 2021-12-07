@@ -93,4 +93,31 @@ public class StaffsRepository {
         });
         return staffsMutableLiveData;
     }
+
+
+    public MutableLiveData<ArrayList<Staffs>> getSearchStaffs(String value) {
+        ArrayList<Staffs> staffsList = new ArrayList<>();
+
+        final MutableLiveData<ArrayList<Staffs>> staffsMutableLiveData = new MutableLiveData<>();
+
+        db.collection("staffs")
+                .whereGreaterThanOrEqualTo("name", value)
+                .whereLessThanOrEqualTo("name",value+"~")
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Staffs staffs = document.toObject(Staffs.class);
+
+                    staffsList.add(staffs);
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+                }
+                staffsMutableLiveData.postValue(staffsList);
+            }
+            else{
+                staffsMutableLiveData.setValue(null);
+                Log.w(TAG, "Error getting documents.", task.getException());
+            }
+        });
+        return staffsMutableLiveData;
+    }
 }
