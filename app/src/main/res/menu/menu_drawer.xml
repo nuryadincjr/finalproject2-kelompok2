@@ -17,6 +17,10 @@
                 <item android:id="@+id/itemProducts"
                     android:icon="@drawable/ic_brand"
                     android:title="Products"/>
+
+                <item android:id="@+id/itemUsers"
+                    android:icon="@drawable/ic_brand"
+                    android:title="Users"/>
             </menu>
         </item>
 

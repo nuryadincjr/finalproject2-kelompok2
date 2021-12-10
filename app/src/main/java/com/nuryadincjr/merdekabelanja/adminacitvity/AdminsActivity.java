@@ -17,6 +17,7 @@ import com.nuryadincjr.merdekabelanja.activity.SettingsActivity;
 import com.nuryadincjr.merdekabelanja.adminfragment.DashboardFragment;
 import com.nuryadincjr.merdekabelanja.adminfragment.ProductsFragment;
 import com.nuryadincjr.merdekabelanja.adminfragment.StaffsFragment;
+import com.nuryadincjr.merdekabelanja.adminfragment.UsersFragment;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAdminsBinding;
 
 public class AdminsActivity extends AppCompatActivity
@@ -57,6 +58,9 @@ public class AdminsActivity extends AppCompatActivity
                 break;
             case R.id.itemProducts:
                 getFragmentPage(new ProductsFragment());
+                break;
+            case R.id.itemUsers:
+                getFragmentPage(new UsersFragment());
                 break;
             case R.id.itemSettings:
                 startActivity(new Intent(this, SettingsActivity.class));

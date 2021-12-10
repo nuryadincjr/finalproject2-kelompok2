@@ -74,4 +74,34 @@ public class UsersRepository {
         });
         return usersMutableLiveData;
     }
+
+    public Task<Void> deleteUser(String id) {
+        return db.collection("users").document(id).delete();
+    }
+
+    public MutableLiveData<ArrayList<Users>> getSearchUsers(String value) {
+        ArrayList<Users> usersList = new ArrayList<>();
+
+        final MutableLiveData<ArrayList<Users>> usersMutableLiveData = new MutableLiveData<>();
+
+        db.collection("users")
+                .whereGreaterThanOrEqualTo("name", value)
+                .whereLessThanOrEqualTo("name",value+"~")
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Users users = document.toObject(Users.class);
+
+                    usersList.add(users);
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+                }
+                usersMutableLiveData.postValue(usersList);
+            }
+            else{
+                usersMutableLiveData.setValue(null);
+                Log.w(TAG, "Error getting documents.", task.getException());
+            }
+        });
+        return usersMutableLiveData;
+    }
 }

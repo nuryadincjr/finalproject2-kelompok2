@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".adminacitvity.DetailsUserActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/ivPhoto"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_brand" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvLableId"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="User ID"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvId"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tvLableId"
+                    android:maxLines="2"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="stffid01kzfgdh" />
+
+                <TextView
+                    android:id="@+id/tvLableName"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvId"
+                    android:padding="8dp"
+                    android:text="Full Name"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvId"
+                    android:layout_toEndOf="@+id/tvLableName"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="Nuryadin Abutani" />
+
+                <TextView
+                    android:id="@+id/tvLablePhone"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvName"
+                    android:padding="8dp"
+                    android:text="Phone Number"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvName"
+                    android:layout_toEndOf="@+id/tvLablePhone"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="+6281541181633" />
+
+                <TextView
+                    android:id="@+id/tvLableEmail"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvPhone"
+                    android:padding="8dp"
+                    android:text="E-Mail Address"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvPhone"
+                    android:layout_toEndOf="@+id/tvLableEmail"
+                    android:maxLines="5"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="nuryadin.cjr@gmail.com" />
+
+                <TextView
+                    android:id="@+id/tvLableAddress"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvEmail"
+                    android:padding="8dp"
+                    android:text="Order Address"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvLableEmail"
+                    android:layout_toEndOf="@+id/tvLableEmail"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="kp ciasalada kp ciasalada kp ciasalada kp ciasalada kp ciasalada kp ciasalada" />
+
+                <TextView
+                    android:id="@+id/tvLableAddress2"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvAddress"
+                    android:padding="8dp"
+                    android:text="Destination Address"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvAddress2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvAddress"
+                    android:layout_toEndOf="@+id/tvLableAddress2"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="kp ciasalada kp ciasalada kp ciasalada kp ciasalada kp ciasalada kp ciasalada" />
+
+                <TextView
+                    android:id="@+id/tvLableUsername"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvAddress2"
+                    android:padding="8dp"
+                    android:text="Username"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvAddress2"
+                    android:layout_toEndOf="@+id/tvLableUsername"
+                    android:padding="8dp"
+                    android:textSize="14sp"
+                    tools:text="nuryadincjr" />
+
+                <TextView
+                    android:id="@+id/tvLablePassword"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvUsername"
+                    android:padding="8dp"
+                    android:text="Password"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPawword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvUsername"
+                    android:layout_toEndOf="@+id/tvLablePassword"
+                    android:padding="8dp"
+                    android:text="reset password"
+                    android:textColor="#038AF4"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvLableUpdate"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvPawword"
+                    android:padding="8dp"
+                    android:text="Latest Update"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvLatestUpdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvPawword"
+                    android:layout_toEndOf="@+id/tvLableUpdate"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="07-10-2000" />
+
+                <TextView
+                    android:id="@+id/tvLableAccount"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvLatestUpdate"
+                    android:padding="8dp"
+                    android:text="Status"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvLatestUpdate"
+                    android:layout_toEndOf="@+id/tvLableAccount"
+                    android:padding="8dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    tools:text="is active" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

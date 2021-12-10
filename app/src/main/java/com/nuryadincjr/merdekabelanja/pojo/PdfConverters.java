@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.core.content.FileProvider;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.appcheck.interop.BuildConfig;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -86,7 +85,9 @@ public class PdfConverters {
 
         if (file.exists()) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
+//            BuildConfig.APPLICATION_ID | "com.nuryadincjr.merdekabelanja" | BuildConfig.LIBRARY_PACKAGE_NAME
+
+            Uri uri = FileProvider.getUriForFile(context, context.getPackageName()  + ".provider", file);
             intent.setDataAndType(uri, "application/pdf");
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 

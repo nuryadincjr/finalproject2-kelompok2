@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".adminfragment.StaffsFragment">
+    tools:context=".adminfragment.UsersFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
@@ -12,23 +12,11 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvStaffs"
+            android:id="@+id/rvUsers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/list_item" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="8dp"
-        android:contentDescription="Add Staff"
-        android:backgroundTint="?attr/colorPrimary"
-        app:tint="@color/white"
-        android:focusableInTouchMode="false"
-        android:src="@drawable/ic_add" />
 
 </FrameLayout>

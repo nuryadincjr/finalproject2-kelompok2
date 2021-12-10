@@ -255,8 +255,7 @@ public class ProductsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 startActivity(new Intent(getContext(), DetalisProductActivity.class)
-                        .putExtra("DATA", productsList.get(position))
-                        .putExtra("ISDETAIL", "ADMIN"));
+                        .putExtra("DATA", productsList.get(position)));
             }
 
             @Override
@@ -294,8 +293,9 @@ public class ProductsFragment extends Fragment {
                     getDataDelete(products);
                     break;
                 case R.id.itemPrint:
-//                    PdfConverters.getInstance(getContext())
-//                            .getDataToPdf(binding.getRoot(), products.getId());
+                    startActivity(new Intent(getContext(), DetalisProductActivity.class)
+                            .putExtra("DATA", products)
+                            .putExtra("ISPRINT", true));
                     break;
             }
             return true;

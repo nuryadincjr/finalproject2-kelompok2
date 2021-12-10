@@ -61,15 +61,20 @@ public class AddStafsActivity extends AppCompatActivity {
         binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getSinggleImage(this));
 
         String titleBar = "Add Staff";
+        titleBar = getIsEdited(titleBar);
+
+        getSupportActionBar().setTitle(titleBar);
+        spinnersAdapter.getSpinnerAdapter(binding.actDevisions, R.array.devision , staffs.getDevision());
+    }
+
+    private String getIsEdited(String titleBar) {
         if(isEdit) {
             staffs = getIntent().getParcelableExtra("DATA");
             onDataSet(staffs);
             binding.btnRegister.setText("Save Data");
             titleBar = "Edit Staff";
         }
-
-        getSupportActionBar().setTitle(titleBar);
-        spinnersAdapter.getSpinnerAdapter(binding.actDevisions, R.array.devision , staffs.getDevision());
+        return titleBar;
     }
 
     @Override

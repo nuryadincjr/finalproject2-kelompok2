@@ -1,6 +1,5 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,28 +9,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.nuryadincjr.merdekabelanja.R;
-import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
-import com.nuryadincjr.merdekabelanja.databinding.ActivityDetailsStaffBinding;
-import com.nuryadincjr.merdekabelanja.models.Staffs;
+import com.nuryadincjr.merdekabelanja.api.UsersRepository;
+import com.nuryadincjr.merdekabelanja.databinding.ActivityDetailsUserBinding;
+import com.nuryadincjr.merdekabelanja.models.Users;
 import com.nuryadincjr.merdekabelanja.pojo.PdfConverters;
 
 import java.util.ArrayList;
 
-public class DetailsStaffActivity extends AppCompatActivity {
-
-    private ActivityDetailsStaffBinding binding;
+public class DetailsUserActivity extends AppCompatActivity {
+    private ActivityDetailsUserBinding binding;
     private FirebaseStorage storage;
-    private Staffs data;
+    private Users data;
     private boolean isPrint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details_staff);
+        setContentView(R.layout.activity_details_user);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Details Staff");
+        getSupportActionBar().setTitle("Details Users");
 
-        binding = ActivityDetailsStaffBinding.inflate(getLayoutInflater());
+        binding = ActivityDetailsUserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         storage = FirebaseStorage.getInstance();
@@ -73,41 +71,41 @@ public class DetailsStaffActivity extends AppCompatActivity {
     }
 
     private void getDataDelete() {
-        new StaffsRepository().deleteStaffs(data.getUid()).addOnSuccessListener(unused -> {
+        new UsersRepository().deleteUser(data.getUid()).addOnSuccessListener(unused -> {
             if (data.getPhoto() != null){
-               storage.getReferenceFromUrl(data.getPhoto()).delete();
+                storage.getReferenceFromUrl(data.getPhoto()).delete();
             }
         });
         finish();
     }
 
     private void getDataEdited() {
-        startActivity(new Intent(this, AddStafsActivity.class)
-                .putExtra("DATA", data)
-                .putExtra("ISEDIT", true));
+//        startActivity(new Intent(getContext(), RegisterActivity.class)
+//                            .putExtra("DATA", users)
+//                            .putExtra("ISEDITED", true));
     }
 
-    private void onDataSet(Staffs staffs) {
-        new StaffsRepository().getStaffLogin(staffs).observe(this, (ArrayList<Staffs> staff) -> {
-            if(staff.size() != 0) {
-                data = staff.get(0);
+    private void onDataSet(Users users) {
+        new UsersRepository().getUserData(users.getUid()).observe(this, (ArrayList<Users> user) -> {
+            if(user.size() != 0) {
+                data = user.get(0);
 
-                String url = staff.get(0).getPhoto();
+                String url = user.get(0).getPhoto();
                 Glide.with(this)
                         .load(url)
                         .centerCrop()
                         .placeholder(R.drawable.ic_brand)
                         .into(binding.ivPhoto);
 
-                binding.tvId.setText(staff.get(0).getUid());
-                binding.tvDevision.setText(staff.get(0).getDevision());
-                binding.tvName.setText(staff.get(0).getName());
-                binding.tvPhone.setText(staff.get(0).getPhone());
-                binding.tvEmail.setText(staff.get(0).getEmail());
-                binding.tvAddress.setText(staff.get(0).getAddress());
-                binding.tvUsername.setText(staff.get(0).getUsername());
-                binding.tvAccount.setText(staff.get(0).getStatus_account());
-                binding.tvLatestUpdate.setText(staff.get(0).getLatest_update());
+                binding.tvId.setText(user.get(0).getUid());
+                binding.tvName.setText(user.get(0).getName());
+                binding.tvPhone.setText(user.get(0).getPhone());
+                binding.tvEmail.setText(user.get(0).getEmail());
+                binding.tvAddress.setText(user.get(0).getAddress());
+                binding.tvAddress2.setText(user.get(0).getAddress2());
+                binding.tvUsername.setText(user.get(0).getUsername());
+                binding.tvAccount.setText(user.get(0).getStatus_account());
+                binding.tvLatestUpdate.setText(user.get(0).getLatest_update());
 
                 if (isPrint) getIsPrint();
             }

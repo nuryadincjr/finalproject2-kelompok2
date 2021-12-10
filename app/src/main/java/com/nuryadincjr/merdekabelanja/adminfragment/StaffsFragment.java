@@ -245,8 +245,7 @@ public class StaffsFragment extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 startActivity(new Intent(getContext(), DetailsStaffActivity.class)
-                        .putExtra("DATA", staffsList.get(position))
-                        .putExtra("ISDETAIL", "ADMIN"));
+                    .putExtra("DATA", staffsList.get(position)));
             }
 
             @Override
@@ -275,7 +274,7 @@ public class StaffsFragment extends Fragment {
         menu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.itemEdit:
-                    startActivity(new Intent(getContext(), DetailsStaffActivity.class)
+                    startActivity(new Intent(getContext(), AddStafsActivity.class)
                             .putExtra("DATA", staffs)
                             .putExtra("ISEDIT", true));
                     break;
@@ -283,8 +282,9 @@ public class StaffsFragment extends Fragment {
                     getDataDelete(staffs);
                     break;
                 case R.id.itemPrint:
-//                    PdfConverters.getInstance(getContext())
-//                            .getDataToPdf(binding.getRoot(), staffs.getUid());
+                    startActivity(new Intent(getContext(), DetailsStaffActivity.class)
+                            .putExtra("DATA", staffs)
+                            .putExtra("ISPRINT", true));
                     break;
             }
             return true;

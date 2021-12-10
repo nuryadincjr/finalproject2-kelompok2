@@ -32,6 +32,7 @@ public class DetalisProductActivity extends AppCompatActivity {
     private Products data;
     private Clothing clothing;
     private Electronics electronics;
+    private boolean isPrint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class DetalisProductActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         data = getIntent().getParcelableExtra("DATA");
+        isPrint = getIntent().getBooleanExtra("ISPRINT", false);
     }
 
     @Override
@@ -74,8 +76,7 @@ public class DetalisProductActivity extends AppCompatActivity {
                 getDataDelete();
                 return true;
             case R.id.itemPrint:
-                PdfConverters.getInstance(this)
-                        .getDataToPdf(binding.getRoot(), data.getId());
+                getIsPrint();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -104,7 +105,6 @@ public class DetalisProductActivity extends AppCompatActivity {
                         .putExtra("ISEDIT", true));
                 break;
         }
-
     }
 
     private void getDataDelete() {
@@ -144,6 +144,16 @@ public class DetalisProductActivity extends AppCompatActivity {
             binding.rvLable.setLayoutManager(new LinearLayoutManager(this));
             binding.rvLable.setAdapter(productItemAdapter);
             binding.rvLable.setItemAnimator(new DefaultItemAnimator());
+
+            if (isPrint) getIsPrint();
         });
+    }
+
+    private void getIsPrint() {
+        if(binding.getRoot().getWidth() != 0 &&
+                binding.getRoot().getHeight() !=0){
+            PdfConverters.getInstance(this)
+                    .getDataToPdf(binding.getRoot(), data.getId());
+        }
     }
 }
