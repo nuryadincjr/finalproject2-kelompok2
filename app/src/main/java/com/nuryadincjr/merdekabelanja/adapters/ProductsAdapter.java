@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.databinding.ListItemBinding;
-import com.nuryadincjr.merdekabelanja.databinding.ListProductBinding;
 import com.nuryadincjr.merdekabelanja.databinding.ListSearchProductBinding;
+import com.nuryadincjr.merdekabelanja.databinding.ListViewProductBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Products;
 
@@ -41,7 +41,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             return new ProductsViewHolder(this, binding);
         } else if (viewType == CONTENT_VIEW) {
-            ListProductBinding binding = ListProductBinding
+            ListViewProductBinding binding = ListViewProductBinding
                     .inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
             return new OtherProductsViewHolder(this, binding);
@@ -123,9 +123,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             implements View.OnClickListener, View.OnLongClickListener {
 
         private final ProductsAdapter productsAdapter;
-        private final ListProductBinding binding;
+        private final ListViewProductBinding binding;
 
-        public OtherProductsViewHolder(ProductsAdapter productsAdapter, ListProductBinding binding) {
+        public OtherProductsViewHolder(ProductsAdapter productsAdapter, ListViewProductBinding binding) {
             super(binding.getRoot());
             this.productsAdapter = productsAdapter;
             this.binding = binding;

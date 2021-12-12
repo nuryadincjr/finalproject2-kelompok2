@@ -58,7 +58,8 @@
                     android:id="@+id/ivClothing"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:src="@drawable/ic_brand" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/clothing" />
 
                 <TextView
                     android:id="@+id/tvClothing"
@@ -83,7 +84,8 @@
                     android:id="@+id/ivElectronic"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:src="@drawable/ic_brand" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/electronic" />
 
                 <TextView
                     android:id="@+id/tvElectronic"
@@ -108,7 +110,8 @@
                     android:id="@+id/ivBook"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:src="@drawable/ic_brand" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/books" />
 
                 <TextView
                     android:id="@+id/tvBook"
@@ -133,7 +136,8 @@
                     android:id="@+id/ivOther"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:src="@drawable/ic_brand" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/other_product" />
 
                 <TextView
                     android:id="@+id/tvOther"

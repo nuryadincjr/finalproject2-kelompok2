@@ -46,8 +46,8 @@
                         android:background="?attr/selectableItemBackground"
                         android:baselineAligned="false"
                         android:ellipsize="end"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_brand" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/clothing" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -75,8 +75,8 @@
                         android:layout_height="150dp"
                         android:background="?attr/selectableItemBackground"
                         android:ellipsize="end"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_brand" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/books" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -110,8 +110,8 @@
                         android:layout_height="150dp"
                         android:background="?attr/selectableItemBackground"
                         android:ellipsize="end"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_brand" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/electronic" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -139,8 +139,8 @@
                         android:layout_height="150dp"
                         android:background="?attr/selectableItemBackground"
                         android:ellipsize="end"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_brand" />
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/other_product" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

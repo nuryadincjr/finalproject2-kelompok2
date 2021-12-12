@@ -12,6 +12,6 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/list_product" />
+        tools:listitem="@layout/list_view_product" />
 
 </RelativeLayout>

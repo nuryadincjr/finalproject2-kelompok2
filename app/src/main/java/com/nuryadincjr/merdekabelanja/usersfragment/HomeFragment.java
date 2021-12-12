@@ -2,21 +2,33 @@ package com.nuryadincjr.merdekabelanja.usersfragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.nuryadincjr.merdekabelanja.R;
+import com.nuryadincjr.merdekabelanja.adapters.HeadlineAdapter;
 import com.nuryadincjr.merdekabelanja.adapters.ProductsAdapter;
 import com.nuryadincjr.merdekabelanja.databinding.FragmentHomeBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
+import com.nuryadincjr.merdekabelanja.models.Headline;
 import com.nuryadincjr.merdekabelanja.models.Products;
+import com.nuryadincjr.merdekabelanja.resorces.Headlines;
 import com.nuryadincjr.merdekabelanja.usrsactivity.CategoryActivity;
 import com.nuryadincjr.merdekabelanja.usrsactivity.DetailItemProductActivity;
 import com.nuryadincjr.merdekabelanja.usrsactivity.SearchActivity;
@@ -30,6 +42,19 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private MainViewModel mainViewModel;
     private String[] collect;
+
+    private final Handler headlineHandler = new Handler();
+    private final Runnable headlineRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(binding.vpHeadline.getCurrentItem() >=2) {
+                binding.vpHeadline.setCurrentItem(0, true);
+            } else {
+                binding.vpHeadline.setCurrentItem(
+                        binding.vpHeadline.getCurrentItem() + 1, true);
+            }
+        }
+    };
 
     public HomeFragment() {
         // Required empty public constructor
@@ -58,13 +83,90 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        onHeadlieAdapter();
+
         return binding.getRoot();
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        TabLayout tabLayout = view.findViewById(R.id.tablayout);
+        new TabLayoutMediator(tabLayout, binding.vpHeadline,
+                (tab, position) -> tab.setText("Item " + (position + 1))
+        ).attach();
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void onHeadlieAdapter() {
+        Headline[] hats = Headlines.getHeadlines();
+        List<Headline> headlineList = new ArrayList<>();
+        int i = 0;
+        for(Headline hat: hats){
+            headlineList.add(i, hat);
+        }
+
+        HeadlineAdapter headlineAdapter = new HeadlineAdapter(headlineList, binding.vpHeadline);
+        binding.vpHeadline.setAdapter(headlineAdapter);
+        binding.vpHeadline.setOffscreenPageLimit(3);
+        binding.vpHeadline.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+
+        binding.tablayout.setSelected(true);
+        CompositePageTransformer transformer = new CompositePageTransformer();
+        transformer.addTransformer(new MarginPageTransformer(40));
+        transformer.addTransformer((page, position) -> {
+            float transpom = 1 - Math.abs(position);
+            page.setScaleY(0.85F + transpom * 0.15F);
+        });
+
+
+        binding.vpHeadline.setPageTransformer(transformer);
+        binding.vpHeadline.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                headlineHandler.removeCallbacks(headlineRunnable);
+                headlineHandler.postDelayed(headlineRunnable, 3000);
+            }
+        });
+
+        headlineAdapter.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                String category = "";
+                switch (position){
+                    case 0:
+                        category ="Clothing";
+                        break;
+                    case 1:
+                        category = "Electronic";
+                        break;
+                    case 2:
+                        category ="Book";
+                        break;
+                }
+                startActivity(new Intent(getContext(),
+                        CategoryActivity.class).putExtra("ISCATEGORY", category));
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        binding.searchBar.removeCallbacks(headlineRunnable);
+    }
+
+    @Override
     public void onResume() {
-        binding.searchBar.clearFocus();
         super.onResume();
+        binding.searchBar.clearFocus();
+        binding.vpHeadline.postDelayed(headlineRunnable, 3000);
     }
 
     private void getOnClickListener(TextView cardView, String category) {

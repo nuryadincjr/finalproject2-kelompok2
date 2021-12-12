@@ -42,9 +42,10 @@
                     android:layout_height="150dp"
                     android:background="?attr/selectableItemBackground"
                     android:ellipsize="end"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_brand" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/staffs" />
             </LinearLayout>
+
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/llAddStock"
@@ -68,10 +69,10 @@
                     android:ellipsize="end"
                     android:id="@+id/ivAddStock"
                     android:background="?attr/selectableItemBackground"
-                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@drawable/ic_brand"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/other_product"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
