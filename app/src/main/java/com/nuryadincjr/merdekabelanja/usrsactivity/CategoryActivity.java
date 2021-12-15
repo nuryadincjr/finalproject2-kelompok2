@@ -1,24 +1,15 @@
 package com.nuryadincjr.merdekabelanja.usrsactivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.nuryadincjr.merdekabelanja.R;
-import com.nuryadincjr.merdekabelanja.adapters.ProductsAdapter;
+import com.nuryadincjr.merdekabelanja.adapters.CollectionPagerAdapter;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityCategoryBinding;
-import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
-import com.nuryadincjr.merdekabelanja.models.Products;
-import com.nuryadincjr.merdekabelanja.viewmodel.MainViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity {
 
@@ -36,8 +27,50 @@ public class CategoryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(category);
 
         if(savedInstanceState == null) {
-            getData(category);
+            onSetData(category);
         }
+    }
+
+    private void onSetData(String category) {
+        String tabItemFirst = "";
+        String tabItemSecond = "";
+        int tabCount = 2;
+
+        switch (category) {
+            case "Clothing":
+                tabItemFirst = "Male";
+                tabItemSecond = "Female";
+                break;
+            case "Electronic":
+                tabItemFirst = "Smartphone";
+                tabItemSecond = "Computer";
+                break;
+            case "Book":
+                tabCount = 10;
+                break;
+            case "Other Products":
+                tabCount = 1;
+                break;
+        }
+
+        CollectionPagerAdapter collectionPagerAdapter =
+                new CollectionPagerAdapter(this, tabCount, category, binding.tablayout);
+        binding.viewpager2.setAdapter(collectionPagerAdapter);
+
+        String finalTabItemFirst = tabItemFirst;
+        String finalTabItemSecond = tabItemSecond;
+        new TabLayoutMediator(binding.tablayout, binding.viewpager2,
+                (tab, position) -> {
+                    if(category.equals("Book")){
+                        String[] categoryItem = getResources().getStringArray(R.array.book_type);
+                        String tabName = categoryItem[position];
+                        tab.setText(tabName);
+                    } else {
+                        if(position==0) tab.setText(finalTabItemFirst);
+                        else if(position==1) tab.setText(finalTabItemSecond);
+                    }
+                }
+        ).attach();
     }
 
     @Override
@@ -47,34 +80,5 @@ public class CategoryActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void getData(String category) {
-        MainViewModel mainViewModel = new MainViewModel(getApplication());
-        mainViewModel.getFilterProductsLiveData(
-                new String[]{category}).observe(this, products -> {
-            List<Products> productsList = new ArrayList<>(products);
-            ProductsAdapter productsAdapter = new ProductsAdapter(1, productsList);
-            binding.rvProducts.setAdapter(productsAdapter);
-            binding.rvProducts.setItemAnimator(new DefaultItemAnimator());
-
-            onListener(productsAdapter, productsList);
-        });
-    }
-
-    private void onListener(ProductsAdapter productsAdapter, List<Products> productsList) {
-        productsAdapter.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                startActivity(new Intent(getApplicationContext(), DetailItemProductActivity.class).
-                        putExtra("DATA", productsList.get(position)));
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                Toast.makeText(getApplicationContext(),
-                        productsList.get(position).getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

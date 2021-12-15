@@ -32,6 +32,11 @@ public class MainViewModel extends AndroidViewModel {
         return productsRepository.getFilterProducts(value);
     }
 
+    public MutableLiveData<ArrayList<Products>> getCategoryProductsLiveData(
+            String value, String fildname, String[] category) {
+        return productsRepository.getCategoryProducts(value, fildname, category);
+    }
+
     public MutableLiveData<ArrayList<Staffs>> getSearchStaffs(String value) {
         return staffsRepository.getSearchStaffs(value);
     }
@@ -48,5 +53,4 @@ public class MainViewModel extends AndroidViewModel {
     public MutableLiveData<ArrayList<Staffs>> getFilterStaffsLiveData(String[] value) {
         return staffsRepository.getFilterStaffs(value);
     }
-
 }

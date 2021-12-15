@@ -32,34 +32,6 @@
 
         </androidx.appcompat.widget.Toolbar>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorOnPrimary"
-            app:tabMode="scrollable">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Clothing" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Electronics" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Books" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Other Products" />
-        </com.google.android.material.tabs.TabLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -73,8 +45,8 @@
             android:orientation="vertical">
 
             <androidx.viewpager2.widget.ViewPager2
-                android:layout_marginTop="8dp"
                 android:id="@+id/vpHeadline"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:paddingStart="8dp"
@@ -192,6 +164,7 @@
                     android:background="?selectableItemBackground"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
+                    android:padding="10dp"
                     android:text="@string/other_products"
                     android:textSize="18sp"
                     android:visibility="gone"

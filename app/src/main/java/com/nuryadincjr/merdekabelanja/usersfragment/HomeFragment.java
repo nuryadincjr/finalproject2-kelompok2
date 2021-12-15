@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -175,41 +174,45 @@ public class HomeFragment extends Fragment {
     }
 
     private void getData() {
-        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        Runnable headlineRunnable = () -> {
+            mainViewModel = new MainViewModel(getActivity().getApplication());
 
-        for (int i = 0; i<collect.length; i++) {
-            int finalI = i;
-            mainViewModel.getFilterProductsLiveData(
-            new String[]{collect[i]}).observe(getViewLifecycleOwner(), products -> {
-                if(products.size() != 0) {
-                    List<Products> productsList = new ArrayList<>(products);
-                    ProductsAdapter productsAdapter = new ProductsAdapter(1, productsList);
-                    switch (finalI){
-                        case 0:
-                            binding.tvClothingMore.setVisibility(View.VISIBLE);
-                            binding.rvClothing.setAdapter(productsAdapter);
-                            binding.rvClothing.setItemAnimator(new DefaultItemAnimator());
-                            break;
-                        case 1:
-                            binding.tvElectronicsMore.setVisibility(View.VISIBLE);
-                            binding.rvElectronics.setAdapter(productsAdapter);
-                            binding.rvElectronics.setItemAnimator(new DefaultItemAnimator());
-                            break;
-                        case 2:
-                            binding.tvBooksMore.setVisibility(View.VISIBLE);
-                            binding.rvBooks.setAdapter(productsAdapter);
-                            binding.rvBooks.setItemAnimator(new DefaultItemAnimator());
-                            break;
-                        case 3:
-                            binding.tvOtherMore.setVisibility(View.VISIBLE);
-                            binding.rvOther.setAdapter(productsAdapter);
-                            binding.rvOther.setItemAnimator(new DefaultItemAnimator());
-                            break;
+            for (int i = 0; i<collect.length; i++) {
+                int finalI = i;
+                mainViewModel.getFilterProductsLiveData(new String[]{collect[i]})
+                        .observe(getViewLifecycleOwner(), products -> {
+
+                    if(products.size() != 0) {
+                        List<Products> productsList = new ArrayList<>(products);
+                        ProductsAdapter productsAdapter = new ProductsAdapter(1, productsList);
+                        switch (finalI){
+                            case 0:
+                                binding.tvClothingMore.setVisibility(View.VISIBLE);
+                                binding.rvClothing.setAdapter(productsAdapter);
+                                binding.rvClothing.setItemAnimator(new DefaultItemAnimator());
+                                break;
+                            case 1:
+                                binding.tvElectronicsMore.setVisibility(View.VISIBLE);
+                                binding.rvElectronics.setAdapter(productsAdapter);
+                                binding.rvElectronics.setItemAnimator(new DefaultItemAnimator());
+                                break;
+                            case 2:
+                                binding.tvBooksMore.setVisibility(View.VISIBLE);
+                                binding.rvBooks.setAdapter(productsAdapter);
+                                binding.rvBooks.setItemAnimator(new DefaultItemAnimator());
+                                break;
+                            case 3:
+                                binding.tvOtherMore.setVisibility(View.VISIBLE);
+                                binding.rvOther.setAdapter(productsAdapter);
+                                binding.rvOther.setItemAnimator(new DefaultItemAnimator());
+                                break;
+                        }
+                        onListener(productsAdapter, productsList);
                     }
-                    onListener(productsAdapter, productsList);
-                }
-            });
-        }
+                });
+            }
+        };
+        headlineHandler.post(headlineRunnable);
     }
 
     private void onListener(ProductsAdapter productsAdapter, List<Products> productsList) {

@@ -2,6 +2,7 @@ package com.nuryadincjr.merdekabelanja.usersfragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class UserProfileFragment extends Fragment {
     private FragmentUserProfileBinding binding;
     private LocalPreference localPreference;
     private Users users = new Users();
+    private final Handler headlineHandler = new Handler();
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -61,10 +63,12 @@ public class UserProfileFragment extends Fragment {
     }
 
     private void onDataSet(String uid) {
-        new UsersRepository().getUserData(uid).observe(getActivity(), (ArrayList<Users> user) -> {
+        Runnable headlineRunnable = () -> new UsersRepository()
+                        .getUserData(uid)
+                        .observe(getActivity(), (ArrayList<Users> user) -> {
             if(user.size() != 0) {
                 users = user.get(0);
-                Glide.with(this)
+                Glide.with(getContext())
                         .load(users.getPhoto())
                         .centerCrop()
                         .placeholder(R.drawable.ic_brand)
@@ -73,5 +77,6 @@ public class UserProfileFragment extends Fragment {
                 binding.tvPhone.setText(users.getPhone());
             }
         });
+        headlineHandler.post(headlineRunnable);
     }
 }
