@@ -1,8 +1,14 @@
 package com.nuryadincjr.merdekabelanja.adminfragment;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_FILTER_PRODUCT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISEDIT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISPRINT;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,7 +34,7 @@ import com.nuryadincjr.merdekabelanja.adminacitvity.AddBookActivity;
 import com.nuryadincjr.merdekabelanja.adminacitvity.AddClothingActivity;
 import com.nuryadincjr.merdekabelanja.adminacitvity.AddElectronicsActivity;
 import com.nuryadincjr.merdekabelanja.adminacitvity.AddOthersActivity;
-import com.nuryadincjr.merdekabelanja.adminacitvity.DetalisProductActivity;
+import com.nuryadincjr.merdekabelanja.adminacitvity.DetailsProductActivity;
 import com.nuryadincjr.merdekabelanja.adminacitvity.ProductsActivity;
 import com.nuryadincjr.merdekabelanja.api.ProductsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.FragmentProductsBinding;
@@ -50,8 +56,7 @@ import java.util.Set;
 public class ProductsFragment extends Fragment {
     private FragmentProductsBinding binding;
     private LocalPreference localPreference;
-    private MainViewModel mainViewModel;
-    private Set<String> fliterProduct;
+    private Set<String> filterProduct;
     private String[] collect;
     private Menu menu;
     private Books books;
@@ -64,7 +69,7 @@ public class ProductsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProductsBinding.inflate(inflater, container, false);
         setHasOptionsMenu(true);
@@ -72,8 +77,8 @@ public class ProductsFragment extends Fragment {
 
         collect = getResources().getStringArray(R.array.products_type);
         localPreference = LocalPreference.getInstance(getContext());
-        fliterProduct = localPreference.getPreferences()
-                .getStringSet("FLITER_PRODUCT", new HashSet<>(Arrays.asList(collect)));
+        filterProduct = localPreference.getPreferences()
+                .getStringSet(KEY_FILTER_PRODUCT, new HashSet<>(Arrays.asList(collect)));
 
         binding.swipeRefresh.setColorSchemeResources(R.color.black);
         binding.swipeRefresh.setOnRefreshListener(() -> {
@@ -85,9 +90,7 @@ public class ProductsFragment extends Fragment {
         binding.fabAdd.setOnClickListener(v ->
                 startActivity(new Intent(getContext(), ProductsActivity.class)));
 
-        if(savedInstanceState == null) {
-            getData();
-        }
+        if(savedInstanceState == null) getData();
 
         return binding.getRoot();
     }
@@ -108,10 +111,8 @@ public class ProductsFragment extends Fragment {
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0 && !binding.fabAdd.isShown())
-                    binding.fabAdd.show();
-                else if (dy > 0 && binding.fabAdd.isShown())
-                    binding.fabAdd.hide();
+                if (dy < 0 && !binding.fabAdd.isShown()) binding.fabAdd.show();
+                else if (dy > 0 && binding.fabAdd.isShown()) binding.fabAdd.hide();
                 super.onScrolled(recyclerView, dx, dy);
             }
         };
@@ -140,12 +141,12 @@ public class ProductsFragment extends Fragment {
             }
         });
 
-        if(fliterProduct.size() == 0 || fliterProduct.size() == 4){
+        if(filterProduct.size() == 0 || filterProduct.size() == 4){
             isSetFilters(true,  true, false);
-            fliterProduct.addAll(Arrays.asList(collect));
+            filterProduct.addAll(Arrays.asList(collect));
             getData();
         } else {
-            for (String filter : fliterProduct) {
+            for (String filter : filterProduct) {
                 if (filter.equals(collect[0])) menu.findItem(R.id.itemFilter1).setChecked(true);
                 if (filter.equals(collect[1])) menu.findItem(R.id.itemFilter2).setChecked(true);
                 if (filter.equals(collect[2])) menu.findItem(R.id.itemFilter3).setChecked(true);
@@ -163,41 +164,41 @@ public class ProductsFragment extends Fragment {
             public boolean onMenuItemActionExpand(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.itemFilter0:
-                        if(item.isChecked()) fliterProduct.removeAll(Arrays.asList(collect));
-                        else fliterProduct.addAll(Arrays.asList(collect));
+                        if(item.isChecked()) filterProduct.removeAll(Arrays.asList(collect));
+                        else filterProduct.addAll(Arrays.asList(collect));
 
                         isSetFilters(!item.isChecked(), !item.isChecked(), item.isChecked());
                         break;
                     case R.id.itemFilter1:
-                        if(item.isChecked()) fliterProduct.remove("Clothing");
-                        else fliterProduct.add("Clothing");
+                        if(item.isChecked()) filterProduct.remove(collect[0]);
+                        else filterProduct.add(collect[0]);
 
                         menu.findItem(R.id.itemFilter0).setChecked(false);
                         item.setChecked(!item.isChecked());
                         break;
                     case R.id.itemFilter2:
-                        if(item.isChecked()) fliterProduct.remove("Electronic");
-                        else fliterProduct.add("Electronic");
+                        if(item.isChecked()) filterProduct.remove(collect[1]);
+                        else filterProduct.add(collect[1]);
 
                         menu.findItem(R.id.itemFilter0).setChecked(false);
                         item.setChecked(!item.isChecked());
                         break;
                     case R.id.itemFilter3:
-                        if(item.isChecked()) fliterProduct.remove("Book");
-                        else fliterProduct.add("Book");
+                        if(item.isChecked()) filterProduct.remove(collect[2]);
+                        else filterProduct.add(collect[2]);
 
                         menu.findItem(R.id.itemFilter0).setChecked(false);
                         item.setChecked(!item.isChecked());
                         break;
                     case R.id.itemFilter4:
-                        if(item.isChecked()) fliterProduct.remove("Other Products");
-                        else fliterProduct.add("Other Products");
+                        if(item.isChecked()) filterProduct.remove(collect[3]);
+                        else filterProduct.add(collect[3]);
 
                         menu.findItem(R.id.itemFilter0).setChecked(false);
                         item.setChecked(!item.isChecked());
                         break;
                 }
-                localPreference.getEditor().putStringSet("FLITER_PRODUCT", fliterProduct).apply();
+                localPreference.getEditor().putStringSet(KEY_FILTER_PRODUCT, filterProduct).apply();
                 getData();
                 return false;
             }
@@ -234,10 +235,10 @@ public class ProductsFragment extends Fragment {
     }
 
     private void getData() {
-        if(fliterProduct.size() !=0) {
-            String[] valueList = fliterProduct.toArray(new String[fliterProduct.size()]);
+        if(filterProduct.size() !=0) {
+            String[] valueList = filterProduct.toArray(new String[0]);
 
-            mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+            MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
             mainViewModel.getFilterProductsLiveData(valueList).observe(getViewLifecycleOwner(), products -> {
                 List<Products> productsList = new ArrayList<>(products);
                 ProductsAdapter productsAdapter = new ProductsAdapter(0, productsList);
@@ -254,8 +255,8 @@ public class ProductsFragment extends Fragment {
         productsAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                startActivity(new Intent(getContext(), DetalisProductActivity.class)
-                        .putExtra("DATA", productsList.get(position)));
+                ProductsFragment.this.onClick(DetailsProductActivity.class,
+                        productsList.get(position), null);
             }
 
             @Override
@@ -278,6 +279,7 @@ public class ProductsFragment extends Fragment {
         getData();
     }
 
+    @SuppressLint("NonConstantResourceId")
     public void openMenuEditPopup(View view, Products products) {
         PopupMenu menu = new PopupMenu(view.getContext(), view);
         menu.getMenuInflater().inflate(R.menu.menu_edit, menu.getMenu());
@@ -293,9 +295,7 @@ public class ProductsFragment extends Fragment {
                     getDataDelete(products);
                     break;
                 case R.id.itemPrint:
-                    startActivity(new Intent(getContext(), DetalisProductActivity.class)
-                            .putExtra("DATA", products)
-                            .putExtra("ISPRINT", true));
+                    onClick(AddBookActivity.class, products, NAME_ISPRINT);
                     break;
             }
             return true;
@@ -311,29 +311,27 @@ public class ProductsFragment extends Fragment {
             switch (product.getCategory()){
                 case "Electronic":
                     electronics = mapper.convertValue(maps, Electronics.class);
-                    startActivity(new Intent(getContext(), AddElectronicsActivity.class)
-                            .putExtra("DATA", electronics)
-                            .putExtra("ISEDIT", true));
+                    onClick(AddElectronicsActivity.class, electronics, NAME_ISEDIT);
                     break;
                 case "Clothing":
                     clothing = mapper.convertValue(maps, Clothing.class);
-                    startActivity(new Intent(getContext(), AddClothingActivity.class)
-                            .putExtra("DATA", clothing)
-                            .putExtra("ISEDIT", true));
+                    onClick(AddClothingActivity.class, clothing, NAME_ISEDIT);
                     break;
                 case "Book":
                     books = mapper.convertValue(maps, Books.class);
-                    startActivity(new Intent(getContext(), AddBookActivity.class)
-                            .putExtra("DATA", books)
-                            .putExtra("ISEDIT", true));
+                    onClick(AddBookActivity.class, books, NAME_ISEDIT);
                     break;
                 case "Other Products":
                     data = mapper.convertValue(maps, Products.class);
-                    startActivity(new Intent(getContext(), AddOthersActivity.class)
-                            .putExtra("DATA", data)
-                            .putExtra("ISEDIT", true));
+                    onClick(AddOthersActivity.class, data, NAME_ISEDIT);
                     break;
             }
         });
+    }
+
+    private <T> void onClick(Class<T> tClass, Object tData, String key) {
+        startActivity(new Intent(getContext(), tClass)
+                .putExtra(NAME_DATA, (Parcelable) tData)
+                .putExtra(key, true));
     }
 }

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.nuryadincjr.merdekabelanja.adminacitvity.AddStafsActivity;
+import com.nuryadincjr.merdekabelanja.adminacitvity.AddStaffsActivity;
 import com.nuryadincjr.merdekabelanja.adminacitvity.ProductsActivity;
 import com.nuryadincjr.merdekabelanja.databinding.FragmentDashboardBinding;
 
@@ -26,7 +26,7 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
 
         binding.llAddStaff.setOnClickListener(v ->
-                startActivity(new Intent(getContext(), AddStafsActivity.class)));
+                startActivity(new Intent(getContext(), AddStaffsActivity.class)));
 
         binding.llAddStock.setOnClickListener(v ->
                 startActivity(new Intent(getContext(), ProductsActivity.class)));

@@ -1,5 +1,10 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISEDIT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISPRINT;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,8 +40,8 @@ public class DetailsStaffActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         storage = FirebaseStorage.getInstance();
-        data = getIntent().getParcelableExtra("DATA");
-        isPrint = getIntent().getBooleanExtra("ISPRINT", false);
+        data = getIntent().getParcelableExtra(NAME_DATA);
+        isPrint = getIntent().getBooleanExtra(NAME_ISPRINT, false);
     }
 
     @Override
@@ -53,6 +58,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -82,9 +88,9 @@ public class DetailsStaffActivity extends AppCompatActivity {
     }
 
     private void getDataEdited() {
-        startActivity(new Intent(this, AddStafsActivity.class)
-                .putExtra("DATA", data)
-                .putExtra("ISEDIT", true));
+        startActivity(new Intent(this, AddStaffsActivity.class)
+                .putExtra(NAME_DATA, data)
+                .putExtra(NAME_ISEDIT, true));
     }
 
     private void onDataSet(Staffs staffs) {
@@ -100,7 +106,7 @@ public class DetailsStaffActivity extends AppCompatActivity {
                         .into(binding.ivPhoto);
 
                 binding.tvId.setText(staff.get(0).getUid());
-                binding.tvDevision.setText(staff.get(0).getDevision());
+                binding.tvDevision.setText(staff.get(0).getDivision());
                 binding.tvName.setText(staff.get(0).getName());
                 binding.tvPhone.setText(staff.get(0).getPhone());
                 binding.tvEmail.setText(staff.get(0).getEmail());

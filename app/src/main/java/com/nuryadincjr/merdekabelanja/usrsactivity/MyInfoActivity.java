@@ -1,7 +1,14 @@
 package com.nuryadincjr.merdekabelanja.usrsactivity;
 
 import static android.content.ContentValues.TAG;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.CHILD_PROFILE;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.CHILD_USER;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_UID;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.getFileExtension;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.getInfo;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,7 +32,6 @@ import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.api.UsersRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityMyInfoBinding;
 import com.nuryadincjr.merdekabelanja.models.Users;
-import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
 import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
 
@@ -34,7 +40,6 @@ import java.util.ArrayList;
 public class MyInfoActivity extends AppCompatActivity {
 
     private ActivityMyInfoBinding binding;
-    private LocalPreference localPreference;
     private ImagesPreference imagesPreference;
     private StorageReference storageReference;
     private ProgressDialog dialog;
@@ -52,15 +57,16 @@ public class MyInfoActivity extends AppCompatActivity {
         binding = ActivityMyInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        localPreference = LocalPreference.getInstance(this);
-        storageReference = FirebaseStorage.getInstance().getReference().child("users").child("profiles");
-        uid = localPreference.getPreferences().getString("UID", "");
+        LocalPreference localPreference = LocalPreference.getInstance(this);
+        storageReference = FirebaseStorage.getInstance().getReference()
+                .child(CHILD_USER).child(CHILD_PROFILE);
+        uid = localPreference.getPreferences().getString(KEY_UID, "");
         imagesPreference = ImagesPreference.getInstance(this);
         dialog = new ProgressDialog(this);
 
         binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getSinggleImage(this));
 
-        onDataSet();
+        onSetData();
     }
 
     @Override
@@ -72,6 +78,7 @@ public class MyInfoActivity extends AppCompatActivity {
         return super.onCreatePanelMenu(featureId, menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -82,13 +89,13 @@ public class MyInfoActivity extends AppCompatActivity {
                 isEdited(true);
                 return true;
             case R.id.itemHelp:
-                Toast.makeText(this, "Requerment Info", Toast.LENGTH_SHORT).show();
+                getInfo(this);
                 return true;
             case R.id.itemSaves:
                 getInputValidations();
                 return true;
             case R.id.itemCencle:
-                onDataSet();
+                onSetData();
                 isEdited(false);
                 return true;
         }
@@ -120,16 +127,16 @@ public class MyInfoActivity extends AppCompatActivity {
     }
 
     private void getInputValidations() {
-        String name = binding.etName.getText().toString();
-        String email = binding.etEmail.getText().toString();
-        String ordrAdd = binding.etOrderAddress.getText().toString();
-        String destAdd = binding.etDestinationAddress.getText().toString();
+        String name = String.valueOf(binding.etName.getText());
+        String email = String.valueOf(binding.etEmail.getText());
+        String orderAdd = String.valueOf(binding.etOrderAddress.getText());
+        String destAdd = String.valueOf(binding.etDestinationAddress.getText());
         if(!name.isEmpty()) {
             users.setName(name);
             users.setEmail(email);
-            users.setAddress(ordrAdd);
+            users.setAddress(orderAdd);
             users.setAddress2(destAdd);
-            users.setLatest_update(Constaint.time());
+            users.setLatest_update(time());
             onUpdateData(users);
         } else Toast.makeText(this, "Please input your name!", Toast.LENGTH_SHORT).show();
     }
@@ -143,7 +150,7 @@ public class MyInfoActivity extends AppCompatActivity {
             dialog.setMessage("Uploading file..");
 
             StorageReference filePath = storageReference.child(users.getUid())
-                    .child(users.getUid() + "." + Constaint.getFileExtension(imageUri, this));
+                    .child(users.getUid() + "." + getFileExtension(imageUri, this));
             StorageTask<UploadTask.TaskSnapshot> uploadTask = filePath.putFile(imageUri);
 
             uploadTask.continueWithTask(task -> {
@@ -177,7 +184,7 @@ public class MyInfoActivity extends AppCompatActivity {
         });
     }
 
-    private void onDataSet() {
+    private void onSetData() {
         new UsersRepository().getUserData(uid).observe(this, (ArrayList<Users> user) -> {
             if(user.size() != 0) {
                 users = user.get(0);

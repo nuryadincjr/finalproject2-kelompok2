@@ -1,5 +1,15 @@
 package com.nuryadincjr.merdekabelanja.activity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_ISLOGIN;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_UID;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ACTION;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISLOGIN;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_LOGIN;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_REGISTER;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.TAG;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
+
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +38,6 @@ import com.nuryadincjr.merdekabelanja.databinding.ActivityOtpactivityBinding;
 import com.nuryadincjr.merdekabelanja.models.Admins;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.models.Users;
-import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
 import com.nuryadincjr.merdekabelanja.usrsactivity.UsersActivity;
 
@@ -54,12 +63,11 @@ public class OTPActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         localPreference = LocalPreference.getInstance(this);
-
         firebaseAuth = FirebaseAuth.getInstance();
-        action = getIntent().getStringExtra("TAG");
-        getIsLogin();
-
+        action = getIntent().getStringExtra(NAME_ACTION);
         dialog = new ProgressDialog(this);
+
+        getIsLogin();
         onAuthentication(phone);
 
         binding.inputOtp.setOtpCompletionListener(this::onOtpCompleted);
@@ -67,23 +75,23 @@ public class OTPActivity extends AppCompatActivity {
 
     private void getIsLogin() {
         if(action.equals("LOGIN")) {
-            islogin = getIntent().getStringExtra("ISLOGIN");
+            islogin = getIntent().getStringExtra(NAME_ISLOGIN);
             switch (islogin) {
                 case "USER":
-                    users = getIntent().getParcelableExtra("LOGIN");
+                    users = getIntent().getParcelableExtra(NAME_LOGIN);
                     phone = users.getPhone();
                     break;
                 case "ADMIN":
-                    admins = getIntent().getParcelableExtra("LOGIN");
+                    admins = getIntent().getParcelableExtra(NAME_LOGIN);
                     phone = admins.getPhone();
                     break;
                 case "STAFF":
-                    staffs = getIntent().getParcelableExtra("LOGIN");
+                    staffs = getIntent().getParcelableExtra(NAME_LOGIN);
                     phone = staffs.getPhone();
                     break;
             }
         } else {
-            users = getIntent().getParcelableExtra("REGISTER");
+            users = getIntent().getParcelableExtra(NAME_REGISTER);
             phone = users.getPhone();
         }
     }
@@ -91,12 +99,14 @@ public class OTPActivity extends AppCompatActivity {
     private void setTimer() {
         binding.tvTimer.setVisibility(View.VISIBLE);
         new CountDownTimer(120000, 1000) {
+            @SuppressLint({"DefaultLocale", "SetTextI18n"})
             @Override
             public void onTick(long l) {
                 String onDuration = String.format("%02d", TimeUnit.MILLISECONDS.toSeconds(l));
                 binding.tvTimer.setText("Please wait "+onDuration+" second for send again.");
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onFinish() {
                 binding.tvTimer.setText("Resend");
@@ -120,14 +130,15 @@ public class OTPActivity extends AppCompatActivity {
                 .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     @Override
                     public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                        Log.d(Constaint.TAG, "onVerificationCompleted:" + phoneAuthCredential);
+                        Log.d(TAG, "onVerificationCompleted:" + phoneAuthCredential);
                         binding.inputOtp.setText(phoneAuthCredential.getSmsCode());
                     }
 
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
                         dialog.dismiss();
-                        Log.w(Constaint.TAG, "onVerificationFailed", e);
+                        Log.w(TAG, "onVerificationFailed", e);
                         Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
                         if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             // Invalid request
@@ -138,7 +149,6 @@ public class OTPActivity extends AppCompatActivity {
                         }
                         binding.tvTimer.setText("Resend");
                         binding.tvTimer.setOnClickListener(view -> onAuthentication(phone));
-
                         binding.tvTimer.setVisibility(View.VISIBLE);
                     }
 
@@ -167,7 +177,7 @@ public class OTPActivity extends AppCompatActivity {
                 dialog.setCancelable(false);
                 dialog.show();
 
-                Log.d(Constaint.TAG, "signInWithCredential:success");
+                Log.d(TAG, "signInWithCredential:success");
                 Toast.makeText(this, "signInWithCredential:success", Toast.LENGTH_SHORT).show();
 
                 if (action.equals("LOGIN")) onLogin();
@@ -175,58 +185,54 @@ public class OTPActivity extends AppCompatActivity {
             } else {
                 dialog.dismiss();
                 Toast.makeText(this, "signInWithCredential:failure", Toast.LENGTH_SHORT).show();
-                Log.w(Constaint.TAG, "signInWithCredential:failure", task.getException());
-                if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
-                    // The verification code entered was invalid
-                }
+                Log.w(TAG, "signInWithCredential:failure", task.getException());
+                task.getException();// The verification code entered was invalid
             }
         });
     }
 
     private void onLogin() {
-        int intIsLogin = 0;
-
         switch (islogin) {
             case "USER":
-                intIsLogin = 1;
-                users = getIntent().getParcelableExtra("LOGIN");
-                startActivity(new Intent(this, UsersActivity.class));
-                localPreference.getEditor().putString("UID", users.getUid()).apply();
+                users = getIntent().getParcelableExtra(NAME_LOGIN);
+                getLogin(UsersActivity.class, users.getUid(), 1);
                 break;
             case "ADMIN":
-                intIsLogin = 2;
-                admins = getIntent().getParcelableExtra("LOGIN");
-                startActivity(new Intent(this, AdminsActivity.class));
-                localPreference.getEditor().putString("UID", admins.getUid()).apply();
+                admins = getIntent().getParcelableExtra(NAME_LOGIN);
+                getLogin(AdminsActivity.class, admins.getUid(), 2);
                 break;
             case "STAFF":
-                intIsLogin = 3;
-                staffs = getIntent().getParcelableExtra("LOGIN");
-                startActivity(new Intent(this, MainActivity.class));
-                localPreference.getEditor().putString("UID", staffs.getUid()).apply();
+                staffs = getIntent().getParcelableExtra(NAME_LOGIN);
+                getLogin(MainActivity.class, staffs.getUid(), 3);
                 break;
         }
-        localPreference.getEditor().putInt("ISLOGIN", intIsLogin).apply();
+    }
+
+    private <T> void getLogin(Class<T> tClass, String value, int intIsLogin) {
+        localPreference.getEditor()
+                .putString(KEY_UID, value)
+                .putInt(KEY_ISLOGIN, intIsLogin).apply();
+        startActivity(new Intent(this, tClass));
         finishAffinity();
     }
 
     private void onRegister() {
         users.setUid(firebaseAuth.getUid());
-        users.setLatest_update(Constaint.time());
+        users.setLatest_update(time());
         users.setStatus_account("active");
 
         new UsersRepository().insertUser(users).addOnSuccessListener(documentReference -> {
-            Log.d(Constaint.TAG, "DocumentSnapshot added with ID: " + documentReference);
+            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
             Toast.makeText(getApplicationContext(), "Success.", Toast.LENGTH_SHORT).show();
 
             startActivity(new Intent(this, UsersActivity.class));
             localPreference.getEditor()
-                    .putString("UID", users.getUid())
-                    .putInt("ISLOGIN", 1).apply();
+                    .putString(KEY_UID, users.getUid())
+                    .putInt(KEY_ISLOGIN, 1).apply();
 
             finishAffinity();
         }).addOnFailureListener(e -> {
-            Log.w(Constaint.TAG, "Error adding document", e);
+            Log.w(TAG, "Error adding document", e);
             Toast.makeText(getApplicationContext(), "Error adding document.", Toast.LENGTH_SHORT).show();
         });
         dialog.dismiss();

@@ -1,5 +1,8 @@
 package com.nuryadincjr.merdekabelanja.adapters;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.ARG_CATEGORY;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.ARG_TAB_INDEX;
+
 import android.os.Bundle;
 import android.view.View;
 
@@ -34,8 +37,8 @@ public class CollectionPagerAdapter extends FragmentStateAdapter {
         Fragment fragment = new ItemViewPagerFragment();
         Bundle args = new Bundle();
 
-        args.putString(ItemViewPagerFragment.ARG_CATEGORY, category);
-        args.putInt(ItemViewPagerFragment.ARG_TAB_INDEX, position);
+        args.putString(ARG_CATEGORY, category);
+        args.putInt(ARG_TAB_INDEX, position);
 
         fragment.setArguments(args);
 

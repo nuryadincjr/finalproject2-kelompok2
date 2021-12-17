@@ -1,6 +1,9 @@
 package com.nuryadincjr.merdekabelanja.activity;
 
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ACTION;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_REGISTER;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -27,17 +30,17 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void getInputValidations() {
-        String fullname = binding.etName.getText().toString();
-        String phone = binding.etPhone.getText().toString();
-        String email = binding.etEmail.getText().toString();
-        String password = binding.etPassword.getText().toString();
-        String confpassword = binding.etConfPassword.getText().toString();
+        String fullName = String.valueOf(binding.etName.getText());
+        String phone = String.valueOf(binding.etPhone.getText());
+        String email = String.valueOf(binding.etEmail.getText());
+        String password = String.valueOf(binding.etPassword.getText());
+        String confpassword = String.valueOf(binding.etConfPassword.getText());
 
-       if(!fullname.isEmpty() && !phone.isEmpty() && !email.isEmpty() &&
+       if(!fullName.isEmpty() && !phone.isEmpty() && !email.isEmpty() &&
                !password.isEmpty() && !confpassword.isEmpty()) {
            if(password.length() > 7) {
                if(password.equals(confpassword)){
-                   Users users = new  Users("", fullname, phone, email,
+                   Users users = new  Users("", fullName, phone, email,
                            "", "", email, password, "" ,"register","");
                    onRegisters(users);
                } else binding.etPassword.setError("Password canot equals!");
@@ -47,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void onRegisters(Users users) {
         startActivity(new Intent(this, OTPActivity.class)
-                .putExtra("REGISTER", users)
-                .putExtra("TAG", "REGISTER"));
+                .putExtra(NAME_REGISTER, users)
+                .putExtra(NAME_ACTION, "REGISTER"));
     }
 }

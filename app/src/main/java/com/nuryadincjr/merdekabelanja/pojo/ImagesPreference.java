@@ -1,5 +1,6 @@
 package com.nuryadincjr.merdekabelanja.pojo;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,13 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImagesPreference {
+    @SuppressLint("StaticFieldLeak")
     private static ImagesPreference instance;
-    private ProgressDialog dialog;
-    private Context context;
 
     public ImagesPreference(Context context) {
-        this.context = context;
-        dialog = new ProgressDialog(context);
+        ProgressDialog dialog = new ProgressDialog(context);
     }
 
     public static ImagesPreference getInstance(Context context) {
@@ -67,5 +66,4 @@ public class ImagesPreference {
         }
         return stringList;
     }
-
 }

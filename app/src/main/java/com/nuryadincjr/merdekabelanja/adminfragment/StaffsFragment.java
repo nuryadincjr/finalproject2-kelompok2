@@ -1,8 +1,14 @@
 package com.nuryadincjr.merdekabelanja.adminfragment;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_FILTER_DIVISION;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISEDIT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISPRINT;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adapters.StaffsAdapter;
-import com.nuryadincjr.merdekabelanja.adminacitvity.AddStafsActivity;
+import com.nuryadincjr.merdekabelanja.adminacitvity.AddStaffsActivity;
 import com.nuryadincjr.merdekabelanja.adminacitvity.DetailsStaffActivity;
 import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.FragmentStaffsBinding;
@@ -42,8 +48,7 @@ public class StaffsFragment extends Fragment {
 
     private FragmentStaffsBinding binding;
     private LocalPreference localPreference;
-    private MainViewModel mainViewModel;
-    private Set<String> fliterStaffs;
+    private Set<String> filterStaffs;
     private String[] collect;
     private Menu menu;
 
@@ -52,16 +57,16 @@ public class StaffsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentStaffsBinding.inflate(inflater, container, false);
         setHasOptionsMenu(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Stafs");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Staffs");
 
-        collect = getResources().getStringArray(R.array.devision);
         localPreference = LocalPreference.getInstance(getContext());
-        fliterStaffs = localPreference.getPreferences()
-                .getStringSet("FLITER_DEVISION", new HashSet<>(Arrays.asList(collect)));
+        collect = getResources().getStringArray(R.array.division);
+        filterStaffs = localPreference.getPreferences()
+                .getStringSet(KEY_FILTER_DIVISION, new HashSet<>(Arrays.asList(collect)));
 
         binding.swipeRefresh.setColorSchemeResources(R.color.black);
         binding.swipeRefresh.setOnRefreshListener(() -> {
@@ -71,7 +76,7 @@ public class StaffsFragment extends Fragment {
 
         binding.rvStaffs.addOnScrollListener(getScrollListener());
         binding.fabAdd.setOnClickListener(v ->
-                startActivity(new Intent(getContext(), AddStafsActivity.class)));
+                startActivity(new Intent(getContext(), AddStaffsActivity.class)));
 
         if(savedInstanceState == null) {
             getData();
@@ -96,10 +101,8 @@ public class StaffsFragment extends Fragment {
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (dy < 0 && !binding.fabAdd.isShown())
-                    binding.fabAdd.show();
-                else if (dy > 0 && binding.fabAdd.isShown())
-                    binding.fabAdd.hide();
+                if (dy < 0 && !binding.fabAdd.isShown()) binding.fabAdd.show();
+                else if (dy > 0 && binding.fabAdd.isShown()) binding.fabAdd.hide();
                 super.onScrolled(recyclerView, dx, dy);
             }
         };
@@ -128,19 +131,18 @@ public class StaffsFragment extends Fragment {
             }
         });
 
-        if(fliterStaffs.size() == 0 || fliterStaffs.size() == 4){
+        if(filterStaffs.size() == 0 || filterStaffs.size() == 4){
             isSetFilters(true,  true, false);
-            fliterStaffs.addAll(Arrays.asList(collect));
+            filterStaffs.addAll(Arrays.asList(collect));
             getData();
         } else {
-            for (String filter : fliterStaffs) {
+            for (String filter : filterStaffs) {
                 if (filter.equals(collect[0])) menu.findItem(R.id.itemFilter1).setChecked(true);
                 if (filter.equals(collect[1])) menu.findItem(R.id.itemFilter2).setChecked(true);
                 if (filter.equals(collect[2])) menu.findItem(R.id.itemFilter3).setChecked(true);
                 if (filter.equals(collect[3])) menu.findItem(R.id.itemFilter4).setChecked(true);
             }
         }
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -152,41 +154,41 @@ public class StaffsFragment extends Fragment {
             public boolean onMenuItemActionExpand(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.itemFilter0:
-                        if(item.isChecked()) fliterStaffs.removeAll(Arrays.asList(collect));
-                        else fliterStaffs.addAll(Arrays.asList(collect));
+                        if(item.isChecked()) filterStaffs.removeAll(Arrays.asList(collect));
+                        else filterStaffs.addAll(Arrays.asList(collect));
 
                         isSetFilters(!item.isChecked(), !item.isChecked(), item.isChecked());
                         break;
                     case R.id.itemFilter1:
-                        if(item.isChecked()) fliterStaffs.remove("Finance");
-                        else fliterStaffs.add("Finance");
+                        if(item.isChecked()) filterStaffs.remove(collect[0]);
+                        else filterStaffs.add(collect[0]);
 
                         menu.findItem(R.id.itemFilter0).setChecked(false);
                         item.setChecked(!item.isChecked());
                         break;
                     case R.id.itemFilter2:
-                        if(item.isChecked()) fliterStaffs.remove("Marketing");
-                        else fliterStaffs.add("Marketing");
+                        if(item.isChecked()) filterStaffs.remove(collect[1]);
+                        else filterStaffs.add(collect[1]);
 
                         menu.findItem(R.id.itemFilter0).setChecked(false);
                         item.setChecked(!item.isChecked());
                         break;
                     case R.id.itemFilter3:
-                        if(item.isChecked()) fliterStaffs.remove("Warehouse");
-                        else fliterStaffs.add("Warehouse");
+                        if(item.isChecked()) filterStaffs.remove(collect[2]);
+                        else filterStaffs.add(collect[2]);
 
                         menu.findItem(R.id.itemFilter0).setChecked(false);
                         item.setChecked(!item.isChecked());
                         break;
                     case R.id.itemFilter4:
-                        if(item.isChecked()) fliterStaffs.remove("HRD");
-                        else fliterStaffs.add("HRD");
+                        if(item.isChecked()) filterStaffs.remove(collect[3]);
+                        else filterStaffs.add(collect[3]);
 
                         menu.findItem(R.id.itemFilter0).setChecked(false);
                         item.setChecked(!item.isChecked());
                         break;
                 }
-                localPreference.getEditor().putStringSet("FLITER_DEVISION", fliterStaffs).apply();
+                localPreference.getEditor().putStringSet(KEY_FILTER_DIVISION, filterStaffs).apply();
                 getData();
                 return false;
             }
@@ -223,10 +225,10 @@ public class StaffsFragment extends Fragment {
     }
 
     private void getData() {
-        if(fliterStaffs.size() !=0) {
-            String[] valueList = fliterStaffs.toArray(new String[fliterStaffs.size()]);
+        if(filterStaffs.size() !=0) {
+            String[] valueList = filterStaffs.toArray(new String[0]);
 
-            mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+            MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
             mainViewModel.getFilterStaffsLiveData(valueList).observe(getViewLifecycleOwner(), staffs -> {
                 List<Staffs> staffsList = new ArrayList<>(staffs);
                 StaffsAdapter staffsAdapter = new StaffsAdapter(staffsList);
@@ -237,15 +239,14 @@ public class StaffsFragment extends Fragment {
                 onListener(staffsAdapter, staffsList);
             });
         }
-
     }
 
     private void onListener(StaffsAdapter staffsAdapter, List<Staffs> staffsList) {
         staffsAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                startActivity(new Intent(getContext(), DetailsStaffActivity.class)
-                    .putExtra("DATA", staffsList.get(position)));
+                StaffsFragment.this.onClick(DetailsStaffActivity.class,
+                        staffsList.get(position), null);
             }
 
             @Override
@@ -265,6 +266,7 @@ public class StaffsFragment extends Fragment {
         getData();
     }
 
+    @SuppressLint("NonConstantResourceId")
     public void openMenuEditPopup(View view, Staffs staffs) {
         PopupMenu menu = new PopupMenu(view.getContext(), view);
         menu.getMenuInflater().inflate(R.menu.menu_edit, menu.getMenu());
@@ -274,21 +276,23 @@ public class StaffsFragment extends Fragment {
         menu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.itemEdit:
-                    startActivity(new Intent(getContext(), AddStafsActivity.class)
-                            .putExtra("DATA", staffs)
-                            .putExtra("ISEDIT", true));
+                    onClick(AddStaffsActivity.class, staffs, NAME_ISEDIT);
                     break;
                 case R.id.itemDelete:
                     getDataDelete(staffs);
                     break;
                 case R.id.itemPrint:
-                    startActivity(new Intent(getContext(), DetailsStaffActivity.class)
-                            .putExtra("DATA", staffs)
-                            .putExtra("ISPRINT", true));
+                    onClick(DetailsStaffActivity.class, staffs, NAME_ISPRINT);
                     break;
             }
             return true;
         });
         menu.show();
+    }
+
+    private <T> void onClick(Class<T> tClass, Object tData, String key) {
+        startActivity(new Intent(getContext(), tClass)
+                .putExtra(NAME_DATA, (Parcelable) tData)
+                .putExtra(key, true));
     }
 }

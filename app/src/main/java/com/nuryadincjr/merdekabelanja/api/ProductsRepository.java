@@ -1,10 +1,14 @@
 package com.nuryadincjr.merdekabelanja.api;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.COLLECTION_PRODUCT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.TAG;
+
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.nuryadincjr.merdekabelanja.models.Products;
@@ -15,29 +19,29 @@ import java.util.Map;
 
 public class ProductsRepository {
 
-    private final FirebaseFirestore db;
-    private final String TAG = "LIA";
+    private final CollectionReference collectionReference;
 
     public ProductsRepository() {
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        collectionReference = db.collection(COLLECTION_PRODUCT);
     }
 
     public Task<Void> deleteProduct(String id) {
-        return db.collection("products").document(id).delete();
+        return collectionReference.document(id).delete();
     }
 
     public Task<Void> insertProducts(Products products) {
-        return db.collection("products").document(products.getId()).set(products);
+        return collectionReference.document(products.getId()).set(products);
     }
 
     public Task<Void> updateProducts(Products products) {
-        return db.collection("products").document(products.getId()).set(products);
+        return collectionReference.document(products.getId()).set(products);
     }
 
     public MutableLiveData<Map<String, Object>> getSinggleProduct(Products product) {
-
         final MutableLiveData<Map<String, Object>> productsMutableLiveData = new MutableLiveData<>();
-        db.collection("products")
+
+        collectionReference
                 .whereEqualTo("id", product.getId())
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
@@ -54,9 +58,9 @@ public class ProductsRepository {
 
     public MutableLiveData<ArrayList<Products>> getFilterProducts(String[] value) {
         ArrayList<Products> productsList = new ArrayList<>();
-
         final MutableLiveData<ArrayList<Products>> productsMutableLiveData = new MutableLiveData<>();
-        db.collection("products")
+
+        collectionReference
                 .whereIn("category", Arrays.asList(value))
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
@@ -76,13 +80,12 @@ public class ProductsRepository {
         return productsMutableLiveData;
     }
 
-    public MutableLiveData<ArrayList<Products>> getCategoryProducts(String value,
-                                                                    String fildname, String[] category) {
+    public MutableLiveData<ArrayList<Products>> getCategoryProducts(
+            String value, String fildname, String[] category) {
         ArrayList<Products> productsList = new ArrayList<>();
-
         final MutableLiveData<ArrayList<Products>> productsMutableLiveData = new MutableLiveData<>();
 
-        db.collection("products")
+        collectionReference
                 .whereEqualTo("category", value)
                 .whereIn(fildname, Arrays.asList(category))
                 .get().addOnCompleteListener(task -> {
@@ -100,17 +103,14 @@ public class ProductsRepository {
                 Log.w(TAG, "Error getting documents.", task.getException());
             }
         });
-
-
         return productsMutableLiveData;
     }
 
     public MutableLiveData<ArrayList<Products>> getSearchProducts(String value) {
         ArrayList<Products> productsList = new ArrayList<>();
-
         final MutableLiveData<ArrayList<Products>> productsMutableLiveData = new MutableLiveData<>();
 
-        db.collection("products")
+        collectionReference
                 .whereGreaterThanOrEqualTo("name", value)
                 .whereLessThanOrEqualTo("name",value+"~")
                 .get().addOnCompleteListener(task -> {

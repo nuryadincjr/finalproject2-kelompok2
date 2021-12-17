@@ -24,16 +24,16 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public Object[] key;
     public Map<String, Object> value ;
     public ItemClickListener itemClickListener;
-    public final int sesssion;
+    public final int session;
     public final int SECTION_VIEW = 0;
     public final int CONTENT_VIEW = 1;
     public ActivityDetalisProductBinding productBinding;
 
     public ProductItemAdapter(Object[] key, Map<String, Object> value,
-                              int sesssion, ActivityDetalisProductBinding productBinding) {
+                              int session, ActivityDetalisProductBinding productBinding) {
         this.key = key;
         this.value = value;
-        this.sesssion = sesssion;
+        this.session = session;
         this.productBinding = productBinding;
     }
 
@@ -46,13 +46,13 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (viewType == SECTION_VIEW) {
             return new ProductItemsViewHolder(this, binding);
         } else {
-            return new ProductInfoViewHolder(this, binding);
+            return new ProductInfoViewHolder(binding);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (sesssion == 0) {
+        if (session == 0) {
             return SECTION_VIEW;
         } else {
             return CONTENT_VIEW;
@@ -91,7 +91,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         public void setDataToView(String key, Map<String, Object> value) {
-            String newValue = value.get(key).toString()
+            String newValue = String.valueOf(value.get(key))
                     .replace("[", "")
                     .replace("]", "");
             if(!key.equals("photo")){
@@ -141,18 +141,16 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public class ProductInfoViewHolder extends RecyclerView.ViewHolder {
-        private final ProductItemAdapter productItemAdapter;
+    public static class ProductInfoViewHolder extends RecyclerView.ViewHolder {
         private final ListItemProductBinding binding;
 
-        public ProductInfoViewHolder(ProductItemAdapter productItemAdapter, ListItemProductBinding binding) {
+        public ProductInfoViewHolder(ListItemProductBinding binding) {
             super(binding.getRoot());
-            this.productItemAdapter = productItemAdapter;
             this.binding = binding;
         }
 
         public void setDataToView(String key, Map<String, Object> value) {
-            String newValue = value.get(key).toString()
+            String newValue = String.valueOf(value.get(key))
                     .replace("[", "").
                     replace("]", "");
 

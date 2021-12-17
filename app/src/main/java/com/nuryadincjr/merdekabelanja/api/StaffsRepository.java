@@ -1,14 +1,18 @@
 package com.nuryadincjr.merdekabelanja.api;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.COLLECTION_STAFF;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.TAG;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
+
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
-import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,15 +21,15 @@ import java.util.Map;
 
 public class StaffsRepository {
 
-    private final FirebaseFirestore db;
-    private final String TAG = "LIA";
+    private final CollectionReference collectionReference;
 
     public StaffsRepository() {
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        collectionReference = db.collection(COLLECTION_STAFF);
     }
 
     public Task<Void> insertStaffs(Staffs staff) {
-          return db.collection("staffs").document(staff.getUid()).set(staff);
+          return collectionReference.document(staff.getUid()).set(staff);
     }
 
     public Task<Void> updateStaffs(Staffs staff) {
@@ -37,19 +41,19 @@ public class StaffsRepository {
         data.put("address", staff.getAddress());
         data.put("photo", staff.getPhoto());
         data.put("username", staff.getUsername());
-        data.put("latest_update", Constaint.time());
-        return db.collection("staffs").document(staff.getUid()).update(data);
+        data.put("latest_update", time());
+        return collectionReference.document(staff.getUid()).update(data);
     }
 
     public Task<Void> deleteStaffs(String id) {
-        return db.collection("staffs").document(id).delete();
+        return collectionReference.document(id).delete();
     }
 
     public MutableLiveData<ArrayList<Staffs>> getStaffLogin(Staffs staff) {
         ArrayList<Staffs> staffs = new ArrayList<>();
         final MutableLiveData<ArrayList<Staffs>> staffsMutableLiveData = new MutableLiveData<>();
 
-        db.collection("staffs")
+        collectionReference
                 .whereEqualTo("username", staff.getUsername())
                 .whereEqualTo("password", staff.getPassword())
                 .get().addOnCompleteListener(task -> {
@@ -71,11 +75,10 @@ public class StaffsRepository {
 
     public MutableLiveData<ArrayList<Staffs>> getFilterStaffs(String[] value) {
         ArrayList<Staffs> staffsList = new ArrayList<>();
-
         final MutableLiveData<ArrayList<Staffs>> staffsMutableLiveData = new MutableLiveData<>();
 
-        db.collection("staffs")
-                .whereIn("devision", Arrays.asList(value))
+        collectionReference
+                .whereIn("division", Arrays.asList(value))
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
@@ -96,10 +99,9 @@ public class StaffsRepository {
 
     public MutableLiveData<ArrayList<Staffs>> getSearchStaffs(String value) {
         ArrayList<Staffs> staffsList = new ArrayList<>();
-
         final MutableLiveData<ArrayList<Staffs>> staffsMutableLiveData = new MutableLiveData<>();
 
-        db.collection("staffs")
+        collectionReference
                 .whereGreaterThanOrEqualTo("name", value)
                 .whereLessThanOrEqualTo("name",value+"~")
                 .get().addOnCompleteListener(task -> {

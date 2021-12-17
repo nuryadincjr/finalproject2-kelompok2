@@ -153,11 +153,15 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <androidx.recyclerview.widget.RecyclerView
+            <com.cooltechworks.views.shimmer.ShimmerRecyclerView
                 android:id="@+id/rvLable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/list_item_product" />
+                tools:listitem="@layout/list_item_product"
+                app:shimmer_demo_angle="20"
+                app:shimmer_demo_child_count="1"
+                app:shimmer_demo_layout="@layout/layout_demo_list"
+                app:shimmer_demo_layout_manager_type="linear_vertical"/>
 
         </LinearLayout>
 

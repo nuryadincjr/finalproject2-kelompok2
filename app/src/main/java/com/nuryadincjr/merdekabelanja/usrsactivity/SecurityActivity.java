@@ -1,7 +1,11 @@
 package com.nuryadincjr.merdekabelanja.usrsactivity;
 
 import static android.content.ContentValues.TAG;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_UID;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.getInfo;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,14 +20,12 @@ import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.api.UsersRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivitySecurityBinding;
 import com.nuryadincjr.merdekabelanja.models.Users;
-import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
 
 import java.util.ArrayList;
 
 public class SecurityActivity extends AppCompatActivity {
     private ActivitySecurityBinding binding;
-    private LocalPreference localPreference;
     private ProgressDialog dialog;
     private Users users;
     private Menu menu;
@@ -38,11 +40,11 @@ public class SecurityActivity extends AppCompatActivity {
         binding = ActivitySecurityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        localPreference = LocalPreference.getInstance(this);
-        uid = localPreference.getPreferences().getString("UID", "");
+        LocalPreference localPreference = LocalPreference.getInstance(this);
+        uid = localPreference.getPreferences().getString(KEY_UID, "");
         dialog = new ProgressDialog(this);
 
-        onDataSet();
+        if(savedInstanceState == null) onSetData();
     }
 
     @Override
@@ -54,6 +56,7 @@ public class SecurityActivity extends AppCompatActivity {
         return super.onCreatePanelMenu(featureId, menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -64,13 +67,13 @@ public class SecurityActivity extends AppCompatActivity {
                 isEdited(true);
                 return true;
             case R.id.itemHelp:
-                Toast.makeText(this, "Requerment Info", Toast.LENGTH_SHORT).show();
+                getInfo(this);
                 return true;
             case R.id.itemSaves:
                 getInputValidations();
                 return true;
             case R.id.itemCencle:
-                onDataSet();
+                onSetData();
                 isEdited(false);
                 return true;
         }
@@ -87,22 +90,22 @@ public class SecurityActivity extends AppCompatActivity {
     }
 
     private void getInputValidations() {
-        String phone = binding.etPhone.getText().toString();
-        String password = binding.etPassword.getText().toString();
-        String confpassword = binding.etConfPassword.getText().toString();
+        String phone = String.valueOf(binding.etPhone.getText());
+        String password = String.valueOf(binding.etPassword.getText());
+        String confpassword = String.valueOf(binding.etConfPassword.getText());
         if(!phone.isEmpty() && !password.isEmpty() && !confpassword.isEmpty()) {
             if(password.length() > 7) {
                 if(password.equals(confpassword)){
                     users.setPhone(phone);
                     users.setPassword(confpassword);
-                    users.setLatest_update(Constaint.time());
-                    onDataEdied(users);
+                    users.setLatest_update(time());
+                    onEditData(users);
                 } else binding.etPassword.setError("Password canot equals!");
             } else binding.etConfPassword.setError("Password too short!");
         } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
     }
 
-    private void onDataEdied(Users users) {
+    private void onEditData(Users users) {
         dialog.setMessage("Updating account");
         dialog.show();
         new UsersRepository().updateUser(users).addOnSuccessListener(documentReference -> {
@@ -117,7 +120,7 @@ public class SecurityActivity extends AppCompatActivity {
         });
     }
 
-    private void onDataSet() {
+    private void onSetData() {
         new UsersRepository().getUserData(uid).observe(this, (ArrayList<Users> user) -> {
             if(user.size() != 0) {
                 users = user.get(0);

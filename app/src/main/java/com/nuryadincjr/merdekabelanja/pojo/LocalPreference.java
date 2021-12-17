@@ -1,15 +1,17 @@
 package com.nuryadincjr.merdekabelanja.pojo;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_SHARED_PREF;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 
 public class LocalPreference {
     private static LocalPreference instance;
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences preferences;
+    private final SharedPreferences.Editor editor;
 
     public LocalPreference(Context context) {
-        preferences = context.getSharedPreferences(Constaint.SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        preferences = context.getSharedPreferences(KEY_SHARED_PREF, Context.MODE_PRIVATE);
         editor = preferences.edit();
     }
 

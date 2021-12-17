@@ -47,7 +47,7 @@ public class StaffsAdapter extends RecyclerView.Adapter<StaffsAdapter.StaffsView
         this.itemClickListener = itemClickListener;
     }
 
-    public class StaffsViewHolder extends RecyclerView.ViewHolder
+    public static class StaffsViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
         private final StaffsAdapter staffsAdapter;

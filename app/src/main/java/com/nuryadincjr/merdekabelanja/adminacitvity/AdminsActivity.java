@@ -1,5 +1,6 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -46,6 +47,7 @@ public class AdminsActivity extends AppCompatActivity
         }
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -73,14 +75,12 @@ public class AdminsActivity extends AppCompatActivity
         return true;
     }
 
-    public boolean getFragmentPage(Fragment fragment) {
+    public void getFragmentPage(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.flContainer, fragment)
                     .commit();
-            return true;
         }
-        return true;
     }
 }

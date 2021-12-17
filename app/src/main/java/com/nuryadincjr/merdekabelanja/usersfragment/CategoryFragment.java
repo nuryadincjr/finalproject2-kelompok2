@@ -1,5 +1,7 @@
 package com.nuryadincjr.merdekabelanja.usersfragment;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_CATEGORY;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,9 +35,8 @@ public class CategoryFragment extends Fragment {
 
         binding.searchBar.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
             if(hasFocus) {
-                Intent intent = new Intent(getContext(), SearchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
+                startActivity(new Intent(getContext(), SearchActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION));
             }
         });
 
@@ -50,6 +51,7 @@ public class CategoryFragment extends Fragment {
 
     private void getOnClickListener(CardView cardView, String category) {
         cardView.setOnClickListener(v -> startActivity(new Intent(getContext(),
-                CategoryActivity.class).putExtra("ISCATEGORY", category)));
+                CategoryActivity.class).putExtra(NAME_CATEGORY, category)));
     }
+
 }

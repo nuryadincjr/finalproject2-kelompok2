@@ -52,7 +52,7 @@ public class HeadlineAdapter extends RecyclerView.Adapter<HeadlineAdapter.Headli
         this.itemClickListener = itemClickListener;
     }
 
-    public class HeadlineViewHolder extends RecyclerView.ViewHolder
+    public static class HeadlineViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
         private final HeadlineAdapter usersAdapter;

@@ -1,10 +1,15 @@
 package com.nuryadincjr.merdekabelanja.activity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ACTION;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISLOGIN;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_LOGIN;
+
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.InputType;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +28,6 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
-    private ProgressDialog dialog;
     private String isLogin;
 
     @Override
@@ -34,9 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        isLogin = getIntent().getStringExtra("LOGIN");
-
-        dialog = new ProgressDialog(this);
+        isLogin = getIntent().getStringExtra(NAME_LOGIN);
+        ProgressDialog dialog = new ProgressDialog(this);
         dialog.setMessage("Sign in");
         dialog.setCancelable(false);
 
@@ -44,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         getInputValidations();
     }
 
+    @SuppressLint("SetTextI18n")
     private void getIsLogin() {
         switch (isLogin) {
             case "ADMIN":
@@ -53,7 +57,6 @@ public class LoginActivity extends AppCompatActivity {
             case "USER":
                 binding.btnLogin.setText("LOG IN");
                 binding.tiLayout.setHint("Phone number");
-
                 binding.etUsername.setInputType(InputType.TYPE_CLASS_PHONE);
                 break;
         }
@@ -61,12 +64,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getInputValidations() {
         binding.btnLogin.setOnClickListener(v -> {
-            String username = binding.etUsername.getText().toString();
-            String password = binding.etPassword.getText().toString();
+            String username = String.valueOf(binding.etUsername.getText());
+            String password = String.valueOf(binding.etPassword.getText());
 
-            if(!username.isEmpty() && !password.isEmpty()){
-                onLogin(username, password);
-            } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
+            if(!username.isEmpty() && !password.isEmpty()) onLogin(username, password);
+            else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -76,89 +78,49 @@ public class LoginActivity extends AppCompatActivity {
                 Users user = new Users();
                 user.setPhone(username);
                 user.setPassword(password);
-                new UsersRepository().getUserLogin(user).observe(this, (ArrayList<Users> users) -> {
-                    if(users.size() != 0) {
-                        startActivity(new Intent(this, OTPActivity.class)
-                                .putExtra("LOGIN", users.get(0))
-                                .putExtra("TAG", "LOGIN")
-                                .putExtra("ISLOGIN", isLogin));
-                    } else Toast.makeText(this,"Your username or password wrong!",
-                            Toast.LENGTH_SHORT).show();
-                });
+                new UsersRepository().getUserLogin(user).observe(this, this::onChanged);
                 break;
             case "ADMIN":
                 Admins admin = new Admins();
                 admin.setUsername(username);
                 admin.setPassword(password);
-                new AdminsRepository().getAdminLogin(admin).observe(this, (ArrayList<Admins> admins) -> {
-                    if(admins.size() != 0) {
-                        Log.d("LIA", admins.get(0).toString());
-                        startActivity(new Intent(this, OTPActivity.class)
-                                .putExtra("LOGIN", admins.get(0))
-                                .putExtra("TAG", "LOGIN")
-                                .putExtra("ISLOGIN", isLogin));
-                    } else Toast.makeText(this,"Your username or password wrong!",
-                            Toast.LENGTH_SHORT).show();
-                });
+                new AdminsRepository().getAdminLogin(admin).observe(this, this::onChanged);
                 break;
             case "STAFF":
                 Staffs staff = new Staffs();
                 staff.setUsername(username);
                 staff.setPassword(password);
-                new StaffsRepository().getStaffLogin(staff).observe(this, (ArrayList<Staffs> staffs) -> {
-                    if(staffs.size() != 0) {
-                        startActivity(new Intent(this, OTPActivity.class)
-                                .putExtra("LOGIN", staffs.get(0))
-                                .putExtra("TAG", "LOGIN")
-                                .putExtra("ISLOGIN", isLogin));
-                    } else Toast.makeText(this,"Your username or password wrong!",
-                            Toast.LENGTH_SHORT).show();
-                });
+                new StaffsRepository().getStaffLogin(staff).observe(this, this::onChanged);
                 break;
         }switch (isLogin) {
             case "USER":
                 Users user = new Users();
                 user.setPhone(username);
                 user.setPassword(password);
-                new UsersRepository().getUserLogin(user).observe(this, (ArrayList<Users> users) -> {
-                    if(users.size() != 0) {
-                        startActivity(new Intent(this, OTPActivity.class)
-                                .putExtra("LOGIN", users.get(0))
-                                .putExtra("TAG", "LOGIN")
-                                .putExtra("ISLOGIN", isLogin));
-                    } else Toast.makeText(this,"Your username or password wrong!",
-                            Toast.LENGTH_SHORT).show();
-                });
+                new UsersRepository().getUserLogin(user).observe(this, this::onChanged);
                 break;
             case "ADMIN":
                 Admins admin = new Admins();
                 admin.setUsername(username);
                 admin.setPassword(password);
-                new AdminsRepository().getAdminLogin(admin).observe(this, (ArrayList<Admins> admins) -> {
-                    if(admins.size() != 0) {
-                        Log.d("LIA", admins.get(0).toString());
-                        startActivity(new Intent(this, OTPActivity.class)
-                                .putExtra("LOGIN", admins.get(0))
-                                .putExtra("TAG", "LOGIN")
-                                .putExtra("ISLOGIN", isLogin));
-                    } else Toast.makeText(this,"Your username or password wrong!",
-                            Toast.LENGTH_SHORT).show();
-                });
+                new AdminsRepository().getAdminLogin(admin).observe(this,this::onChanged);
                 break;
             case "STAFF":
                 Staffs staff = new Staffs();
                 staff.setUsername(username);
                 staff.setPassword(password);
-                new StaffsRepository().getStaffLogin(staff).observe(this, (ArrayList<Staffs> staffs) -> {
-                    if(staffs.size() != 0) {
-                        startActivity(new Intent(this, OTPActivity.class)
-                                .putExtra("LOGIN", staffs.get(0))
-                                .putExtra("TAG", "LOGIN")
-                                .putExtra("ISLOGIN", isLogin));
-                    } else Toast.makeText(this,"Your username or password wrong!",
-                            Toast.LENGTH_SHORT).show();
-                });
+                new StaffsRepository().getStaffLogin(staff).observe(this, this::onChanged);
                 break;
         }
+    }
+
+    private <T> void onChanged(ArrayList<T> tArrayList) {
+        if (tArrayList.size() != 0) {
+            startActivity(new Intent(this, OTPActivity.class)
+                    .putExtra(NAME_LOGIN, (Parcelable) tArrayList.get(0))
+                    .putExtra(NAME_ACTION, "LOGIN")
+                    .putExtra(NAME_ISLOGIN, isLogin));
+        } else Toast.makeText(this, "Your username or password wrong!",
+                Toast.LENGTH_SHORT).show();
     }
 }

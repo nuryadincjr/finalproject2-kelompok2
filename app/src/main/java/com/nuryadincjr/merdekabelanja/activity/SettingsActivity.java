@@ -1,5 +1,8 @@
 package com.nuryadincjr.merdekabelanja.activity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_ISLOGIN;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_UID;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,7 +18,6 @@ import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private ActivitySettingsBinding binding;
     private LocalPreference localPreference;
 
     @Override
@@ -24,15 +26,15 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        ActivitySettingsBinding binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         localPreference = LocalPreference.getInstance(this);
 
         binding.btnLogout.setOnClickListener(v -> {
             localPreference.getEditor()
-                    .putInt("ISLOGIN", 0)
-                    .putString("UID", null).apply();
+                    .putInt(KEY_ISLOGIN, 0)
+                    .putString(KEY_UID, null).apply();
             startActivity(new Intent(this, LoggedOutActivity.class));
             finishAffinity();
         });

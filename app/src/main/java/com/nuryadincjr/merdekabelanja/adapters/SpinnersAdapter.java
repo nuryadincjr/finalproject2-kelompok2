@@ -1,10 +1,12 @@
 package com.nuryadincjr.merdekabelanja.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 public class SpinnersAdapter {
+    @SuppressLint("StaticFieldLeak")
     private static SpinnersAdapter instance;
     private final Context context;
 
@@ -20,10 +22,10 @@ public class SpinnersAdapter {
     }
 
     public void getSpinnerAdapter(AutoCompleteTextView spinner, int array, String item) {
-        String[] COUNTRIES = context.getResources().getStringArray(array);
+        final String[] stringArray = context.getResources().getStringArray(array);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
-                android.R.layout.simple_spinner_dropdown_item, COUNTRIES);
+                android.R.layout.simple_spinner_dropdown_item, stringArray);
         spinner.setAdapter(adapter);
 
         if(item != null) {

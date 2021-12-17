@@ -8,6 +8,7 @@
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/bg_navbar.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/bg_search.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/bg_title.xml" value="0.21614583333333334" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/bg_title_demo.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_account.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_add.xml" value="0.21614583333333334" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/drawable/ic_archive.xml" value="0.21614583333333334" />
@@ -85,6 +86,8 @@
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/fragment_view_pager_item.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/fragment_viewpager_item.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/headline.xml" value="0.2" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/layout_demo_grid.xml" value="0.33" />
+        <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/layout_demo_list.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/list_category.xml" value="0.2" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/list_hadline.xml" value="0.1956745623069001" />
         <entry key="..\:/ProjectMe/Kampus Merdeka/Final Project 1/MerdekaBelanja/app/src/main/res/layout/list_item.xml" value="0.2" />

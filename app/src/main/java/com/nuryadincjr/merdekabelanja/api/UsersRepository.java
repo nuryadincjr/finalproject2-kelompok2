@@ -1,10 +1,14 @@
 package com.nuryadincjr.merdekabelanja.api;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.COLLECTION_USER;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.TAG;
+
 import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.nuryadincjr.merdekabelanja.models.Users;
@@ -13,26 +17,26 @@ import java.util.ArrayList;
 
 public class UsersRepository {
 
-    private FirebaseFirestore db;
-    private String TAG = "LIA";
+    private final CollectionReference collectionReference;
 
     public UsersRepository() {
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        collectionReference = db.collection(COLLECTION_USER);
     }
 
     public Task<Void> insertUser(Users user) {
-          return db.collection("users").document(user.getUid()).set(user);
+          return collectionReference.document(user.getUid()).set(user);
     }
 
     public Task<Void> updateUser(Users users) {
-        return db.collection("users").document(users.getUid()).set(users);
+        return collectionReference.document(users.getUid()).set(users);
     }
 
     public MutableLiveData<ArrayList<Users>> getUserLogin(Users user) {
         ArrayList<Users> users = new ArrayList<>();
         final MutableLiveData<ArrayList<Users>> usersMutableLiveData = new MutableLiveData<>();
 
-        db.collection("users")
+        collectionReference
                 .whereEqualTo("phone", user.getPhone())
                 .whereEqualTo("password", user.getPassword())
                 .get().addOnCompleteListener(task -> {
@@ -56,7 +60,7 @@ public class UsersRepository {
         ArrayList<Users> users = new ArrayList<>();
         final MutableLiveData<ArrayList<Users>> usersMutableLiveData = new MutableLiveData<>();
 
-        db.collection("users")
+        collectionReference
                 .whereEqualTo("uid", uid)
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
@@ -76,15 +80,14 @@ public class UsersRepository {
     }
 
     public Task<Void> deleteUser(String id) {
-        return db.collection("users").document(id).delete();
+        return collectionReference.document(id).delete();
     }
 
     public MutableLiveData<ArrayList<Users>> getSearchUsers(String value) {
         ArrayList<Users> usersList = new ArrayList<>();
-
         final MutableLiveData<ArrayList<Users>> usersMutableLiveData = new MutableLiveData<>();
 
-        db.collection("users")
+        collectionReference
                 .whereGreaterThanOrEqualTo("name", value)
                 .whereLessThanOrEqualTo("name",value+"~")
                 .get().addOnCompleteListener(task -> {

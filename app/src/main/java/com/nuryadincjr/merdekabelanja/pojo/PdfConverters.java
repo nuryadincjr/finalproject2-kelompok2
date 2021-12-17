@@ -1,5 +1,6 @@
 package com.nuryadincjr.merdekabelanja.pojo;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import java.io.IOException;
 
 public class PdfConverters {
 
+    @SuppressLint("StaticFieldLeak")
     public static PdfConverters pdfDocument;
     public Context context;
 
@@ -45,7 +47,8 @@ public class PdfConverters {
         int convertWidth = displaymetrics.widthPixels;
 
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(convertWidth, convertHighet, 1).create();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(
+                convertWidth, convertHighet, 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Bitmap bitmap = Bitmap.createBitmap(layout.getWidth(), layout.getHeight(), Bitmap.Config.ARGB_8888);
@@ -63,7 +66,8 @@ public class PdfConverters {
 
         document.finishPage(page);
 
-        String pdfPAth = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
+        String pdfPAth = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
         File file = new File(pdfPAth + "/" + fileName +".pdf");
 
         try {
@@ -80,12 +84,12 @@ public class PdfConverters {
     }
 
     private void openPdf(String fileName) {
-        String pdfPAth = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
+        String pdfPAth = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
         File file = new File(pdfPAth + "/" + fileName +".pdf");
 
         if (file.exists()) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-//            BuildConfig.APPLICATION_ID | "com.nuryadincjr.merdekabelanja" | BuildConfig.LIBRARY_PACKAGE_NAME
 
             Uri uri = FileProvider.getUriForFile(context, context.getPackageName()  + ".provider", file);
             intent.setDataAndType(uri, "application/pdf");

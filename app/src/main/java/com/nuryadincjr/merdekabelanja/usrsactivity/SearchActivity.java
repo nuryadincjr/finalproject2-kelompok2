@@ -1,5 +1,7 @@
 package com.nuryadincjr.merdekabelanja.usrsactivity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.nuryadincjr.merdekabelanja.R;
@@ -92,14 +93,13 @@ public class SearchActivity extends AppCompatActivity {
                 List<Products> productsList = new ArrayList<>(products);
                 ProductsAdapter productsAdapter = new ProductsAdapter(session, productsList);
 
-                int spanCoutnt = 2;
-                if(session ==2) {
-                    spanCoutnt = 1;
-                }
+                int viewWidth = binding.rvSearching.getMeasuredWidth();
+                int spanCoutnt = (int) Math.floor(viewWidth / 360f);
+
+                if(session == 2) spanCoutnt = 1;
 
                 binding.rvSearching.setLayoutManager(new GridLayoutManager(this, spanCoutnt));
                 binding.rvSearching.setAdapter(productsAdapter);
-                binding.rvSearching.setItemAnimator(new DefaultItemAnimator());
 
                 onListener(productsAdapter, productsList);
             }
@@ -111,7 +111,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 startActivity(new Intent(getApplicationContext(), DetailItemProductActivity.class).
-                        putExtra("DATA", productsList.get(position)));
+                        putExtra(NAME_DATA, productsList.get(position)));
             }
 
             @Override

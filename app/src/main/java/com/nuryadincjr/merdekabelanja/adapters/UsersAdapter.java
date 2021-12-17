@@ -47,7 +47,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
         this.itemClickListener = itemClickListener;
     }
 
-    public class UsersViewHolder extends RecyclerView.ViewHolder
+    public static class UsersViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
         private final UsersAdapter usersAdapter;

@@ -1,5 +1,12 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.CHILD_PRODUCT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISEDIT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_PRODUCT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.getFileExtension;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
+
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +23,6 @@ import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adapters.SpinnersAdapter;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddElectronicsBinding;
 import com.nuryadincjr.merdekabelanja.models.Electronics;
-import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
 import com.nuryadincjr.merdekabelanja.pojo.ProductsPreference;
 
@@ -30,7 +36,6 @@ public class AddElectronicsActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private ProductsPreference productsPreference;
     private ImagesPreference imagesPreference;
-    private SpinnersAdapter spinnersAdapter;
     private ProgressDialog dialog;
     private List<Uri> uriImageList;
     private Electronics electronics;
@@ -45,32 +50,38 @@ public class AddElectronicsActivity extends AppCompatActivity {
         binding = ActivityAddElectronicsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("product");
+        storageReference = FirebaseStorage.getInstance().getReference()
+                .child(CHILD_PRODUCT);
         productsPreference = ProductsPreference.getInstance(this);
         imagesPreference = ImagesPreference.getInstance(this);
-        spinnersAdapter = SpinnersAdapter.getInstance(this);
+        SpinnersAdapter spinnersAdapter = SpinnersAdapter.getInstance(this);
 
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
         electronics = new Electronics();
-        isEdit = getIntent().getBooleanExtra("ISEDIT", false);
+        isEdit = getIntent().getBooleanExtra(NAME_ISEDIT, false);
 
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
         binding.btnAddPhoto.setOnClickListener(view -> imagesPreference.getMultipleImage(this));
 
-        electronics.setCategory(getIntent().getStringExtra("PRODUCT"));
+        electronics.setCategory(getIntent().getStringExtra(NAME_PRODUCT));
         String titleBar = "Add ";
+        titleBar = getIsEdited(titleBar);
 
+        spinnersAdapter.getSpinnerAdapter(binding.actElectronicType,
+                R.array.electronic_type, electronics.getProduct_type());
+        getSupportActionBar().setTitle(titleBar + electronics.getCategory());
+    }
+
+    @SuppressLint("SetTextI18n")
+    private String getIsEdited(String titleBar) {
         if(isEdit) {
             electronics = getIntent().getParcelableExtra("DATA");
             titleBar = "Edit ";
             onDataSet(electronics);
             binding.btnAddProduct.setText("Save Product");
         }
-
-        spinnersAdapter.getSpinnerAdapter(binding.actElectronicType,
-                R.array.electronic_type, electronics.getProduct_type());
-        getSupportActionBar().setTitle(titleBar + electronics.getCategory());
+        return titleBar;
     }
 
     private void onDataSet(Electronics electronics) {
@@ -94,16 +105,16 @@ public class AddElectronicsActivity extends AppCompatActivity {
         String id = UUID.randomUUID().toString();
         if(isEdit) id = electronics.getId();
 
-        String name = binding.etName.getText().toString();
-        String descriptions = binding.etDescriptions.getText().toString();
-        String piece = binding.etPiece.getText().toString();
-        String quantity = binding.etQuantity.getText().toString();
-        String brandName  = binding.etBrandName.getText().toString();
-        String electronicType  = binding.actElectronicType.getText().toString();
+        String name = String.valueOf(binding.etName.getText());
+        String descriptions = String.valueOf(binding.etDescriptions.getText());
+        String piece = String.valueOf(binding.etPiece.getText());
+        String quantity = String.valueOf(binding.etQuantity.getText());
+        String brandName  = String.valueOf(binding.etBrandName.getText());
+        String electronicType  = String.valueOf(binding.actElectronicType.getText());
 
         if(!name.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() && !electronicType.isEmpty()) {
             Electronics data = new Electronics(id, name, descriptions, null, piece, quantity,
-                    electronics.getCategory(), Constaint.time(), brandName, electronicType);
+                    electronics.getCategory(), time(), brandName, electronicType);
 
             onCreateProduct(data);
 
@@ -111,7 +122,7 @@ public class AddElectronicsActivity extends AppCompatActivity {
     }
 
     private void onCreateProduct(Electronics electronics) {
-        dialog.setMessage("Createing Data..");
+        dialog.setMessage("Creating Data..");
         dialog.setCancelable(false);
         dialog.show();
 
@@ -125,7 +136,7 @@ public class AddElectronicsActivity extends AppCompatActivity {
                 StorageReference filePath = storageReference
                         .child(electronics.getCategory())
                         .child(electronics.getId())
-                        .child("preview" + i + "." + Constaint.getFileExtension(uriImageList.get(i), this));
+                        .child("preview" + i + "." + getFileExtension(uriImageList.get(i), this));
                 int finalI = i;
 
                 filePath.putFile(uriImageList.get(i)).continueWithTask(task -> {
@@ -136,7 +147,7 @@ public class AddElectronicsActivity extends AppCompatActivity {
                     return filePath.getDownloadUrl();
                 }).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        photo.add(finalI, task.getResult().toString());
+                        photo.add(finalI, String.valueOf(task.getResult()));
                         if ((finalI + 1) == uriImageList.size()) {
                             electronics.setPhoto(photo);
 
@@ -157,13 +168,16 @@ public class AddElectronicsActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode != 25 || resultCode != -1) {
             this.binding.btnAddPhoto.setChecked(false);
-        } else if (data.getClipData() != null) {
-            int count = data.getClipData().getItemCount();
-            for (int i = 0; i < count; i++) {
-                uriImageList.add(i, data.getClipData().getItemAt(i).getUri());
-            }
-        } else if (data.getData() != null) {
-            uriImageList.add(0, data.getData());
-        } else binding.btnAddPhoto.setChecked(false);
+        } else {
+            assert data != null;
+            if (data.getClipData() != null) {
+                int count = data.getClipData().getItemCount();
+                for (int i = 0; i < count; i++) {
+                    uriImageList.add(i, data.getClipData().getItemAt(i).getUri());
+                }
+            } else if (data.getData() != null) {
+                uriImageList.add(0, data.getData());
+            } else binding.btnAddPhoto.setChecked(false);
+        }
     }
 }

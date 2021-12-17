@@ -1,5 +1,10 @@
 package com.nuryadincjr.merdekabelanja.activity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISLOGIN;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_LOGIN;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_REGISTER;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -29,16 +34,15 @@ public class LoggedOutActivity extends AppCompatActivity {
         getItem(binding.tvAbout);
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void getItem(TextView p) {
         p.setOnClickListener(v -> {
             switch (p.getId()){
                 case R.id.tvLoginAdmin:
-                    startActivity(new Intent(this, LoginActivity.class)
-                            .putExtra("LOGIN", "ADMIN"));
+                    onClick(LoginActivity.class, NAME_ISLOGIN, "ADMIN");
                     break;
                 case R.id.tvLoginStaff:
-                    startActivity(new Intent(this, LoginActivity.class)
-                            .putExtra("LOGIN", "STAFF"));
+                    onClick(LoginActivity.class, NAME_ISLOGIN, "STAFF");
                     break;
                 case R.id.tvAbout:
                     startActivity(new Intent(this, AboutActivity.class));
@@ -47,18 +51,22 @@ public class LoggedOutActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void getItemUser(Button b) {
         b.setOnClickListener(v -> {
             switch (b.getId()){
                 case R.id.btnLogin:
-                    startActivity(new Intent(this, LoginActivity.class)
-                            .putExtra("LOGIN", "USER"));
+                    onClick(LoginActivity.class,NAME_LOGIN, "USER");
                     break;
                 case R.id.btnRegister:
-                    startActivity(new Intent(this, RegisterActivity.class)
-                            .putExtra("REGISTER", "USER"));
+                    onClick(RegisterActivity.class,NAME_REGISTER, "USER");
                     break;
             }
         });
+    }
+
+    private <T> void onClick(Class<T> tClass, String key, String value) {
+        startActivity(new Intent(this, tClass)
+                .putExtra(key, value));
     }
 }

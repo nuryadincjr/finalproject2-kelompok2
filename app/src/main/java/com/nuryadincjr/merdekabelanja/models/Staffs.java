@@ -4,21 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Staffs extends Admins implements Parcelable {
-    private String devision;
+    private String division;
 
     public Staffs() {
     }
 
     public Staffs(String uid, String name, String phone, String email,
                   String photo, String address, String username, String password,
-                  String latest_update, String status_account, String devision) {
+                  String latest_update, String status_account, String division) {
         super(uid, name, phone, email, photo, address, username, password, latest_update, status_account);
-        this.devision = devision;
+        this.division = division;
     }
 
     protected Staffs(Parcel in) {
         super(in);
-        devision = in.readString();
+        division = in.readString();
     }
 
     public static final Creator<Staffs> CREATOR = new Creator<Staffs>() {
@@ -33,12 +33,12 @@ public class Staffs extends Admins implements Parcelable {
         }
     };
 
-    public String getDevision() {
-        return devision;
+    public String getDivision() {
+        return division;
     }
 
-    public void setDevision(String devision) {
-        this.devision = devision;
+    public void setDivision(String division) {
+        this.division = division;
     }
 
     @Override
@@ -49,6 +49,6 @@ public class Staffs extends Admins implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
-        parcel.writeString(devision);
+        parcel.writeString(division);
     }
 }

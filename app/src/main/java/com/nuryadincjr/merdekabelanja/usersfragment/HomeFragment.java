@@ -1,8 +1,12 @@
 package com.nuryadincjr.merdekabelanja.usersfragment;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_CATEGORY;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +16,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.tabs.TabLayout;
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adapters.HeadlineAdapter;
@@ -60,14 +64,10 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         collect = getResources().getStringArray(R.array.products_type);
-
-        if(savedInstanceState == null) {
-            getData();
-        }
 
         getOnClickListener(binding.tvClothingMore, "Clothing");
         getOnClickListener(binding.tvElectronicsMore, "Electronic");
@@ -76,12 +76,12 @@ public class HomeFragment extends Fragment {
 
         binding.searchBar.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
             if(hasFocus) {
-                Intent intent = new Intent(getContext(), SearchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
+                startActivity(new Intent(getContext(), SearchActivity.class)
+                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NO_ANIMATION));
             }
         });
 
+        onDataSet();
         onHeadlieAdapter();
 
         return binding.getRoot();
@@ -89,19 +89,18 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        TabLayout tabLayout = view.findViewById(R.id.tablayout);
-        new TabLayoutMediator(tabLayout, binding.vpHeadline,
+        new TabLayoutMediator(binding.tablayout, binding.vpHeadline,
                 (tab, position) -> tab.setText("Item " + (position + 1))
         ).attach();
         super.onViewCreated(view, savedInstanceState);
     }
 
     private void onHeadlieAdapter() {
-        Headline[] hats = Headlines.getHeadlines();
+        Headline[] headlines = Headlines.getHeadlines();
         List<Headline> headlineList = new ArrayList<>();
         int i = 0;
-        for(Headline hat: hats){
-            headlineList.add(i, hat);
+        for(Headline headline: headlines){
+            headlineList.add(i, headline);
         }
 
         HeadlineAdapter headlineAdapter = new HeadlineAdapter(headlineList, binding.vpHeadline);
@@ -109,15 +108,13 @@ public class HomeFragment extends Fragment {
         binding.vpHeadline.setOffscreenPageLimit(3);
         binding.vpHeadline.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
-
         binding.tablayout.setSelected(true);
         CompositePageTransformer transformer = new CompositePageTransformer();
         transformer.addTransformer(new MarginPageTransformer(40));
         transformer.addTransformer((page, position) -> {
-            float transpom = 1 - Math.abs(position);
-            page.setScaleY(0.85F + transpom * 0.15F);
+            float transport = 1 - Math.abs(position);
+            page.setScaleY(0.85F + transport * 0.15F);
         });
-
 
         binding.vpHeadline.setPageTransformer(transformer);
         binding.vpHeadline.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -144,8 +141,8 @@ public class HomeFragment extends Fragment {
                         category ="Book";
                         break;
                 }
-                startActivity(new Intent(getContext(),
-                        CategoryActivity.class).putExtra("ISCATEGORY", category));
+                HomeFragment.this.onClick(
+                        CategoryActivity.class, NAME_CATEGORY, category);
             }
 
             @Override
@@ -169,11 +166,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void getOnClickListener(TextView cardView, String category) {
-        cardView.setOnClickListener(v -> startActivity(new Intent(getContext(),
-                CategoryActivity.class).putExtra("ISCATEGORY", category)));
+        cardView.setOnClickListener(v -> onClick(
+                CategoryActivity.class, NAME_CATEGORY, category));
     }
 
-    private void getData() {
+    private void onDataSet() {
         Runnable headlineRunnable = () -> {
             mainViewModel = new MainViewModel(getActivity().getApplication());
 
@@ -185,28 +182,24 @@ public class HomeFragment extends Fragment {
                     if(products.size() != 0) {
                         List<Products> productsList = new ArrayList<>(products);
                         ProductsAdapter productsAdapter = new ProductsAdapter(1, productsList);
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+
                         switch (finalI){
                             case 0:
-                                binding.tvClothingMore.setVisibility(View.VISIBLE);
-                                binding.rvClothing.setAdapter(productsAdapter);
-                                binding.rvClothing.setItemAnimator(new DefaultItemAnimator());
+                                onRecyclerView(productsAdapter, layoutManager, binding.rvClothing);
                                 break;
                             case 1:
-                                binding.tvElectronicsMore.setVisibility(View.VISIBLE);
-                                binding.rvElectronics.setAdapter(productsAdapter);
-                                binding.rvElectronics.setItemAnimator(new DefaultItemAnimator());
+                                onRecyclerView(productsAdapter, layoutManager, binding.rvElectronics);
                                 break;
                             case 2:
-                                binding.tvBooksMore.setVisibility(View.VISIBLE);
-                                binding.rvBooks.setAdapter(productsAdapter);
-                                binding.rvBooks.setItemAnimator(new DefaultItemAnimator());
+                                onRecyclerView(productsAdapter, layoutManager, binding.rvBooks);
                                 break;
                             case 3:
-                                binding.tvOtherMore.setVisibility(View.VISIBLE);
-                                binding.rvOther.setAdapter(productsAdapter);
-                                binding.rvOther.setItemAnimator(new DefaultItemAnimator());
+                                onRecyclerView(productsAdapter, layoutManager, binding.rvOther);
                                 break;
                         }
+
                         onListener(productsAdapter, productsList);
                     }
                 });
@@ -215,12 +208,18 @@ public class HomeFragment extends Fragment {
         headlineHandler.post(headlineRunnable);
     }
 
+    private void onRecyclerView(ProductsAdapter productsAdapter,
+                                LinearLayoutManager layoutManager, ShimmerRecyclerView asRecyclerView) {
+        asRecyclerView.setLayoutManager(layoutManager);
+        asRecyclerView.setAdapter(productsAdapter);
+    }
+
     private void onListener(ProductsAdapter productsAdapter, List<Products> productsList) {
         productsAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                startActivity(new Intent(getContext(), DetailItemProductActivity.class).
-                        putExtra("DATA", productsList.get(position)));
+                HomeFragment.this.onClick(DetailItemProductActivity.class,
+                        NAME_DATA, productsList.get(position));
             }
 
             @Override
@@ -228,5 +227,10 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(), productsList.get(position).getName(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private <T> void onClick(Class<T> tClass, String key, Object value) {
+        startActivity(new Intent(getContext(), tClass)
+                .putExtra(key,  (Parcelable) value));
     }
 }

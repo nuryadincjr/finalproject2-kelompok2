@@ -23,12 +23,10 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String category = getIntent().getStringExtra("ISCATEGORY");
+        String category = getIntent().getStringExtra("CATEGORY");
         getSupportActionBar().setTitle(category);
 
-        if(savedInstanceState == null) {
-            onSetData(category);
-        }
+        if(savedInstanceState == null) onSetData(category);
     }
 
     private void onSetData(String category) {

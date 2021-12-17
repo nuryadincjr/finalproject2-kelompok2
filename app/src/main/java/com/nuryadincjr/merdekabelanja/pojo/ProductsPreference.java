@@ -2,6 +2,7 @@ package com.nuryadincjr.merdekabelanja.pojo;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -12,9 +13,10 @@ import com.nuryadincjr.merdekabelanja.api.ProductsRepository;
 import com.nuryadincjr.merdekabelanja.models.Products;
 
 public class ProductsPreference {
+    @SuppressLint("StaticFieldLeak")
     private static ProductsPreference instance;
-    private ProgressDialog dialog;
-    private Context context;
+    private final ProgressDialog dialog;
+    private final Context context;
 
     public ProductsPreference(Context context) {
         this.context = context;
@@ -29,7 +31,7 @@ public class ProductsPreference {
     }
 
     public void onCreateData(Products products, Activity activity) {
-        dialog.setMessage("Setuping data..");
+        dialog.setMessage("Setup data..");
 
         new ProductsRepository().insertProducts(products).addOnSuccessListener(documentReference -> {
             Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
@@ -45,7 +47,7 @@ public class ProductsPreference {
     }
 
     public void onUpdateData(Products products, ProgressDialog dialog) {
-        dialog.setMessage("Setuping data..");
+        dialog.setMessage("Setup data..");
 
         new ProductsRepository().updateProducts(products).addOnSuccessListener(documentReference -> {
             Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);

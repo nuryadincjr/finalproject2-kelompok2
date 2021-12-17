@@ -1,7 +1,13 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
 import static android.content.ContentValues.TAG;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.CHILD_ADMIN;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.CHILD_PROFILE;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_UID;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.getFileExtension;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -23,7 +29,6 @@ import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.api.AdminsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAdminsProfileBinding;
 import com.nuryadincjr.merdekabelanja.models.Admins;
-import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
 import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
 import com.nuryadincjr.merdekabelanja.pojo.PdfConverters;
@@ -34,7 +39,6 @@ public class AdminsProfileActivity extends AppCompatActivity {
 
     private ActivityAdminsProfileBinding binding;
     private StorageReference storageReference;
-    private LocalPreference localPreference;
     private ImagesPreference imagesPreference;
     private ProgressDialog dialog;
     private Uri imageUri;
@@ -50,15 +54,16 @@ public class AdminsProfileActivity extends AppCompatActivity {
         binding = ActivityAdminsProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("admins").child("profiles");
+        storageReference = FirebaseStorage.getInstance().getReference()
+                .child(CHILD_ADMIN).child(CHILD_PROFILE);
         imagesPreference = ImagesPreference.getInstance(this);
-        localPreference = new LocalPreference(this);
+        LocalPreference localPreference = new LocalPreference(this);
         dialog = new ProgressDialog(this);
 
-        String uid = localPreference.getPreferences().getString("UID", "");
+        String uid = localPreference.getPreferences().getString(KEY_UID, "");
 
         onSetData(uid);
-        setFocusable(false);
+        setFocusable();
     }
 
     @Override
@@ -70,6 +75,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -120,28 +126,28 @@ public class AdminsProfileActivity extends AppCompatActivity {
     private void getDataCencled() {
         onSetData(data.getUid());
         getSupportActionBar().setTitle("Details Admins");
-        setFocusable(false);
+        setFocusable();
         setVisibleMenu(false, true);
     }
 
     private void getDataEdited() {
         getSupportActionBar().setTitle("Edits Admins");
-        setFocusableInTouchMode(true);
+        setFocusableInTouchMode();
         setVisibleMenu(true, false);
         binding.ivPhoto.setOnClickListener(view -> imagesPreference.getSinggleImage(this));
     }
 
     private void getDataChange() {
-        String fullname = binding.tvName.getText().toString();
+        String fullName = binding.tvName.getText().toString();
         String phone = binding.tvPhone.getText().toString();
         String email = binding.tvEmail.getText().toString();
         String address = binding.tvAddress.getText().toString();
-        String etUsername = binding.tvUsername.getText().toString();
+        String userName = binding.tvUsername.getText().toString();
 
-        if(!fullname.isEmpty() && !phone.isEmpty() &&
-                !email.isEmpty() && !etUsername.isEmpty()) {
-            Admins admins = new Admins(data.getUid(), fullname, phone, email,
-                    "", address, email, data.getPassword(), Constaint.time(),
+        if(!fullName.isEmpty() && !phone.isEmpty() &&
+                !email.isEmpty() && !userName.isEmpty()) {
+            Admins admins = new Admins(data.getUid(), fullName, phone, email,
+                    "", address, email, data.getPassword(), time(),
                     "register");
             onDataChange(admins);
         } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
@@ -154,25 +160,25 @@ public class AdminsProfileActivity extends AppCompatActivity {
         menu.findItem(R.id.itemPrint).setVisible(visible2);
     }
 
-    private void setFocusable(boolean isFocusable) {
-        binding.tvId.setFocusable(isFocusable);
-        binding.tvName.setFocusable(isFocusable);
-        binding.tvPhone.setFocusable(isFocusable);
-        binding.tvEmail.setFocusable(isFocusable);
-        binding.tvAddress.setFocusable(isFocusable);
-        binding.tvUsername.setFocusable(isFocusable);
-        binding.tvPawword.setFocusable(isFocusable);
-        binding.ivPhoto.setEnabled(isFocusable);
+    private void setFocusable() {
+        binding.tvId.setFocusable(false);
+        binding.tvName.setFocusable(false);
+        binding.tvPhone.setFocusable(false);
+        binding.tvEmail.setFocusable(false);
+        binding.tvAddress.setFocusable(false);
+        binding.tvUsername.setFocusable(false);
+        binding.tvPawword.setFocusable(false);
+        binding.ivPhoto.setEnabled(false);
     }
 
-    private void setFocusableInTouchMode(boolean isFocusable) {
-        binding.tvName.setFocusableInTouchMode(isFocusable);
-        binding.tvPhone.setFocusableInTouchMode(isFocusable);
-        binding.tvEmail.setFocusableInTouchMode(isFocusable);
-        binding.tvAddress.setFocusableInTouchMode(isFocusable);
-        binding.tvUsername.setFocusableInTouchMode(isFocusable);
-        binding.tvPawword.setFocusableInTouchMode(isFocusable);
-        binding.ivPhoto.setEnabled(isFocusable);
+    private void setFocusableInTouchMode() {
+        binding.tvName.setFocusableInTouchMode(true);
+        binding.tvPhone.setFocusableInTouchMode(true);
+        binding.tvEmail.setFocusableInTouchMode(true);
+        binding.tvAddress.setFocusableInTouchMode(true);
+        binding.tvUsername.setFocusableInTouchMode(true);
+        binding.tvPawword.setFocusableInTouchMode(true);
+        binding.ivPhoto.setEnabled(true);
     }
 
     private void onDataChange(Admins admins) {
@@ -184,7 +190,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
             dialog.setMessage("Uploading file..");
 
             StorageReference filePath = storageReference.child(admins.getUid())
-                    .child(admins.getUid() + "." + Constaint.getFileExtension(imageUri, this));
+                    .child(admins.getUid() + "." + getFileExtension(imageUri, this));
             StorageTask<UploadTask.TaskSnapshot> uploadTask = filePath.putFile(imageUri);
 
             uploadTask.continueWithTask(task -> {
@@ -193,6 +199,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
             }).addOnCompleteListener(task -> {
                 if(task.isSuccessful()) {
                     Uri downdoadUri = task.getResult();
+                    assert downdoadUri != null;
                     admins.setPhoto(downdoadUri.toString());
 
                     onCreateData(admins);
@@ -202,7 +209,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
     }
 
     private void onCreateData(Admins admins) {
-        dialog.setMessage("Setuping profile..");
+        dialog.setMessage("Setup profile..");
 
         new AdminsRepository().updateAdmins(admins).addOnSuccessListener(documentReference -> {
             dialog.dismiss();
@@ -211,7 +218,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
                     "Success.", Toast.LENGTH_SHORT).show();
 
             getSupportActionBar().setTitle("Details Staff");
-            setFocusable(false);
+            setFocusable();
             setVisibleMenu(false, true);
 
         }).addOnFailureListener(e -> {

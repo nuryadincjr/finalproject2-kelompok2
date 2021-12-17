@@ -1,5 +1,6 @@
 package com.nuryadincjr.merdekabelanja.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +25,12 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public final int SECTION_VIEW = 0;
     public final int CONTENT_VIEW = 1;
     public final int CONTENT_SEARCH = 2;
-    public final int sesssion;
+    public final int session;
 
 
-    public ProductsAdapter(int sesssion, List<Products> data) {
+    public ProductsAdapter(int session, List<Products> data) {
         this.data = data;
-        this.sesssion = sesssion;
+        this.session = session;
     }
 
     @NonNull
@@ -55,9 +56,9 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (sesssion == 0) {
+        if (session == 0) {
             return SECTION_VIEW;
-        } else if (sesssion == 1) {
+        } else if (session == 1) {
             return CONTENT_VIEW;
         } else return CONTENT_SEARCH;
     }
@@ -86,7 +87,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.itemClickListener = itemClickListener;
     }
 
-    public class ProductsViewHolder extends RecyclerView.ViewHolder
+    public static class ProductsViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
         private final ProductsAdapter productsAdapter;
@@ -119,7 +120,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public class OtherProductsViewHolder extends RecyclerView.ViewHolder
+    public static class OtherProductsViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
         private final ProductsAdapter productsAdapter;
@@ -134,6 +135,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             binding.getRoot().setOnClickListener(this);
         }
 
+        @SuppressLint("SetTextI18n")
         public void setDataToView(Products products) {
             binding.tvTitle.setText(products.getName());
             binding.tvPiece.setText("IDR "+products.getPiece() );
@@ -162,7 +164,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public class SearchProductsViewHolder extends RecyclerView.ViewHolder
+    public static class SearchProductsViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
         private final ProductsAdapter productsAdapter;
@@ -177,6 +179,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             binding.getRoot().setOnClickListener(this);
         }
 
+        @SuppressLint("SetTextI18n")
         public void setDataToView(Products products) {
             binding.tvTitle.setText(products.getName());
             binding.tvPiece.setText(products.getCategory() );

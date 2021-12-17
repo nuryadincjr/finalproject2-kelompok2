@@ -1,5 +1,9 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISPRINT;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,8 +37,8 @@ public class DetailsUserActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         storage = FirebaseStorage.getInstance();
-        data = getIntent().getParcelableExtra("DATA");
-        isPrint = getIntent().getBooleanExtra("ISPRINT", false);
+        data = getIntent().getParcelableExtra(NAME_DATA);
+        isPrint = getIntent().getBooleanExtra(NAME_ISPRINT, false);
     }
 
     @Override
@@ -51,6 +55,7 @@ public class DetailsUserActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -58,7 +63,7 @@ public class DetailsUserActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
             case R.id.itemEdit:
-                getDataEdited();
+//                getDataEdited();
                 return true;
             case R.id.itemDelete:
                 getDataDelete();
@@ -77,12 +82,6 @@ public class DetailsUserActivity extends AppCompatActivity {
             }
         });
         finish();
-    }
-
-    private void getDataEdited() {
-//        startActivity(new Intent(getContext(), RegisterActivity.class)
-//                            .putExtra("DATA", users)
-//                            .putExtra("ISEDITED", true));
     }
 
     private void onDataSet(Users users) {

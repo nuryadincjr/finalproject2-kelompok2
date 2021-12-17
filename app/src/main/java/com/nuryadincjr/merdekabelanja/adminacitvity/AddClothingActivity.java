@@ -1,5 +1,13 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.CHILD_PRODUCT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISEDIT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_PRODUCT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.getFileExtension;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
+
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,14 +26,12 @@ import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adapters.SpinnersAdapter;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddClothingBinding;
 import com.nuryadincjr.merdekabelanja.models.Clothing;
-import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
 import com.nuryadincjr.merdekabelanja.pojo.ProductsPreference;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class AddClothingActivity extends AppCompatActivity {
 
@@ -33,13 +39,12 @@ public class AddClothingActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private ProductsPreference productsPreference;
     private ImagesPreference imagesPreference;
-    private SpinnersAdapter spinnersAdapter;
     private ProgressDialog dialog;
     private List<Uri> uriImageList;
     private Clothing clothing;
     private boolean isEdit;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,38 +54,44 @@ public class AddClothingActivity extends AppCompatActivity {
         binding = ActivityAddClothingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("product");
+        storageReference = FirebaseStorage.getInstance().getReference()
+                .child(CHILD_PRODUCT);
         productsPreference = ProductsPreference.getInstance(this);
         imagesPreference = ImagesPreference.getInstance(this);
-        spinnersAdapter = SpinnersAdapter.getInstance(this);
+        SpinnersAdapter spinnersAdapter = SpinnersAdapter.getInstance(this);
 
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
         clothing = new Clothing();
-        isEdit = getIntent().getBooleanExtra("ISEDIT", false);
+        isEdit = getIntent().getBooleanExtra(NAME_ISEDIT, false);
 
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
         binding.btnAddPhoto.setOnClickListener(view -> imagesPreference.getMultipleImage(this));
 
-        clothing.setCategory(getIntent().getStringExtra("PRODUCT"));
+        clothing.setCategory(getIntent().getStringExtra(NAME_PRODUCT));
         String titleBar = "Add ";
-
-        if(isEdit) {
-            clothing = getIntent().getParcelableExtra("DATA");
-            titleBar = "Edit ";
-            onDataSet(clothing);
-            binding.btnAddProduct.setText("Save Product");
-        }
+        titleBar = getIsEdited(titleBar);
 
         spinnersAdapter.getSpinnerAdapter(binding.actGender, R.array.gender , clothing.getGender());
         getSupportActionBar().setTitle(titleBar + clothing.getCategory());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint("SetTextI18n")
+    private String getIsEdited(String titleBar) {
+        if(isEdit) {
+            clothing = getIntent().getParcelableExtra(NAME_DATA);
+            titleBar = "Edit ";
+            onDataSet(clothing);
+            binding.btnAddProduct.setText("Save Product");
+        }
+        return titleBar;
+    }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void onDataSet(Clothing clothing) {
-        String  size = clothing.getSize().stream().collect(Collectors.joining(","));
-        String  color = clothing.getColor().stream().collect(Collectors.joining(","));
+        String  size = String.join(",", clothing.getSize());
+        String  color = String.join(",", clothing.getColor());
 
         binding.etName.setText(clothing.getName());
         binding.etDescriptions.setText(clothing.getDescriptions());
@@ -93,10 +104,9 @@ public class AddClothingActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -105,18 +115,18 @@ public class AddClothingActivity extends AppCompatActivity {
         String id = UUID.randomUUID().toString();
         if(isEdit) id = clothing.getId();
 
-        String name = binding.etName.getText().toString();
-        String descriptions = binding.etDescriptions.getText().toString();
-        String piece = binding.etPiece.getText().toString();
-        String quantity = binding.etQuantity.getText().toString();
-        String brand_name  = binding.etBrandName.getText().toString();
-        String sizes  = binding.etSizes.getText().toString();
-        String colors  = binding.etColors.getText().toString();
-        String gender  = binding.actGender.getText().toString();
+        String name = String.valueOf(binding.etName.getText());
+        String descriptions = String.valueOf(binding.etDescriptions.getText());
+        String piece = String.valueOf(binding.etPiece.getText());
+        String quantity = String.valueOf(binding.etQuantity.getText());
+        String brand_name  = String.valueOf(binding.etBrandName.getText());
+        String sizes  = String.valueOf(binding.etSizes.getText());
+        String colors  = String.valueOf(binding.etColors.getText());
+        String gender  = String.valueOf(binding.actGender.getText());
 
         if(!name.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() && !gender.isEmpty()) {
             clothing = new Clothing(id, name, descriptions, null, piece,
-                    quantity, this.clothing.getCategory(),  Constaint.time(), gender,
+                    quantity, this.clothing.getCategory(),  time(), gender,
                     brand_name, imagesPreference.getList(sizes), imagesPreference.getList(colors));
 
             onCreateProduct(clothing);
@@ -140,7 +150,7 @@ public class AddClothingActivity extends AppCompatActivity {
                         .child(clothing.getCategory())
                         .child(clothing.getId())
                         .child("preview" + i + "." +
-                                Constaint.getFileExtension(uriImageList.get(i), this));
+                                getFileExtension(uriImageList.get(i), this));
                 int finalI = i;
 
                 filePath.putFile(uriImageList.get(i)).continueWithTask(task -> {
@@ -151,7 +161,7 @@ public class AddClothingActivity extends AppCompatActivity {
                     return filePath.getDownloadUrl();
                 }).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        photo.add(finalI, task.getResult().toString());
+                        photo.add(finalI, String.valueOf(task.getResult()));
                         if ((finalI + 1) == uriImageList.size()) {
                             clothing.setPhoto(photo);
 
@@ -172,13 +182,16 @@ public class AddClothingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode != 25 || resultCode != -1) {
             this.binding.btnAddPhoto.setChecked(false);
-        } else if (data.getClipData() != null) {
-            int count = data.getClipData().getItemCount();
-            for (int i = 0; i < count; i++) {
-                uriImageList.add(i, data.getClipData().getItemAt(i).getUri());
-            }
-        } else if (data.getData() != null) {
-            uriImageList.add(0, data.getData());
-        } else binding.btnAddPhoto.setChecked(false);
+        } else {
+            assert data != null;
+            if (data.getClipData() != null) {
+                int count = data.getClipData().getItemCount();
+                for (int i = 0; i < count; i++) {
+                    uriImageList.add(i, data.getClipData().getItemAt(i).getUri());
+                }
+            } else if (data.getData() != null) {
+                uriImageList.add(0, data.getData());
+            } else binding.btnAddPhoto.setChecked(false);
+        }
     }
 }

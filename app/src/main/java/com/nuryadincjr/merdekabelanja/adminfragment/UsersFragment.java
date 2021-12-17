@@ -1,7 +1,12 @@
 package com.nuryadincjr.merdekabelanja.adminfragment;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISPRINT;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.google.firebase.storage.FirebaseStorage;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adapters.UsersAdapter;
+import com.nuryadincjr.merdekabelanja.adminacitvity.DetailsStaffActivity;
 import com.nuryadincjr.merdekabelanja.adminacitvity.DetailsUserActivity;
 import com.nuryadincjr.merdekabelanja.api.UsersRepository;
 import com.nuryadincjr.merdekabelanja.databinding.FragmentUsersBinding;
@@ -40,7 +46,7 @@ public class UsersFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentUsersBinding.inflate(inflater, container, false);
         setHasOptionsMenu(true);
@@ -52,9 +58,7 @@ public class UsersFragment extends Fragment {
             binding.swipeRefresh.setRefreshing(false);
         });
 
-        if(savedInstanceState == null) {
-            getData("");
-        }
+        if(savedInstanceState == null) getData("");
 
         return binding.getRoot();
     }
@@ -110,8 +114,8 @@ public class UsersFragment extends Fragment {
         usersAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                startActivity(new Intent(getContext(), DetailsUserActivity.class)
-                        .putExtra("DATA", usersList.get(position)));
+                UsersFragment.this.onClick(DetailsStaffActivity.class,
+                        usersList.get(position), null);
             }
 
             @Override
@@ -131,6 +135,7 @@ public class UsersFragment extends Fragment {
         getData("");
     }
 
+    @SuppressLint("NonConstantResourceId")
     public void openMenuEditPopup(View view, Users users) {
         PopupMenu menu = new PopupMenu(view.getContext(), view);
         menu.getMenuInflater().inflate(R.menu.menu_edit, menu.getMenu());
@@ -140,21 +145,23 @@ public class UsersFragment extends Fragment {
         menu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.itemEdit:
-//                    startActivity(new Intent(getContext(), RegisterActivity.class)
-//                            .putExtra("DATA", users)
-//                            .putExtra("ISEDIT", true));
+//                    onClick(RegisterActivity.class, users, NAME_ISEDIT);
                     break;
                 case R.id.itemDelete:
                     getDataDelete(users);
                     break;
                 case R.id.itemPrint:
-                    startActivity(new Intent(getContext(), DetailsUserActivity.class)
-                            .putExtra("DATA", users)
-                            .putExtra("ISPRINT", true));
+                    onClick(DetailsUserActivity.class, users, NAME_ISPRINT);
                     break;
             }
             return true;
         });
         menu.show();
+    }
+
+    private <T> void onClick(Class<T> tClass, Object tData, String key) {
+        startActivity(new Intent(getContext(), tClass)
+                .putExtra(NAME_DATA, (Parcelable) tData)
+                .putExtra(key, true));
     }
 }

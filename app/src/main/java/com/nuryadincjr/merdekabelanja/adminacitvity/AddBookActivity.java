@@ -1,5 +1,12 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISEDIT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_PRODUCT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.getFileExtension;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
+
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +23,6 @@ import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adapters.SpinnersAdapter;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddBookBinding;
 import com.nuryadincjr.merdekabelanja.models.Books;
-import com.nuryadincjr.merdekabelanja.pojo.Constaint;
 import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
 import com.nuryadincjr.merdekabelanja.pojo.ProductsPreference;
 
@@ -30,7 +36,6 @@ public class AddBookActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private ProductsPreference productsPreference;
     private ImagesPreference imagesPreference;
-    private SpinnersAdapter spinnersAdapter;
     private List<Uri> uriImageList;
     private ProgressDialog dialog;
     private Books books;
@@ -48,28 +53,33 @@ public class AddBookActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference().child("product");
         productsPreference = ProductsPreference.getInstance(this);
         imagesPreference = ImagesPreference.getInstance(this);
-        spinnersAdapter = SpinnersAdapter.getInstance(this);
+        SpinnersAdapter spinnersAdapter = SpinnersAdapter.getInstance(this);
 
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
         books = new Books();
-        isEdit = getIntent().getBooleanExtra("ISEDIT", false);
+        isEdit = getIntent().getBooleanExtra(NAME_ISEDIT, false);
 
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
         binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getMultipleImage(this));
 
-        books.setCategory(getIntent().getStringExtra("PRODUCT"));
+        books.setCategory(getIntent().getStringExtra(NAME_PRODUCT));
         String titleBar = "Add ";
+        titleBar = getIsEdited(titleBar);
 
+        spinnersAdapter.getSpinnerAdapter(binding.actBookType, R.array.book_type, books.getBook_type());
+        getSupportActionBar().setTitle(titleBar + books.getCategory());
+    }
+
+    @SuppressLint("SetTextI18n")
+    private String getIsEdited(String titleBar) {
         if(isEdit) {
-            books = getIntent().getParcelableExtra("DATA");
+            books = getIntent().getParcelableExtra(NAME_DATA);
             titleBar = "Edit ";
             onDataSet(books);
             binding.btnAddProduct.setText("Save Product");
         }
-
-        spinnersAdapter.getSpinnerAdapter(binding.actBookType, R.array.book_type, books.getBook_type());
-        getSupportActionBar().setTitle(titleBar + books.getCategory());
+        return titleBar;
     }
 
     private void onDataSet(Books books) {
@@ -96,19 +106,19 @@ public class AddBookActivity extends AppCompatActivity {
         String id = UUID.randomUUID().toString();
         if(isEdit) id = books.getId();
 
-        String title = binding.etTitle.getText().toString();
-        String author = binding.etAuthor.getText().toString();
-        String publisher = binding.etPublisher.getText().toString();
-        String publisherYear = binding.etPublisherYear.getText().toString();
-        String numberOfPage = binding.etNumberOfPage.getText().toString();
-        String descriptions = binding.etDescriptions.getText().toString();
-        String piece = binding.etPiece.getText().toString();
-        String quantity = binding.etQuantity.getText().toString();
-        String bookType = binding.actBookType.getText().toString();
+        String title = String.valueOf(binding.etTitle.getText());
+        String author = String.valueOf(binding.etAuthor.getText());
+        String publisher = String.valueOf(binding.etPublisher.getText());
+        String publisherYear = String.valueOf(binding.etPublisherYear.getText());
+        String numberOfPage = String.valueOf(binding.etNumberOfPage.getText());
+        String descriptions = String.valueOf(binding.etDescriptions.getText());
+        String piece = String.valueOf(binding.etPiece.getText());
+        String quantity = String.valueOf(binding.etQuantity.getText());
+        String bookType = String.valueOf(binding.actBookType.getText());
 
         if(!title.isEmpty() && !piece.isEmpty() && !quantity.isEmpty() && !bookType.isEmpty()) {
             books = new Books(id, title, descriptions, null, piece, quantity,
-                    this.books.getCategory(), author, Constaint.time(), publisher, publisherYear,
+                    this.books.getCategory(), author, time(), publisher, publisherYear,
                     bookType, Integer.parseInt(numberOfPage));
             onCreateProduct(books);
 
@@ -116,7 +126,7 @@ public class AddBookActivity extends AppCompatActivity {
     }
 
     private void onCreateProduct(Books books) {
-        dialog.setMessage("Createing Data..");
+        dialog.setMessage("Creating Data..");
         dialog.setCancelable(false);
         dialog.show();
 
@@ -124,13 +134,13 @@ public class AddBookActivity extends AppCompatActivity {
         books.setPhoto(photo);
 
         if (!uriImageList.isEmpty()) {
-            dialog.setMessage("Setuping data..");
+            dialog.setMessage("Setup data..");
 
             for (int i = 0; i < uriImageList.size(); i++) {
                 StorageReference filePath = storageReference
                         .child(books.getCategory())
                         .child(books.getId())
-                        .child("preview" + i + "." + Constaint.getFileExtension(uriImageList.get(i), this));
+                        .child("preview" + i + "." + getFileExtension(uriImageList.get(i), this));
                 int finalI = i;
 
                 filePath.putFile(uriImageList.get(i)).continueWithTask(task -> {
@@ -141,7 +151,7 @@ public class AddBookActivity extends AppCompatActivity {
                     return filePath.getDownloadUrl();
                 }).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        photo.add(finalI, task.getResult().toString());
+                        photo.add(finalI, String.valueOf(task.getResult()));
                         if ((finalI + 1) == uriImageList.size()) {
                             books.setPhoto(photo);
 
@@ -162,13 +172,16 @@ public class AddBookActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode != 25 || resultCode != -1) {
             this.binding.btnAddPhoto.setChecked(false);
-        } else if (data.getClipData() != null) {
-            int count = data.getClipData().getItemCount();
-            for (int i = 0; i < count; i++) {
-                uriImageList.add(i, data.getClipData().getItemAt(i).getUri());
-            }
-        } else if (data.getData() != null) {
-            uriImageList.add(0, data.getData());
-        } else binding.btnAddPhoto.setChecked(false);
+        } else {
+            assert data != null;
+            if (data.getClipData() != null) {
+                int count = data.getClipData().getItemCount();
+                for (int i = 0; i < count; i++) {
+                    uriImageList.add(i, data.getClipData().getItemAt(i).getUri());
+                }
+            } else if (data.getData() != null) {
+                uriImageList.add(0, data.getData());
+            } else binding.btnAddPhoto.setChecked(false);
+        }
     }
 }

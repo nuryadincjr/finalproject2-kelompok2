@@ -1,5 +1,9 @@
 package com.nuryadincjr.merdekabelanja.usrsactivity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.SESSION_FIRST;
+
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,7 +39,7 @@ public class DetailItemProductActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        data = getIntent().getParcelableExtra("DATA");
+        data = getIntent().getParcelableExtra(NAME_DATA);
     }
 
     @Override
@@ -53,11 +57,12 @@ public class DetailItemProductActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("SetTextI18n")
     private void onDataSet(Products product) {
         binding.tvName.setText(product.getName());
         binding.tvPiece.setText("IDR "+product.getPiece());
         binding.tvDescriptions.setText(product.getDescriptions());
-        binding.tvStock.setText("Avilable "+product.getQuantity()+" PIC");
+        binding.tvStock.setText("Available "+product.getQuantity()+" PIC");
         binding.tvCategory.setText(product.getCategory());
 
         if(product.getPhoto().size()!=0) {
@@ -83,9 +88,9 @@ public class DetailItemProductActivity extends AppCompatActivity {
         new ProductsRepository().getSinggleProduct(product).
                 observe(this, (Map<String, Object> maps) -> {
                     Object[] key = maps.keySet().toArray();
-                    Map<String, Object> value = maps;
 
-                    ProductItemAdapter productItemAdapter = new ProductItemAdapter(key, value, 1, null);
+                    ProductItemAdapter productItemAdapter =
+                            new ProductItemAdapter(key, maps, SESSION_FIRST, null);
                     binding.rvLable.setLayoutManager(new LinearLayoutManager(this));
                     binding.rvLable.setAdapter(productItemAdapter);
                     binding.rvLable.setItemAnimator(new DefaultItemAnimator());

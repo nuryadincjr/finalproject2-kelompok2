@@ -32,11 +32,11 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             // is data dammy
             // user
-            isLogin = 1;
-            localPreference.getEditor().putString("UID", "71DKdinEJVTbs2sORDwnsRzGBqJ3").apply();
+//            isLogin = 1;
+//            localPreference.getEditor().putString("UID", "71DKdinEJVTbs2sORDwnsRzGBqJ3").apply();
 //            // admin
-//            isLogin = 2;
-//            localPreference.getEditor().putString("UID", "Ys93PYaUpsgB5kel2tow0RPNnr13").apply();
+            isLogin = 2;
+            localPreference.getEditor().putString("UID", "Ys93PYaUpsgB5kel2tow0RPNnr13").apply();
             // end data dammy
 
             Intent intent = new Intent();

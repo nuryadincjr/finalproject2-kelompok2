@@ -64,119 +64,123 @@
                 app:tabMaxWidth="10dp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvClothingMore"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvElectronicsMore"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:background="?selectableItemBackground"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:text="@string/electronics"
-                    android:textSize="18sp"
-                    android:visibility="gone"
-                    app:drawableRightCompat="@drawable/ic_baseline_arrow"
-                    tools:visibility="visible" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvElectronics"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/list_view_product" />
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:padding="10dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="@string/clothing_amp_accesoriss"
+                android:textSize="18sp"
+                app:drawableRightCompat="@drawable/ic_baseline_arrow" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvClothingMore"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:background="?selectableItemBackground"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:text="@string/clothing_amp_accesoriss"
-                    android:textSize="18sp"
-                    android:visibility="gone"
-                    app:drawableRightCompat="@drawable/ic_baseline_arrow"
-                    tools:visibility="visible" />
-
-                <androidx.recyclerview.widget.RecyclerView
+                <com.cooltechworks.views.shimmer.ShimmerRecyclerView
                     android:id="@+id/rvClothing"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:shimmer_demo_angle="20"
+                    app:shimmer_demo_child_count="10"
+                    app:shimmer_demo_grid_child_count="2"
+                    app:shimmer_demo_layout="@layout/layout_demo_grid"
+                    app:shimmer_demo_layout_manager_type="linear_horizontal"
                     tools:listitem="@layout/list_view_product" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvElectronicsMore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:padding="10dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="@string/electronics"
+                android:textSize="18sp"
+                app:drawableRightCompat="@drawable/ic_baseline_arrow" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvBooksMore"
+                <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+                    android:id="@+id/rvElectronics"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:background="?selectableItemBackground"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:text="@string/books"
-                    android:textSize="18sp"
-                    android:visibility="gone"
-                    app:drawableRightCompat="@drawable/ic_baseline_arrow"
-                    tools:visibility="visible" />
+                    android:layout_height="match_parent"
+                    app:shimmer_demo_angle="20"
+                    app:shimmer_demo_child_count="10"
+                    app:shimmer_demo_grid_child_count="2"
+                    app:shimmer_demo_layout="@layout/layout_demo_grid"
+                    app:shimmer_demo_layout_manager_type="linear_horizontal"
+                    tools:listitem="@layout/list_view_product" />
+            </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
+            <TextView
+                android:id="@+id/tvBooksMore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:padding="10dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="@string/books"
+                android:textSize="18sp"
+                app:drawableRightCompat="@drawable/ic_baseline_arrow" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.cooltechworks.views.shimmer.ShimmerRecyclerView
                     android:id="@+id/rvBooks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/list_view_product" />
+                    tools:listitem="@layout/list_view_product"
+                    app:shimmer_demo_child_count="10"
+                    app:shimmer_demo_grid_child_count="2"
+                    app:shimmer_demo_layout="@layout/layout_demo_grid"
+                    app:shimmer_demo_layout_manager_type="linear_horizontal"
+                    app:shimmer_demo_angle="20"/>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvOtherMore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="8dp"
+                android:background="?selectableItemBackground"
+                android:padding="10dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="@string/other_products"
+                android:textSize="18sp"
+                app:drawableRightCompat="@drawable/ic_baseline_arrow" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvOtherMore"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="?selectableItemBackground"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:padding="10dp"
-                    android:text="@string/other_products"
-                    android:textSize="18sp"
-                    android:visibility="gone"
-                    app:drawableRightCompat="@drawable/ic_baseline_arrow"
-                    tools:visibility="visible" />
-
-                <androidx.recyclerview.widget.RecyclerView
+                <com.cooltechworks.views.shimmer.ShimmerRecyclerView
                     android:id="@+id/rvOther"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_height="wrap_content"
+                    app:shimmer_demo_angle="20"
+                    app:shimmer_demo_child_count="10"
+                    app:shimmer_demo_grid_child_count="2"
+                    app:shimmer_demo_layout="@layout/layout_demo_grid"
+                    app:shimmer_demo_layout_manager_type="linear_horizontal"
                     tools:listitem="@layout/list_view_product" />
 
             </LinearLayout>

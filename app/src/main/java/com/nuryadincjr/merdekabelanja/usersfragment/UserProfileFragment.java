@@ -1,5 +1,10 @@
 package com.nuryadincjr.merdekabelanja.usersfragment;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_UID;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISLOGIN;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_UID;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -34,32 +40,33 @@ public class UserProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentUserProfileBinding.inflate(inflater, container, false);
 
         localPreference = LocalPreference.getInstance(getContext());
-        String uid = localPreference.getPreferences().getString("UID", "");
-
-        onDataSet(uid);
+        String uid = localPreference.getPreferences().getString(KEY_UID, "");
 
         binding.llLogiut.setOnClickListener(v -> {
             localPreference.getEditor()
-                    .putInt("ISLOGIN", 0)
-                    .putString("UID", null).apply();
+                    .putInt(NAME_ISLOGIN, 0)
+                    .putString(NAME_UID, null).apply();
             startActivity(new Intent(getContext(), LoggedOutActivity.class));
             getActivity().finishAffinity();
         });
 
-        binding.llMyInfo.setOnClickListener(v ->
-                startActivity(new Intent(getContext(), MyInfoActivity.class).
-                        putExtra("DATA", users)));
-        binding.llSign.setOnClickListener(v ->
-                startActivity(new Intent(getContext(), SecurityActivity.class).
-                        putExtra("DATA", users)));
-        binding.llAbout.setOnClickListener(v ->
-                startActivity(new Intent(getContext(), AboutActivity.class)));
+        binding.llMyInfo.setOnClickListener(v -> onClick(MyInfoActivity.class));
+        binding.llSign.setOnClickListener(v -> onClick(SecurityActivity.class));
+        binding.llAbout.setOnClickListener(v -> startActivity(new Intent(getContext(), AboutActivity.class)));
+
+        onDataSet(uid);
+
         return binding.getRoot();
+    }
+
+    private <T> void onClick(Class<T> tClass) {
+        startActivity(new Intent(getContext(), tClass)
+                .putExtra(NAME_DATA, users));
     }
 
     private void onDataSet(String uid) {
