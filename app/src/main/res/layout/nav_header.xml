@@ -13,7 +13,7 @@
         android:id="@+id/imageView"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:contentDescription="Brend"
+        android:contentDescription="@string/str_brand"
         android:paddingTop="8dp"
         app:srcCompat="@drawable/ic_brand"
         app:tint="@color/white" />
@@ -29,12 +29,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:text="We wish you a happy working day"
+        android:text="@string/str_we_wish_you_a_happy_working_day"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="By Program Studi Independen" />
+        android:text="@string/str_by_program_studi_independen" />
 </LinearLayout>

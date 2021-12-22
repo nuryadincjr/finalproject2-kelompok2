@@ -2,6 +2,7 @@ package com.nuryadincjr.merdekabelanja.api;
 
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.COLLECTION_PRODUCT;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.TAG;
+import static java.util.Objects.requireNonNull;
 
 import android.util.Log;
 
@@ -45,7 +46,7 @@ public class ProductsRepository {
                 .whereEqualTo("id", product.getId())
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot  snapshot : task.getResult()) {
+                for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
                     productsMutableLiveData.postValue(snapshot.getData());
                 }
             }else{
@@ -64,7 +65,7 @@ public class ProductsRepository {
                 .whereIn("category", Arrays.asList(value))
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
+                for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
                     Products products = document.toObject(Products.class);
 
                     productsList.add(products);
@@ -81,16 +82,43 @@ public class ProductsRepository {
     }
 
     public MutableLiveData<ArrayList<Products>> getCategoryProducts(
-            String value, String fildname, String[] category) {
+            String value, String fieldName, String[] category) {
         ArrayList<Products> productsList = new ArrayList<>();
         final MutableLiveData<ArrayList<Products>> productsMutableLiveData = new MutableLiveData<>();
 
         collectionReference
                 .whereEqualTo("category", value)
-                .whereIn(fildname, Arrays.asList(category))
+                .whereIn(fieldName, Arrays.asList(category))
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
+                for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
+                    Products products = document.toObject(Products.class);
+
+                    productsList.add(products);
+                    Log.d(TAG, document.getId() + " => " + document.getData());
+                }
+                productsMutableLiveData.postValue(productsList);
+            }
+            else{
+                productsMutableLiveData.setValue(null);
+                Log.w(TAG, "Error getting documents.", task.getException());
+            }
+        });
+        return productsMutableLiveData;
+    }
+
+    public MutableLiveData<ArrayList<Products>> getCategoryClothing(
+            String category, String people, String fieldName, String[] categoryClothing) {
+        ArrayList<Products> productsList = new ArrayList<>();
+        final MutableLiveData<ArrayList<Products>> productsMutableLiveData = new MutableLiveData<>();
+
+        collectionReference
+                .whereEqualTo("category", category)
+                .whereEqualTo("people", people)
+                .whereIn(fieldName, Arrays.asList(categoryClothing))
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
                     Products products = document.toObject(Products.class);
 
                     productsList.add(products);
@@ -115,7 +143,7 @@ public class ProductsRepository {
                 .whereLessThanOrEqualTo("name",value+"~")
                 .get().addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
                             Products products = document.toObject(Products.class);
 
                             productsList.add(products);

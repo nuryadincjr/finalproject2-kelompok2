@@ -25,7 +25,8 @@
         android:layout_height="120dp"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/ic_brand" />
+        app:srcCompat="@drawable/ic_brand"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/tvTagLine"
@@ -34,7 +35,7 @@
         android:layout_below="@+id/tvBrand"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:text="The one final destination for your needs"
+        android:text="@string/str_the_one_final_destination_for_your_needs"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -45,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnLogin"
         android:padding="15dp"
-        android:text="New User? Register Here" />
+        android:text="@string/str_new_user_register_here" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -54,7 +55,7 @@
         android:layout_above="@+id/lhorizontal"
         android:layout_marginBottom="20dp"
         android:padding="15dp"
-        android:text="Already a Member? Login Here" />
+        android:text="@string/str_already_a_member_login_here" />
 
     <LinearLayout
         android:id="@+id/lhorizontal"
@@ -70,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Admin Login"
+            android:text="@string/str_admin_login"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18sp"/>
@@ -80,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Staff Login"
+            android:text="@string/str_staff_login"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18sp"/>
@@ -90,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="About"
+            android:text="@string/str_about"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18sp"/>

@@ -1,5 +1,6 @@
 package com.nuryadincjr.merdekabelanja.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.databinding.ListItemBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
@@ -62,10 +65,20 @@ public class StaffsAdapter extends RecyclerView.Adapter<StaffsAdapter.StaffsView
             binding.getRoot().setOnClickListener(this);
         }
 
+        @SuppressLint("SetTextI18n")
         public void setDataToView(Staffs staffs) {
+            binding.tvLabelOption.setText("Name");
             binding.tvName.setText(staffs.getName());
+            binding.tvLabelOptionSecond.setText("Username");
+            binding.tvNameSecond.setText(staffs.getUsername());
+            if(!staffs.getPhoto().isEmpty()) {
+                Glide.with(itemView.getContext())
+                        .load(staffs.getPhoto())
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_brand)
+                        .into(binding.ivPhoto);
+            }
         }
-
 
         @Override
         public void onClick(View view) {

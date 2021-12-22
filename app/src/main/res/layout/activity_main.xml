@@ -1,18 +1,305 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivPhoto"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="10dp"
+                            tools:src="@drawable/ic_brand"
+                            android:contentDescription="@string/app_name" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvName1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                tools:text="Nuryadin Abutani" />
+
+                            <TextView
+                                android:id="@+id/tvDivision"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:text="Marketing" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="20dp">
+
+                        <TextView
+                            android:id="@+id/tvLabelId"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="@string/str_user_id"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toEndOf="@+id/tvLabelId"
+                            android:maxLines="2"
+                            android:padding="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            tools:text="stffid01kzfgdh" />
+
+                        <TextView
+                            android:id="@+id/tvLabelName"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvId"
+                            android:padding="8dp"
+                            android:text="@string/full_name"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvId"
+                            android:layout_toEndOf="@+id/tvLabelName"
+                            android:maxLines="1"
+                            android:padding="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            tools:text="Nuryadin Abutani" />
+
+                        <TextView
+                            android:id="@+id/tvLablePhone"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvName"
+                            android:padding="8dp"
+                            android:text="@string/str_phone_number"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvName"
+                            android:layout_toEndOf="@+id/tvLablePhone"
+                            android:maxLines="1"
+                            android:padding="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            tools:text="+6281541181633" />
+
+                        <TextView
+                            android:id="@+id/tvLableEmail"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvPhone"
+                            android:padding="8dp"
+                            android:text="@string/str_e_mail_address"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvPhone"
+                            android:layout_toEndOf="@+id/tvLableEmail"
+                            android:maxLines="5"
+                            android:padding="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            tools:text="nuryadin.cjr@gmail.com" />
+
+                        <TextView
+                            android:id="@+id/tvLableAddress"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvEmail"
+                            android:padding="8dp"
+                            android:text="@string/str_address"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvLableEmail"
+                            android:layout_toEndOf="@+id/tvLableEmail"
+                            android:padding="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            tools:text="kp ciasalada kp ciasalada kp ciasalada kp ciasalada kp ciasalada kp ciasalada" />
+
+                        <TextView
+                            android:id="@+id/tvLableUsername"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvAddress"
+                            android:padding="8dp"
+                            android:text="@string/str_username"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvUsername"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvAddress"
+                            android:layout_toEndOf="@+id/tvLableUsername"
+                            android:padding="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            tools:text="nuryadincjr" />
+
+                        <TextView
+                            android:id="@+id/tvLabelPassword"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvUsername"
+                            android:padding="8dp"
+                            android:text="@string/str_password"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvUsername"
+                            android:layout_toEndOf="@+id/tvLabelPassword"
+                            android:padding="8dp"
+                            android:text="@string/str_reset_password"
+                            android:textColor="#038AF4"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvLableUpdate"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvPassword"
+                            android:padding="8dp"
+                            android:text="@string/str_latest_update"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvLatestUpdate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvPassword"
+                            android:layout_toEndOf="@+id/tvLableUpdate"
+                            android:padding="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            tools:text="07-10-2000" />
+
+                        <TextView
+                            android:id="@+id/tvLableAccount"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvLatestUpdate"
+                            android:padding="8dp"
+                            android:text="@string/str_status"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvAccount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tvLatestUpdate"
+                            android:layout_toEndOf="@+id/tvLableAccount"
+                            android:padding="8dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            tools:text="is active" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/llAbout"
+                style="@style/LayoutWidthHeightMW.LinearLayoutItemSetting"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_twotone_info_24"
+                    android:contentDescription="@string/app_name" />
+
+                <TextView
+                    style="@style/LayoutWidthHeightMM.TextViewItemSetting"
+                    android:text="@string/str_about" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llLogout"
+                style="@style/LayoutWidthHeightMW.LinearLayoutItemSetting"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_twotone_arrow"
+                    android:contentDescription="@string/app_name" />
+
+                <TextView
+                    style="@style/LayoutWidthHeightMM.TextViewItemSetting"
+                    android:text="@string/str_logout"
+                    android:textColor="@color/red" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

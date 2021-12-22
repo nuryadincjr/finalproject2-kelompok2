@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,70 +8,48 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:id="@+id/llAddStaff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_item_rounded"
-                android:orientation="vertical">
+                style="@style/LayoutWidthHeightMW.LinearLayoutAdmin"
+                tools:ignore="UseCompoundDrawables">
 
                 <TextView
                     android:id="@+id/tvAddStaff"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_title"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Add Staff"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    style="@style/LayoutWidthHeightMW.TextViewAdmin"
+                    android:text="@string/str_add_staff" />
 
                 <ImageView
                     android:id="@+id/ivAddStaff"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:ellipsize="end"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/staffs" />
+                    style="@style/ImageViewAdmin"
+                    android:src="@drawable/staffs"
+                    android:contentDescription="@string/app_name" />
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="vertical"
                 android:id="@+id/llAddStock"
-                android:background="@drawable/bg_item_rounded"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1">
+                style="@style/LayoutWidthHeightMW.LinearLayoutAdmin"
+                tools:ignore="UseCompoundDrawables">
+
                 <TextView
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:gravity="center"
                     android:id="@+id/tvAddStock"
-                    android:background="@drawable/bg_title"
-                    android:padding="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Add Products"/>
+                    style="@style/LayoutWidthHeightMW.TextViewAdmin"
+                    android:text="@string/str_add_products"/>
+
                 <ImageView
-                    android:ellipsize="end"
                     android:id="@+id/ivAddStock"
-                    android:background="?attr/selectableItemBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/other_product"/>
+                    style="@style/ImageViewAdmin"
+                    android:src="@drawable/other_product"
+                    android:contentDescription="@string/app_name" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

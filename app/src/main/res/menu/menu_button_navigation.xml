@@ -7,23 +7,17 @@
         android:enabled="true"
         app:showAsAction="withText"
         android:icon="@drawable/ic_outline_home"
-        android:title="Home" />
+        android:title="@string/str_home" />
     <item
-        android:id="@+id/itemCategorys"
+        android:id="@+id/itemCategories"
         android:enabled="true"
         app:showAsAction="withText"
         android:icon="@drawable/ic_outline_category"
-        android:title="Category" />
-    <item
-        android:id="@+id/itemCart"
-        android:enabled="true"
-        app:showAsAction="withText"
-        android:icon="@drawable/ic_brand"
-        android:title="Cart" />
+        android:title="@string/str_category" />
     <item
         android:id="@+id/itemAccount"
         android:enabled="true"
         app:showAsAction="withText"
         android:icon="@drawable/ic_outline_account"
-        android:title="Me" />
+        android:title="@string/str_me" />
 </menu>

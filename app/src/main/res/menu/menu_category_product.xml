@@ -4,48 +4,48 @@
     <item
         android:id="@+id/itemSearch"
         android:icon="@drawable/ic_search"
-        android:title="Search"
+        android:title="@string/str_search"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView" />
 
     <item android:id="@+id/itemFilter"
         android:icon="@drawable/ic_filter"
-        android:title="Filter"
+        android:title="@string/str_filter"
         app:showAsAction="ifRoom">
         <menu>
             <item
                 android:id="@+id/itemFilter0"
                 android:checkable="true"
                 android:titleCondensed="All"
-                android:title="All Category"
+                android:title="@string/str_all_category"
                 app:actionViewClass="android.widget.CheckBox"
                 app:showAsAction="collapseActionView|withText" />
             <item
                 android:id="@+id/itemFilter1"
                 android:checkable="true"
                 android:titleCondensed="Clothing"
-                android:title="Clothing"
+                android:title="@string/str_clothing"
                 app:actionViewClass="android.widget.CheckBox"
                 app:showAsAction="collapseActionView|withText" />
             <item
                 android:id="@+id/itemFilter2"
                 android:checkable="true"
                 android:titleCondensed="Electronic"
-                android:title="Electronic"
+                android:title="@string/str_electronic"
                 app:actionViewClass="android.widget.CheckBox"
                 app:showAsAction="collapseActionView|withText" />
             <item
                 android:id="@+id/itemFilter3"
                 android:checkable="true"
                 android:titleCondensed="Book"
-                android:title="Book"
+                android:title="@string/str_book"
                 app:actionViewClass="android.widget.CheckBox"
                 app:showAsAction="collapseActionView|withText" />
             <item
                 android:id="@+id/itemFilter4"
                 android:checkable="true"
                 android:titleCondensed="Other"
-                android:title="Other Products"
+                android:title="@string/str_other_products"
                 app:actionViewClass="android.widget.CheckBox"
                 app:showAsAction="collapseActionView|withText" />
         </menu>

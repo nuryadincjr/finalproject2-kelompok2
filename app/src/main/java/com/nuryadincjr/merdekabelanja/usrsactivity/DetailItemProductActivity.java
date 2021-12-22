@@ -3,6 +3,8 @@ package com.nuryadincjr.merdekabelanja.usrsactivity;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.SESSION_FIRST;
 
+import static java.util.Objects.*;
+
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -26,7 +28,6 @@ import com.nuryadincjr.merdekabelanja.models.Products;
 import java.util.Map;
 
 public class DetailItemProductActivity extends AppCompatActivity {
-
     private ActivityDetailItemProductBinding binding;
     private Products data;
 
@@ -37,7 +38,7 @@ public class DetailItemProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_item_product);
         binding = ActivityDetailItemProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         data = getIntent().getParcelableExtra(NAME_DATA);
     }
@@ -85,6 +86,11 @@ public class DetailItemProductActivity extends AppCompatActivity {
                 }
             }
         }
+
+        getData(product);
+    }
+
+    private void getData(Products product) {
         new ProductsRepository().getSinggleProduct(product).
                 observe(this, (Map<String, Object> maps) -> {
                     Object[] key = maps.keySet().toArray();

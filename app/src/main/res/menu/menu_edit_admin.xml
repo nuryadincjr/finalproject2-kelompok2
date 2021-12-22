@@ -5,24 +5,24 @@
     <item
         android:id="@+id/itemSaves"
         android:icon="@drawable/ic_save"
-        android:title="Saves"
-        app:showAsAction="always"/>
+        android:title="@string/str_saves"
+        app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/itemCencle"
+        android:id="@+id/itemClose"
         android:icon="@drawable/ic_close"
-        android:title="Close"
+        android:title="@string/str_close"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/itemEdit"
         android:icon="@drawable/ic_archive"
-        android:title="Edit"
+        android:title="@string/str_edit"
         app:showAsAction="never"/>
 
     <item
         android:id="@+id/itemPrint"
         android:icon="@drawable/ic_brand"
-        android:title="Print Card"
+        android:title="@string/str_print_card"
         app:showAsAction="never"/>
 </menu>

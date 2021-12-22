@@ -1,5 +1,7 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
+import static java.util.Objects.requireNonNull;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +20,10 @@ import com.nuryadincjr.merdekabelanja.activity.SettingsActivity;
 import com.nuryadincjr.merdekabelanja.adminfragment.DashboardFragment;
 import com.nuryadincjr.merdekabelanja.adminfragment.ProductsFragment;
 import com.nuryadincjr.merdekabelanja.adminfragment.StaffsFragment;
-import com.nuryadincjr.merdekabelanja.adminfragment.UsersFragment;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAdminsBinding;
 
 public class AdminsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     private ActivityAdminsBinding binding;
 
     @Override
@@ -53,7 +53,7 @@ public class AdminsActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.itemDashboard:
                 getFragmentPage(new DashboardFragment());
-                getSupportActionBar().setTitle("Dashboard");
+                requireNonNull(getSupportActionBar()).setTitle("Dashboard");
                 break;
             case R.id.itemStaffs:
                 getFragmentPage(new StaffsFragment());
@@ -62,7 +62,7 @@ public class AdminsActivity extends AppCompatActivity
                 getFragmentPage(new ProductsFragment());
                 break;
             case R.id.itemUsers:
-                getFragmentPage(new UsersFragment());
+                getFragmentPage(new StaffsFragment.UsersFragment());
                 break;
             case R.id.itemSettings:
                 startActivity(new Intent(this, SettingsActivity.class));

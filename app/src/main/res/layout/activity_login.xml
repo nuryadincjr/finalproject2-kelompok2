@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="8dp"
     tools:context=".activity.LoginActivity">
@@ -12,31 +12,62 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log in"
+        android:text="@string/str_log_in"
         android:textColor="@color/black"
         android:textSize="50sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:padding="6dp"
+        android:visibility="gone"
+        android:background="@drawable/bg_item_rounded">
+
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/ccp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:ccp_autoFormatNumber="true"
+            app:ccp_defaultLanguage="INDONESIA"
+            app:ccp_countryPreference="id" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="@string/str_phone_number"
+            android:inputType="phone"
+            android:singleLine="true"
+            tools:ignore="Deprecated"
+            android:autofillHints="" />
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tiLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="Username"
+        android:hint="@string/str_username"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            tools:text="Nuryadin Abutani"/>
+            android:inputType="textPersonName"
+            tools:ignore="DuplicateSpeakableTextCheck"
+            tools:text="Nuryadin Abutani" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="Password"
+        android:hint="@string/str_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -53,6 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:padding="15dp"
+        tools:ignore="DuplicateSpeakableTextCheck"
         tools:text="Log in" />
 
 </LinearLayout>

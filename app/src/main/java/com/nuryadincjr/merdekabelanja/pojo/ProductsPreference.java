@@ -46,6 +46,7 @@ public class ProductsPreference {
         });
     }
 
+
     public void onUpdateData(Products products, ProgressDialog dialog) {
         dialog.setMessage("Setup data..");
 

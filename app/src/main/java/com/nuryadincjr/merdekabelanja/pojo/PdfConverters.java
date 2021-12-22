@@ -24,10 +24,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class PdfConverters {
-
     @SuppressLint("StaticFieldLeak")
     public static PdfConverters pdfDocument;
     public Context context;
+    private final String pdfPAth = Environment.getExternalStoragePublicDirectory(
+            Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
 
     public PdfConverters(Context context ) {
         this.context = context;
@@ -43,19 +44,19 @@ public class PdfConverters {
 
     public void getDataToPdf(LinearLayout layout, String fileName) {
         DisplayMetrics displaymetrics = context.getResources().getDisplayMetrics();
-        int convertHighet = displaymetrics.heightPixels;
+        int convertHeight = displaymetrics.heightPixels;
         int convertWidth = displaymetrics.widthPixels;
 
         PdfDocument document = new PdfDocument();
         PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(
-                convertWidth, convertHighet, 1).create();
+                convertWidth, convertHeight, 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Bitmap bitmap = Bitmap.createBitmap(layout.getWidth(), layout.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         layout.draw(canvas);
 
-        Bitmap bitmaps = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHighet, true);
+        Bitmap bitmaps = Bitmap.createScaledBitmap(bitmap, convertWidth, convertHeight, true);
 
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
@@ -66,8 +67,6 @@ public class PdfConverters {
 
         document.finishPage(page);
 
-        String pdfPAth = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
         File file = new File(pdfPAth + "/" + fileName +".pdf");
 
         try {
@@ -84,10 +83,8 @@ public class PdfConverters {
     }
 
     private void openPdf(String fileName) {
-        String pdfPAth = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
-        File file = new File(pdfPAth + "/" + fileName +".pdf");
 
+        File file = new File(pdfPAth + "/" + fileName +".pdf");
         if (file.exists()) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
 

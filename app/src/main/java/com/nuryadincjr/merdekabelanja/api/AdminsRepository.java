@@ -3,6 +3,7 @@ package com.nuryadincjr.merdekabelanja.api;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.COLLECTION_ADMIN;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.TAG;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
+import static java.util.Objects.requireNonNull;
 
 import android.util.Log;
 
@@ -19,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AdminsRepository {
-
     private final CollectionReference collectionReference;
 
     public AdminsRepository() {
@@ -49,10 +49,10 @@ public class AdminsRepository {
                 .whereEqualTo("password", admin.getPassword())
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot  snapshot : task.getResult()) {
+                for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
                     Admins data = snapshot.toObject(Admins.class);
                     data.setUid(snapshot.getId());
-                    admins.add(data);;
+                    admins.add(data);
                     Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
                 }
                 adminsMutableLiveData.postValue(admins);
@@ -72,10 +72,10 @@ public class AdminsRepository {
                 .whereEqualTo("uid", uid)
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot  snapshot : task.getResult()) {
+                for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
                     Admins data = snapshot.toObject(Admins.class);
                     data.setUid(snapshot.getId());
-                    admins.add(data);;
+                    admins.add(data);
                     Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
                 }
                 adminsMutableLiveData.postValue(admins);

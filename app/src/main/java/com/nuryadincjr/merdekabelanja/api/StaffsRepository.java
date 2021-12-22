@@ -3,6 +3,7 @@ package com.nuryadincjr.merdekabelanja.api;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.COLLECTION_STAFF;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.TAG;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
+import static java.util.Objects.requireNonNull;
 
 import android.util.Log;
 
@@ -20,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StaffsRepository {
-
     private final CollectionReference collectionReference;
 
     public StaffsRepository() {
@@ -58,10 +58,10 @@ public class StaffsRepository {
                 .whereEqualTo("password", staff.getPassword())
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot  snapshot : task.getResult()) {
+                for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
                     Staffs data = snapshot.toObject(Staffs.class);
                     data.setUid(snapshot.getId());
-                    staffs.add(data);;
+                    staffs.add(data);
                     Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
                 }
                 staffsMutableLiveData.postValue(staffs);
@@ -81,7 +81,7 @@ public class StaffsRepository {
                 .whereIn("division", Arrays.asList(value))
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
+                for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
                     Staffs staffs = document.toObject(Staffs.class);
 
                     staffsList.add(staffs);
@@ -106,7 +106,7 @@ public class StaffsRepository {
                 .whereLessThanOrEqualTo("name",value+"~")
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
+                for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
                     Staffs staffs = document.toObject(Staffs.class);
 
                     staffsList.add(staffs);
@@ -120,5 +120,28 @@ public class StaffsRepository {
             }
         });
         return staffsMutableLiveData;
+    }
+
+    public MutableLiveData<ArrayList<Staffs>> getStaffsData(String uid) {
+        ArrayList<Staffs> staffs = new ArrayList<>();
+        final MutableLiveData<ArrayList<Staffs>> usersMutableLiveData = new MutableLiveData<>();
+
+        collectionReference
+                .whereEqualTo("uid", uid)
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
+                    Staffs data = snapshot.toObject(Staffs.class);
+                    data.setUid(snapshot.getId());
+                    staffs.add(data);
+                    Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
+                }
+                usersMutableLiveData.postValue(staffs);
+            }else{
+                usersMutableLiveData.setValue(null);
+                Log.w(TAG, "Error getting documents.", task.getException());
+            }
+        });
+        return usersMutableLiveData;
     }
 }

@@ -1,6 +1,7 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_PRODUCT;
+import static java.util.Objects.requireNonNull;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,16 +21,16 @@ public class ProductsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         ActivityProductsBinding binding = ActivityProductsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         collect = getResources().getStringArray(R.array.products_type);
 
-        binding.llClothing.setOnClickListener(v -> onClick(AddClothingActivity.class, collect[0]));
-        binding.llBooks.setOnClickListener(v -> onClick(AddBookActivity.class, collect[1]));
-        binding.llElectronic.setOnClickListener(v -> onClick(AddElectronicsActivity.class, collect[2]));
-        binding.llOther.setOnClickListener(v -> onClick(AddOthersActivity.class, collect[3]));
+        binding.llClothing.setOnClickListener(v -> getStartActivity(AddClothingActivity.class, collect[0]));
+        binding.llElectronic.setOnClickListener(v -> getStartActivity(AddElectronicsActivity.class, collect[1]));
+        binding.llBooks.setOnClickListener(v -> getStartActivity(AddBookActivity.class, collect[2]));
+        binding.llOther.setOnClickListener(v -> getStartActivity(AddOthersActivity.class, collect[3]));
     }
 
     @Override
@@ -41,7 +42,7 @@ public class ProductsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private <T> void onClick(Class<T> tClass, String sData) {
+    private <T> void getStartActivity(Class<T> tClass, String sData) {
         startActivity(new Intent(this, tClass)
                 .putExtra(NAME_PRODUCT, sData));
     }

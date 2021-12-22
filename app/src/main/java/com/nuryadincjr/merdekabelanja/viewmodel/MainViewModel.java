@@ -16,7 +16,6 @@ import com.nuryadincjr.merdekabelanja.models.Users;
 import java.util.ArrayList;
 
 public class MainViewModel extends AndroidViewModel {
-
     private final StaffsRepository staffsRepository;
     private final ProductsRepository productsRepository;
     private final UsersRepository usersRepository;
@@ -36,6 +35,10 @@ public class MainViewModel extends AndroidViewModel {
             String value, String fieldName, String[] category) {
         return productsRepository.getCategoryProducts(value, fieldName, category);
     }
+    public MutableLiveData<ArrayList<Products>> getCategoryClothingLiveData(
+            String category, String people, String fieldName, String[] categoryClothing) {
+        return productsRepository.getCategoryClothing(category, people, fieldName, categoryClothing);
+    }
 
     public MutableLiveData<ArrayList<Staffs>> getSearchStaffs(String value) {
         return staffsRepository.getSearchStaffs(value);
@@ -43,6 +46,10 @@ public class MainViewModel extends AndroidViewModel {
 
     public MutableLiveData<ArrayList<Users>> getSearchUsers(String value) {
         return usersRepository.getSearchUsers(value);
+    }
+
+    public MutableLiveData<ArrayList<Users>> getUserPhone(String value) {
+        return usersRepository.getUserPhone(value);
     }
 
 

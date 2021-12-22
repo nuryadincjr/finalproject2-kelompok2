@@ -1,15 +1,17 @@
 package com.nuryadincjr.merdekabelanja.usersfragment;
 
-import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_CATEGORY;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.*;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,7 @@ import com.nuryadincjr.merdekabelanja.databinding.FragmentHomeBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Headline;
 import com.nuryadincjr.merdekabelanja.models.Products;
+import com.nuryadincjr.merdekabelanja.resorces.Constant;
 import com.nuryadincjr.merdekabelanja.resorces.Headlines;
 import com.nuryadincjr.merdekabelanja.usrsactivity.CategoryActivity;
 import com.nuryadincjr.merdekabelanja.usrsactivity.DetailItemProductActivity;
@@ -41,7 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
-
     private FragmentHomeBinding binding;
     private MainViewModel mainViewModel;
     private String[] collect;
@@ -81,21 +83,21 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        onDataSet();
-        onHeadlieAdapter();
+        getData();
+        onHeadlineAdapter();
 
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        new TabLayoutMediator(binding.tablayout, binding.vpHeadline,
+        new TabLayoutMediator(binding.tabLayout, binding.vpHeadline,
                 (tab, position) -> tab.setText("Item " + (position + 1))
         ).attach();
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void onHeadlieAdapter() {
+    private void onHeadlineAdapter() {
         Headline[] headlines = Headlines.getHeadlines();
         List<Headline> headlineList = new ArrayList<>();
         int i = 0;
@@ -108,7 +110,7 @@ public class HomeFragment extends Fragment {
         binding.vpHeadline.setOffscreenPageLimit(3);
         binding.vpHeadline.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
-        binding.tablayout.setSelected(true);
+        binding.tabLayout.setSelected(true);
         CompositePageTransformer transformer = new CompositePageTransformer();
         transformer.addTransformer(new MarginPageTransformer(40));
         transformer.addTransformer((page, position) -> {
@@ -142,7 +144,7 @@ public class HomeFragment extends Fragment {
                         break;
                 }
                 HomeFragment.this.onClick(
-                        CategoryActivity.class, NAME_CATEGORY, category);
+                        category);
             }
 
             @Override
@@ -167,45 +169,60 @@ public class HomeFragment extends Fragment {
 
     private void getOnClickListener(TextView cardView, String category) {
         cardView.setOnClickListener(v -> onClick(
-                CategoryActivity.class, NAME_CATEGORY, category));
+                category));
     }
 
-    private void onDataSet() {
+    private void getData() {
         Runnable headlineRunnable = () -> {
-            mainViewModel = new MainViewModel(getActivity().getApplication());
-
+            mainViewModel = new MainViewModel(requireActivity().getApplication());
             for (int i = 0; i<collect.length; i++) {
                 int finalI = i;
                 mainViewModel.getFilterProductsLiveData(new String[]{collect[i]})
-                        .observe(getViewLifecycleOwner(), products -> {
-
-                    if(products.size() != 0) {
-                        List<Products> productsList = new ArrayList<>(products);
-                        ProductsAdapter productsAdapter = new ProductsAdapter(1, productsList);
-                        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-
-                        switch (finalI){
-                            case 0:
-                                onRecyclerView(productsAdapter, layoutManager, binding.rvClothing);
-                                break;
-                            case 1:
-                                onRecyclerView(productsAdapter, layoutManager, binding.rvElectronics);
-                                break;
-                            case 2:
-                                onRecyclerView(productsAdapter, layoutManager, binding.rvBooks);
-                                break;
-                            case 3:
-                                onRecyclerView(productsAdapter, layoutManager, binding.rvOther);
-                                break;
-                        }
-
-                        onListener(productsAdapter, productsList);
-                    }
-                });
+                        .observe(getViewLifecycleOwner(), products -> onDataSet(finalI, products));
             }
         };
         headlineHandler.post(headlineRunnable);
+    }
+
+    private void onDataSet(int finalI, ArrayList<Products> products) {
+        if(products.size() != 0) {
+            List<Products> productsList = new ArrayList<>(products);
+            ProductsAdapter productsAdapter = new ProductsAdapter(1, productsList);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+
+            switch (finalI){
+                case 0:
+                    onRecyclerView(productsAdapter, layoutManager, binding.rvClothing);
+                    break;
+                case 1:
+                    onRecyclerView(productsAdapter, layoutManager, binding.rvElectronics);
+                    break;
+                case 2:
+                    onRecyclerView(productsAdapter, layoutManager, binding.rvBooks);
+                    break;
+                case 3:
+                    onRecyclerView(productsAdapter, layoutManager, binding.rvOther);
+                    break;
+            }
+            onListener(productsAdapter, productsList);
+
+        }else {
+            switch (finalI){
+                case 0:
+                    isEmptyMessage(binding.llClothing, binding.rvClothing);
+                    break;
+                case 1:
+                    isEmptyMessage(binding.llElectronic, binding.rvElectronics);
+                    break;
+                case 2:
+                    isEmptyMessage(binding.llBooks, binding.rvBooks);
+                    break;
+                case 3:
+                    isEmptyMessage(binding.llOther, binding.rvOther);
+                    break;
+            }
+        }
     }
 
     private void onRecyclerView(ProductsAdapter productsAdapter,
@@ -218,8 +235,8 @@ public class HomeFragment extends Fragment {
         productsAdapter.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int position) {
-                HomeFragment.this.onClick(DetailItemProductActivity.class,
-                        NAME_DATA, productsList.get(position));
+                startActivity(new Intent(getContext(), DetailItemProductActivity.class)
+                        .putExtra(NAME_DATA, productsList.get(position)));
             }
 
             @Override
@@ -229,8 +246,8 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private <T> void onClick(Class<T> tClass, String key, Object value) {
-        startActivity(new Intent(getContext(), tClass)
-                .putExtra(key,  (Parcelable) value));
+    private void onClick(String value) {
+        startActivity(new Intent(getContext(), CategoryActivity.class)
+                .putExtra(NAME_CATEGORY, value));
     }
 }

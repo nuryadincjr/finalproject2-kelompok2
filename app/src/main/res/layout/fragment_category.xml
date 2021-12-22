@@ -17,19 +17,9 @@
             android:background="?attr/colorOnPrimary"
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <SearchView
+            <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/bg_search"
-                android:iconifiedByDefault="false"
-                android:queryBackground="@android:color/transparent"
-                android:queryHint="Searching"
-                android:searchIcon="@drawable/ic_search"
-                android:stateListAnimator="@android:anim/accelerate_decelerate_interpolator" />
+                style="@style/LayoutWidthHeightMM.SearchViewItem"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -48,10 +38,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvClothing"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:backgroundTint="?attr/colorPrimary"
+                style="@style/LayoutWidthHeightMM.CardViewItem"
                 app:cardCornerRadius="10dp">
 
                 <ImageView
@@ -59,14 +46,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/clothing" />
+                    android:src="@drawable/clothing"
+                    android:contentDescription="@string/app_name" />
 
                 <TextView
                     android:id="@+id/tvClothing"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Clothing &amp; Accessories"
+                    android:text="@string/str_clothing_amp_accessories"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
@@ -74,10 +62,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvElectronics"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:backgroundTint="?attr/colorPrimary"
+                style="@style/LayoutWidthHeightMM.CardViewItem"
                 app:cardCornerRadius="10dp">
 
                 <ImageView
@@ -85,14 +70,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/electronic" />
+                    android:src="@drawable/electronic"
+                    android:contentDescription="@string/app_name" />
 
                 <TextView
                     android:id="@+id/tvElectronic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Electronics"
+                    android:text="@string/str_electronics"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
@@ -100,10 +86,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvBooks"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:backgroundTint="?attr/colorPrimary"
+                style="@style/LayoutWidthHeightMM.CardViewItem"
                 app:cardCornerRadius="10dp">
 
                 <ImageView
@@ -111,14 +94,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/books" />
+                    android:src="@drawable/books"
+                    android:contentDescription="@string/app_name" />
 
                 <TextView
                     android:id="@+id/tvBook"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Books"
+                    android:text="@string/str_books"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
@@ -126,10 +110,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvOTher"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                android:backgroundTint="?attr/colorPrimary"
+                style="@style/LayoutWidthHeightMM.CardViewItem"
                 app:cardCornerRadius="10dp">
 
                 <ImageView
@@ -137,14 +118,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/other_product" />
+                    android:src="@drawable/other_product"
+                    android:contentDescription="@string/app_name" />
 
                 <TextView
                     android:id="@+id/tvOther"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="Other Products"
+                    android:text="@string/str_other_products"
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 

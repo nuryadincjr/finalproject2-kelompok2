@@ -27,9 +27,9 @@ import com.nuryadincjr.merdekabelanja.usrsactivity.MyInfoActivity;
 import com.nuryadincjr.merdekabelanja.usrsactivity.SecurityActivity;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UserProfileFragment extends Fragment {
-
     private FragmentUserProfileBinding binding;
     private LocalPreference localPreference;
     private Users users = new Users();
@@ -47,21 +47,23 @@ public class UserProfileFragment extends Fragment {
         localPreference = LocalPreference.getInstance(getContext());
         String uid = localPreference.getPreferences().getString(KEY_UID, "");
 
-        binding.llLogiut.setOnClickListener(v -> {
-            localPreference.getEditor()
-                    .putInt(NAME_ISLOGIN, 0)
-                    .putString(NAME_UID, null).apply();
-            startActivity(new Intent(getContext(), LoggedOutActivity.class));
-            getActivity().finishAffinity();
-        });
-
+        binding.llLogout.setOnClickListener(this::onClick);
         binding.llMyInfo.setOnClickListener(v -> onClick(MyInfoActivity.class));
         binding.llSign.setOnClickListener(v -> onClick(SecurityActivity.class));
         binding.llAbout.setOnClickListener(v -> startActivity(new Intent(getContext(), AboutActivity.class)));
+        binding.llMyChart.setOnClickListener(v -> {});
+        binding.llPurchaseHistory.setOnClickListener(v -> {});
+        binding.llCostumerServices.setOnClickListener(v -> {});
 
-        onDataSet(uid);
-
+        getData(uid);
         return binding.getRoot();
+    }
+
+    private void getData(String uid) {
+        Runnable headlineRunnable = () -> new UsersRepository()
+                        .getUserData(uid)
+                        .observe(requireActivity(), this::onDataSet);
+        headlineHandler.post(headlineRunnable);
     }
 
     private <T> void onClick(Class<T> tClass) {
@@ -69,21 +71,24 @@ public class UserProfileFragment extends Fragment {
                 .putExtra(NAME_DATA, users));
     }
 
-    private void onDataSet(String uid) {
-        Runnable headlineRunnable = () -> new UsersRepository()
-                        .getUserData(uid)
-                        .observe(getActivity(), (ArrayList<Users> user) -> {
-            if(user.size() != 0) {
-                users = user.get(0);
-                Glide.with(getContext())
-                        .load(users.getPhoto())
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_brand)
-                        .into(binding.ivPhoto);
-                binding.tvName.setText(users.getName());
-                binding.tvPhone.setText(users.getPhone());
-            }
-        });
-        headlineHandler.post(headlineRunnable);
+    private void onClick(View v) {
+        localPreference.getEditor()
+                .putInt(NAME_ISLOGIN, 0)
+                .putString(NAME_UID, null).apply();
+        startActivity(new Intent(getContext(), LoggedOutActivity.class));
+        Objects.requireNonNull(requireActivity()).finishAffinity();
+    }
+
+    private void onDataSet(ArrayList<Users> user) {
+        if (user.size() != 0) {
+            users = user.get(0);
+            Glide.with(requireContext())
+                    .load(users.getPhoto())
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_brand)
+                    .into(binding.ivPhoto);
+            binding.tvName.setText(users.getName());
+            binding.tvPhone.setText(users.getPhone());
+        }
     }
 }

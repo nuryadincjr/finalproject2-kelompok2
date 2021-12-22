@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="Account" />
+        android:text="@string/str_account" />
 
     <View
         android:id="@+id/view2"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:padding="15dp"
-        android:text="\t\tProfile"
+        android:text="@string/str_profile"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:drawableStartCompat="@drawable/ic_account" />
@@ -44,6 +44,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
         android:gravity="center"
-        android:text="Logout" />
+        android:text="@string/str_logout" />
 
 </LinearLayout>

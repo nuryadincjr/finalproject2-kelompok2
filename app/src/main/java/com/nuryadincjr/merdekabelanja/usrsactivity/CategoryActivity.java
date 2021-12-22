@@ -1,5 +1,9 @@
 package com.nuryadincjr.merdekabelanja.usrsactivity;
 
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_CATEGORY;
+
+import static java.util.Objects.*;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -10,10 +14,11 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.nuryadincjr.merdekabelanja.R;
 import com.nuryadincjr.merdekabelanja.adapters.CollectionPagerAdapter;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityCategoryBinding;
+import com.nuryadincjr.merdekabelanja.resorces.Categoryes;
 
 public class CategoryActivity extends AppCompatActivity {
-
     private ActivityCategoryBinding binding;
+    private Categoryes categoryes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,54 +26,13 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
         binding = ActivityCategoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        String category = getIntent().getStringExtra("CATEGORY");
+        categoryes = Categoryes.getInstance(this);
+        String category = getIntent().getStringExtra(NAME_CATEGORY);
         getSupportActionBar().setTitle(category);
 
-        if(savedInstanceState == null) onSetData(category);
-    }
-
-    private void onSetData(String category) {
-        String tabItemFirst = "";
-        String tabItemSecond = "";
-        int tabCount = 2;
-
-        switch (category) {
-            case "Clothing":
-                tabItemFirst = "Male";
-                tabItemSecond = "Female";
-                break;
-            case "Electronic":
-                tabItemFirst = "Smartphone";
-                tabItemSecond = "Computer";
-                break;
-            case "Book":
-                tabCount = 10;
-                break;
-            case "Other Products":
-                tabCount = 1;
-                break;
-        }
-
-        CollectionPagerAdapter collectionPagerAdapter =
-                new CollectionPagerAdapter(this, tabCount, category, binding.tablayout);
-        binding.viewpager2.setAdapter(collectionPagerAdapter);
-
-        String finalTabItemFirst = tabItemFirst;
-        String finalTabItemSecond = tabItemSecond;
-        new TabLayoutMediator(binding.tablayout, binding.viewpager2,
-                (tab, position) -> {
-                    if(category.equals("Book")){
-                        String[] categoryItem = getResources().getStringArray(R.array.book_type);
-                        String tabName = categoryItem[position];
-                        tab.setText(tabName);
-                    } else {
-                        if(position==0) tab.setText(finalTabItemFirst);
-                        else if(position==1) tab.setText(finalTabItemSecond);
-                    }
-                }
-        ).attach();
+        if(savedInstanceState == null) onDataSet(category);
     }
 
     @Override
@@ -78,5 +42,43 @@ public class CategoryActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onDataSet(String category) {
+        int tabCount = 0;
+        switch (category) {
+            case "Clothing":
+                tabCount = categoryes.people().length;
+                break;
+            case "Electronic":
+                tabCount = categoryes.electronicType().length;
+                break;
+            case "Book":
+                tabCount = categoryes.bookType().length;
+                break;
+            case "Other Products":
+                tabCount = 1;
+                break;
+        }
+
+        CollectionPagerAdapter collectionPagerAdapter =
+                new CollectionPagerAdapter(this, tabCount, category, binding.tabLayout);
+        binding.viewpager2.setAdapter(collectionPagerAdapter);
+
+        new TabLayoutMediator(binding.tabLayout, binding.viewpager2,
+                (tab, position) -> {
+                    switch (category) {
+                        case "Book":
+                            tab.setText(categoryes.bookType()[position]);
+                            break;
+                        case "Clothing":
+                            tab.setText(categoryes.people()[position]);
+                            break;
+                        case "Electronic":
+                            tab.setText(categoryes.electronicType()[position]);
+                            break;
+                    }
+                }
+        ).attach();
     }
 }

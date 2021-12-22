@@ -8,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Product Name"
+                android:hint="@string/str_product_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -36,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Descriptions"
+                android:hint="@string/str_descriptions"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -51,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Piece"
+                android:hint="@string/str_piece"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -66,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Quantity"
+                android:hint="@string/str_quantity"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -77,47 +78,21 @@
                     tools:text="100"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:id="@+id/layout"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginTop="10dp"
-                android:visibility="gone">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvImageViewer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="horizontal"
+                tools:listitem="@layout/list_image_viewer" />
 
-                <ImageView
-                    android:id="@+id/ivPhoto1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_item_rounded"
-                    app:layout_constraintDimensionRatio="1:1" />
-
-                <ImageView
-                    android:id="@+id/ivPhoto2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_item_rounded"
-                    app:layout_constraintDimensionRatio="1:1" />
-
-                <ImageView
-                    android:id="@+id/ivPhoto3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_item_rounded"
-                    app:layout_constraintDimensionRatio="1:1" />
-            </LinearLayout>
-
-            <ToggleButton
+            <Button
                 android:id="@+id/btnAddPhoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_item_rounded"
                 android:padding="15dp"
-                android:textOff="Add Photo"
-                android:textOn="Remove Photo" />
+                android:text="@string/str_add_photo" />
 
             <Button
                 android:id="@+id/btnAddProduct"
@@ -125,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:padding="15dp"
-                android:text="Add Product" />
+                android:text="@string/str_add_product" />
         </LinearLayout>
     </ScrollView>
 

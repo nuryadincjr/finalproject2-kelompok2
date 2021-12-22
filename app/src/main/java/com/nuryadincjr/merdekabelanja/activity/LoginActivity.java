@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.InputType;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +27,6 @@ import com.nuryadincjr.merdekabelanja.models.Users;
 import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
-
     private ActivityLoginBinding binding;
     private String isLogin;
 
@@ -43,12 +43,12 @@ public class LoginActivity extends AppCompatActivity {
         dialog.setMessage("Sign in");
         dialog.setCancelable(false);
 
-        getIsLogin();
+        getLogin();
         getInputValidations();
     }
 
     @SuppressLint("SetTextI18n")
-    private void getIsLogin() {
+    private void getLogin() {
         switch (isLogin) {
             case "ADMIN":
             case "STAFF":
@@ -56,8 +56,10 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case "USER":
                 binding.btnLogin.setText("LOG IN");
-                binding.tiLayout.setHint("Phone number");
-                binding.etUsername.setInputType(InputType.TYPE_CLASS_PHONE);
+                binding.linearLayout.setVisibility(View.VISIBLE);
+                binding.tiLayout.setVisibility(View.GONE);
+                binding.ccp.registerCarrierNumberEditText(binding.etPhone);
+                binding.ccp.setCountryForNameCode("ID");
                 break;
         }
     }
@@ -66,9 +68,20 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnLogin.setOnClickListener(v -> {
             String username = String.valueOf(binding.etUsername.getText());
             String password = String.valueOf(binding.etPassword.getText());
-
-            if(!username.isEmpty() && !password.isEmpty()) onLogin(username, password);
-            else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
+            
+            boolean isPhoneCurtly = false;
+            if(isLogin.equals("USER")){
+                username = binding.ccp.getFullNumberWithPlus();
+                isPhoneCurtly = binding.ccp.isValidFullNumber();
+            }
+            
+            if(!username.isEmpty() && !password.isEmpty()){
+                if(isLogin.equals("USER")){
+                    if (isPhoneCurtly) {
+                        onLogin(username, password);
+                    } else binding.etPhone.setError("Phone number cannot found!");
+                }else onLogin(username, password);
+            } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -78,43 +91,43 @@ public class LoginActivity extends AppCompatActivity {
                 Users user = new Users();
                 user.setPhone(username);
                 user.setPassword(password);
-                new UsersRepository().getUserLogin(user).observe(this, this::onChanged);
+                new UsersRepository().getUserLogin(user).observe(this, this::getStartActivity);
                 break;
             case "ADMIN":
                 Admins admin = new Admins();
                 admin.setUsername(username);
                 admin.setPassword(password);
-                new AdminsRepository().getAdminLogin(admin).observe(this, this::onChanged);
+                new AdminsRepository().getAdminLogin(admin).observe(this, this::getStartActivity);
                 break;
             case "STAFF":
                 Staffs staff = new Staffs();
                 staff.setUsername(username);
                 staff.setPassword(password);
-                new StaffsRepository().getStaffLogin(staff).observe(this, this::onChanged);
+                new StaffsRepository().getStaffLogin(staff).observe(this, this::getStartActivity);
                 break;
         }switch (isLogin) {
             case "USER":
                 Users user = new Users();
                 user.setPhone(username);
                 user.setPassword(password);
-                new UsersRepository().getUserLogin(user).observe(this, this::onChanged);
+                new UsersRepository().getUserLogin(user).observe(this, this::getStartActivity);
                 break;
             case "ADMIN":
                 Admins admin = new Admins();
                 admin.setUsername(username);
                 admin.setPassword(password);
-                new AdminsRepository().getAdminLogin(admin).observe(this,this::onChanged);
+                new AdminsRepository().getAdminLogin(admin).observe(this,this::getStartActivity);
                 break;
             case "STAFF":
                 Staffs staff = new Staffs();
                 staff.setUsername(username);
                 staff.setPassword(password);
-                new StaffsRepository().getStaffLogin(staff).observe(this, this::onChanged);
+                new StaffsRepository().getStaffLogin(staff).observe(this, this::getStartActivity);
                 break;
         }
     }
 
-    private <T> void onChanged(ArrayList<T> tArrayList) {
+    private <T> void getStartActivity(ArrayList<T> tArrayList) {
         if (tArrayList.size() != 0) {
             startActivity(new Intent(this, OTPActivity.class)
                     .putExtra(NAME_LOGIN, (Parcelable) tArrayList.get(0))

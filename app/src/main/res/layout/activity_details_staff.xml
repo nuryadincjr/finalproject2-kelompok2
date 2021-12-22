@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +8,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,18 +23,19 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_brand" />
+                tools:src="@drawable/ic_brand"
+                android:contentDescription="@string/app_name" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/tvLableId"
+                    android:id="@+id/tvLabelId"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Staff ID"
+                    android:text="@string/str_staff_id"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -42,7 +43,7 @@
                     android:id="@+id/tvId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/tvLableId"
+                    android:layout_toEndOf="@+id/tvLabelId"
                     android:maxLines="2"
                     android:padding="8dp"
                     android:textColor="@color/black"
@@ -55,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvId"
                     android:padding="8dp"
-                    android:text="Devision"
+                    android:text="@string/str_division"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -72,12 +73,12 @@
                     tools:text="Marketing" />
 
                 <TextView
-                    android:id="@+id/tvLableName"
+                    android:id="@+id/tvLabelName"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvLableDevision"
                     android:padding="8dp"
-                    android:text="Full Name"
+                    android:text="@string/str_full_name"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -86,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvDevision"
-                    android:layout_toEndOf="@+id/tvLableName"
+                    android:layout_toEndOf="@+id/tvLabelName"
                     android:maxLines="1"
                     android:padding="8dp"
                     android:textColor="@color/black"
@@ -99,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvName"
                     android:padding="8dp"
-                    android:text="Phone Number"
+                    android:text="@string/str_phone_number"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -121,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvPhone"
                     android:padding="8dp"
-                    android:text="E-Mail Address"
+                    android:text="@string/str_e_mail_address"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -143,7 +144,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvEmail"
                     android:padding="8dp"
-                    android:text="Address"
+                    android:text="@string/str_address"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -164,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvAddress"
                     android:padding="8dp"
-                    android:text="Username"
+                    android:text="@string/str_username"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -179,33 +180,34 @@
                     tools:text="nuryadincjr" />
 
                 <TextView
-                    android:id="@+id/tvLablePassword"
+                    android:id="@+id/tvLabelPassword"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvUsername"
                     android:padding="8dp"
-                    android:text="Password"
+                    android:text="@string/str_password"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvPawword"
+                    android:id="@+id/tvPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvUsername"
-                    android:layout_toEndOf="@+id/tvLablePassword"
+                    android:layout_toEndOf="@+id/tvLabelPassword"
                     android:padding="8dp"
-                    android:text="reset password"
-                    android:textColor="#038AF4"
-                    android:textSize="14sp" />
+                    android:text="@string/str_reset_password"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    tools:ignore="TextContrastCheck" />
 
                 <TextView
                     android:id="@+id/tvLableUpdate"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvPawword"
+                    android:layout_below="@+id/tvPassword"
                     android:padding="8dp"
-                    android:text="Latest Update"
+                    android:text="@string/str_latest_update"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -213,7 +215,7 @@
                     android:id="@+id/tvLatestUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tvPawword"
+                    android:layout_below="@+id/tvPassword"
                     android:layout_toEndOf="@+id/tvLableUpdate"
                     android:padding="8dp"
                     android:textColor="@color/black"
@@ -226,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvLatestUpdate"
                     android:padding="8dp"
-                    android:text="Status"
+                    android:text="@string/str_status"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 

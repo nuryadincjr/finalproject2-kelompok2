@@ -62,8 +62,17 @@ public class ImagesPreference {
         String[] myStrings = str.split(",");
         List<String> stringList = new ArrayList<>();
         for (int i = 0; i < myStrings.length; i++) {
-            stringList.add(i, myStrings[i]);
+            String item = myStrings[i].replace(" ", "");
+            if(item.equals("OtherProducts")) item = "Other Products";
+
+            stringList.add(i ,item);
         }
         return stringList;
+    }
+
+    public static String getStringReplace(Object value){
+        return String.valueOf(value)
+                .replace("]", "")
+                .replace("[", "");
     }
 }

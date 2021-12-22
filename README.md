@@ -1,9 +1,25 @@
-# finalproject2-kelompok2
+Final Project Kelompok 2 Studi independen Kampus Merdeka
+========================================================
 
-Studi independen Kampus Merdeka
+Introduction
+------------
 
-Merdeka Belanja
+Pre-requisites
+--------------
 
-## Screenshots
+Screenshots
+-------------
 
-<img src="https://github.com/nuryadincjr/finalproject2-kelompok2/blob/main/img/1.png" width="233" height="483"> <img src="https://github.com/nuryadincjr/finalproject2-kelompok2/blob/main/img/2.png" width="233" height="483"> <img src="https://github.com/nuryadincjr/finalproject2-kelompok2/blob/main/img/3.png" width="233" height="483"> <img src="https://github.com/nuryadincjr/finalproject2-kelompok2/blob/main/img/4.png" width="233" height="483"> <img src="https://github.com/nuryadincjr/finalproject2-kelompok2/blob/main/img/5.png" width="233" height="483"> <img src="https://github.com/nuryadincjr/finalproject2-kelompok2/blob/main/img/6.png" width="233" height="483">
+<img src="img/1.png" height="400" alt="Screenshot"/> 
+<img src="img/2.png" height="400" alt="Screenshot"/> 
+<img src="img/3.png" height="400" alt="Screenshot"/> 
+<img src="img/4.png" height="400" alt="Screenshot"/> 
+<img src="img/5.png" height="400" alt="Screenshot"/>
+<img src="img/6.png" height="400" alt="Screenshot"/> 
+
+
+Getting Started
+---------------
+
+Support
+-------

@@ -26,6 +26,7 @@ public class SpinnersAdapter {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_spinner_dropdown_item, stringArray);
+
         spinner.setAdapter(adapter);
 
         if(item != null) {

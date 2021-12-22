@@ -1,10 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="ic_launcher_background">#FFFFFF</color>
 
-    <style name="Theme.MerdekaBelanja.NoActionBar">
+    <style name="Theme.MerdekaBelanja.NoActionBar" >
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="LayoutWidthHeightMW">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="LayoutWidthHeightMM">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="LayoutWidthHeightWM">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <style name="LayoutWidthHeightMW.ListItemView">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ImageViewCenter">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="LinearLayoutItem">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+    <style name="LayoutWidthHeightMM.TextViewLabel">
+=        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="LayoutWidthHeightMW.LinearLayoutItemSetting">
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">10dp</item>
+    </style>
+    <style name="LayoutWidthHeightMM.TextViewItemSetting">
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="LayoutWidthHeightMW.FABsItem">
+        <item name="android:layout_gravity">end|bottom</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+    <style name="LayoutWidthHeightMM.SearchViewItem">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginEnd">15dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:background">@drawable/bg_search</item>
+        <item name="android:iconifiedByDefault">false</item>
+        <item name="android:queryBackground">@android:color/transparent</item>
+        <item name="android:queryHint">Searching</item>
+        <item name="android:searchIcon">@drawable/ic_search</item>
+    </style>
+    <style name="LayoutWidthHeightMW.TextViewMore">
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="LayoutWidthHeightMW.LinearLayoutAdmin">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:background">@drawable/bg_item_rounded</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="LayoutWidthHeightMW.TextViewAdmin">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/bg_title</item>
+    </style>
+    <style name="ImageViewAdmin">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+    <style name="LayoutWidthHeightMM.CardViewItem">
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
+    </style>
+    <style name="ImageViewItemViewer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:background">@drawable/bg_item_rounded</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
 </resources>

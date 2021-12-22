@@ -8,6 +8,8 @@ import static com.nuryadincjr.merdekabelanja.resorces.Constant.getFileExtension;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.getInfo;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
 
+import static java.util.Objects.*;
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -38,7 +40,6 @@ import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
 import java.util.ArrayList;
 
 public class MyInfoActivity extends AppCompatActivity {
-
     private ActivityMyInfoBinding binding;
     private ImagesPreference imagesPreference;
     private StorageReference storageReference;
@@ -52,7 +53,7 @@ public class MyInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_info);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         binding = ActivityMyInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -66,7 +67,7 @@ public class MyInfoActivity extends AppCompatActivity {
 
         binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getSinggleImage(this));
 
-        onSetData();
+        onDataSet();
     }
 
     @Override
@@ -94,8 +95,8 @@ public class MyInfoActivity extends AppCompatActivity {
             case R.id.itemSaves:
                 getInputValidations();
                 return true;
-            case R.id.itemCencle:
-                onSetData();
+            case R.id.itemClose:
+                onDataSet();
                 isEdited(false);
                 return true;
         }
@@ -137,11 +138,11 @@ public class MyInfoActivity extends AppCompatActivity {
             users.setAddress(orderAdd);
             users.setAddress2(destAdd);
             users.setLatest_update(time());
-            onUpdateData(users);
+            onDataUpdated(users);
         } else Toast.makeText(this, "Please input your name!", Toast.LENGTH_SHORT).show();
     }
 
-    private void onUpdateData(Users users) {
+    private void onDataUpdated(Users users) {
         dialog.setMessage("Register..");
         dialog.setCancelable(false);
         dialog.show();
@@ -156,20 +157,20 @@ public class MyInfoActivity extends AppCompatActivity {
             uploadTask.continueWithTask(task -> {
                 if(!task.isSuccessful()) {
                     dialog.dismiss();
-                    throw task.getException();
+                    throw requireNonNull(task.getException());
                 }
                 return filePath.getDownloadUrl();
             }).addOnCompleteListener(task -> {
                 if(task.isSuccessful()) {
                     Uri downdoadUri = task.getResult();
-                    users.setPhoto(downdoadUri.toString());
-                    onCreateData(users);
+                    users.setPhoto(String.valueOf(downdoadUri));
+                    onDataCreated(users);
                 }
             });
-        } else onCreateData(users);
+        } else onDataCreated(users);
     }
 
-    private void onCreateData(Users users) {
+    private void onDataCreated(Users users) {
         dialog.setMessage("Updating profile");
         dialog.show();
         new UsersRepository().updateUser(users).addOnSuccessListener(documentReference -> {
@@ -184,7 +185,7 @@ public class MyInfoActivity extends AppCompatActivity {
         });
     }
 
-    private void onSetData() {
+    private void onDataSet() {
         new UsersRepository().getUserData(uid).observe(this, (ArrayList<Users> user) -> {
             if(user.size() != 0) {
                 users = user.get(0);

@@ -17,18 +17,9 @@
             android:background="?attr/colorOnPrimary"
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <SearchView
+            <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchBar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/bg_search"
-                android:iconifiedByDefault="false"
-                android:queryBackground="@android:color/transparent"
-                android:queryHint="Searching"
-                android:searchIcon="@drawable/ic_search"/>
+                style="@style/LayoutWidthHeightMM.SearchViewItem"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -55,7 +46,7 @@
             </androidx.viewpager2.widget.ViewPager2>
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tablayout"
+                android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:tabBackground="@drawable/selector_indicator_tab"
@@ -66,17 +57,12 @@
 
             <TextView
                 android:id="@+id/tvClothingMore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:padding="10dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="@string/clothing_amp_accesoriss"
-                android:textSize="18sp"
+                style="@style/LayoutWidthHeightMW.TextViewMore"
+                android:text="@string/clothing_amp_accessories"
                 app:drawableRightCompat="@drawable/ic_baseline_arrow" />
 
             <LinearLayout
+                android:id="@+id/llClothing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -96,17 +82,12 @@
 
             <TextView
                 android:id="@+id/tvElectronicsMore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:padding="10dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
+                style="@style/LayoutWidthHeightMW.TextViewMore"
                 android:text="@string/electronics"
-                android:textSize="18sp"
                 app:drawableRightCompat="@drawable/ic_baseline_arrow" />
 
             <LinearLayout
+                android:id="@+id/llElectronic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -125,17 +106,12 @@
 
             <TextView
                 android:id="@+id/tvBooksMore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
-                android:padding="10dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="@string/books"
-                android:textSize="18sp"
+                style="@style/LayoutWidthHeightMW.TextViewMore"
+                android:text="@string/str_books"
                 app:drawableRightCompat="@drawable/ic_baseline_arrow" />
 
             <LinearLayout
+                android:id="@+id/llBooks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -155,19 +131,12 @@
 
             <TextView
                 android:id="@+id/tvOtherMore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="8dp"
-                android:background="?selectableItemBackground"
-                android:padding="10dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
+                style="@style/LayoutWidthHeightMW.TextViewMore"
                 android:text="@string/other_products"
-                android:textSize="18sp"
                 app:drawableRightCompat="@drawable/ic_baseline_arrow" />
 
             <LinearLayout
+                android:id="@+id/llOther"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">

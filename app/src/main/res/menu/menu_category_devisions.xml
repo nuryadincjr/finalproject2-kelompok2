@@ -4,48 +4,20 @@
     <item
         android:id="@+id/itemSearch"
         android:icon="@drawable/ic_search"
-        android:title="Search"
+        android:title="@string/str_search"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView" />
 
     <item android:id="@+id/itemFilter"
         android:icon="@drawable/ic_filter"
-        android:title="Filter"
+        android:title="@string/str_filter"
         app:showAsAction="ifRoom">
         <menu>
             <item
                 android:id="@+id/itemFilter0"
                 android:checkable="true"
                 android:titleCondensed="All"
-                android:title="All Devisions"
-                app:actionViewClass="android.widget.CheckBox"
-                app:showAsAction="collapseActionView|withText" />
-            <item
-                android:id="@+id/itemFilter1"
-                android:checkable="true"
-                android:titleCondensed="Finance"
-                android:title="Finance"
-                app:actionViewClass="android.widget.CheckBox"
-                app:showAsAction="collapseActionView|withText" />
-            <item
-                android:id="@+id/itemFilter2"
-                android:checkable="true"
-                android:titleCondensed="Marketing"
-                android:title="Marketing"
-                app:actionViewClass="android.widget.CheckBox"
-                app:showAsAction="collapseActionView|withText" />
-            <item
-                android:id="@+id/itemFilter3"
-                android:checkable="true"
-                android:titleCondensed="Warehouse"
-                android:title="Warehouse"
-                app:actionViewClass="android.widget.CheckBox"
-                app:showAsAction="collapseActionView|withText" />
-            <item
-                android:id="@+id/itemFilter4"
-                android:checkable="true"
-                android:titleCondensed="HRD"
-                android:title="HRD"
+                android:title="@string/str_all_divisions"
                 app:actionViewClass="android.widget.CheckBox"
                 app:showAsAction="collapseActionView|withText" />
         </menu>

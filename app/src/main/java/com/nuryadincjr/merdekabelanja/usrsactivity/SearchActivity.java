@@ -2,6 +2,8 @@ package com.nuryadincjr.merdekabelanja.usrsactivity;
 
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
 
+import static java.util.Objects.*;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -26,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
-
     private ActivitySearchBinding binding;
 
     @Override
@@ -37,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("");
+        requireNonNull(getSupportActionBar()).setTitle("");
     }
 
     @Override
@@ -87,23 +88,27 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void getData(String s, int session) {
-        MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        mainViewModel.getSearchProducts(s).observe(this, products -> {
-            if(products.size() != 0) {
-                List<Products> productsList = new ArrayList<>(products);
-                ProductsAdapter productsAdapter = new ProductsAdapter(session, productsList);
+        MainViewModel mainViewModel = new ViewModelProvider(this)
+                .get(MainViewModel.class);
+        mainViewModel.getSearchProducts(s)
+                .observe(this, products -> onDataSet(session, products));
+    }
 
-                int viewWidth = binding.rvSearching.getMeasuredWidth();
-                int spanCoutnt = (int) Math.floor(viewWidth / 360f);
+    private void onDataSet(int session, ArrayList<Products> products) {
+        if(products.size() != 0) {
+            List<Products> productsList = new ArrayList<>(products);
+            ProductsAdapter productsAdapter = new ProductsAdapter(session, productsList);
 
-                if(session == 2) spanCoutnt = 1;
+            int viewWidth = binding.rvSearching.getMeasuredWidth();
+            int spanCoutnt = (int) Math.floor(viewWidth / 360f);
 
-                binding.rvSearching.setLayoutManager(new GridLayoutManager(this, spanCoutnt));
-                binding.rvSearching.setAdapter(productsAdapter);
+            if(session == 2) spanCoutnt = 1;
 
-                onListener(productsAdapter, productsList);
-            }
-        });
+            binding.rvSearching.setLayoutManager(new GridLayoutManager(this, spanCoutnt));
+            binding.rvSearching.setAdapter(productsAdapter);
+
+            onListener(productsAdapter, productsList);
+        }
     }
 
     private void onListener(ProductsAdapter productsAdapter, List<Products> productsList) {

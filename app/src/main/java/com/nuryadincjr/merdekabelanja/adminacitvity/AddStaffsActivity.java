@@ -7,6 +7,8 @@ import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISEDIT;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.getFileExtension;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
+import static java.lang.String.valueOf;
+import static java.util.Objects.requireNonNull;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -20,19 +22,23 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.nuryadincjr.merdekabelanja.R;
+import com.nuryadincjr.merdekabelanja.adapters.ImageViewerAdapter;
 import com.nuryadincjr.merdekabelanja.adapters.SpinnersAdapter;
 import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddStafsBinding;
+import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
 import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class AddStaffsActivity extends AppCompatActivity {
@@ -42,14 +48,15 @@ public class AddStaffsActivity extends AppCompatActivity {
     private ImagesPreference imagesPreference;
     private ProgressDialog dialog;
     private Staffs staffs;
-    private Uri imageUri;
     private boolean isEdit;
+    private String imageOld;
+    private List<Uri> uriImageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_stafs);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         binding = ActivityAddStafsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -62,21 +69,23 @@ public class AddStaffsActivity extends AppCompatActivity {
         dialog = new ProgressDialog(this);
         staffs = new Staffs();
         isEdit = getIntent().getBooleanExtra(NAME_ISEDIT, false);
+        uriImageList = new ArrayList<>();
 
         binding.btnRegister.setOnClickListener(v -> getInputValidations());
         binding.btnAddPhoto.setOnClickListener(v -> imagesPreference.getSinggleImage(this));
 
         String titleBar = "Add Staff";
-        titleBar = getIsEdited(titleBar);
+        titleBar = getEdited(titleBar);
 
-        getSupportActionBar().setTitle(titleBar);
+        requireNonNull(getSupportActionBar()).setTitle(titleBar);
         spinnersAdapter.getSpinnerAdapter(binding.actDevisions, R.array.division , staffs.getDivision());
     }
 
     @SuppressLint("SetTextI18n")
-    private String getIsEdited(String titleBar) {
+    private String getEdited(String titleBar) {
         if(isEdit) {
             staffs = getIntent().getParcelableExtra(NAME_DATA);
+            imageOld = staffs.getPhoto();
             onDataSet(staffs);
             binding.btnRegister.setText("Save Data");
             titleBar = "Edit Staff";
@@ -93,16 +102,47 @@ public class AddStaffsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void onDataSet(Staffs staff) {
-        if(!staff.getPhoto().isEmpty()) {
-            Glide.with(this)
-                        .load(staff.getPhoto())
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_brand)
-                        .into(binding.ivPhoto);
-            binding.ivPhoto.setVisibility(View.VISIBLE);
-            binding.btnAddPhoto.setChecked(true);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 25 && data != null) {
+            uriImageList.add(data.getData());
         }
+
+        getImageViewerAdapter();
+    }
+
+    private void getImageViewerAdapter() {
+        uriImageList.remove(Uri.parse(""));
+        ImageViewerAdapter imageViewerAdapter = new ImageViewerAdapter(uriImageList);
+        binding.rvImageViewer.setLayoutManager(new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false));
+        binding.rvImageViewer.setAdapter(imageViewerAdapter);
+
+        onClickListener(imageViewerAdapter);
+    }
+
+    private void onClickListener(ImageViewerAdapter imageViewerAdapter) {
+        imageViewerAdapter.setItemClickListener(new ItemClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onClick(View view, int position) {
+                uriImageList.remove(position);
+                staffs.setPhoto("");
+                imageViewerAdapter.notifyDataSetChanged();
+                binding.btnAddPhoto.setEnabled(uriImageList.size() < 1);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        });
+        binding.btnAddPhoto.setEnabled(uriImageList.size() < 1);
+    }
+    private void onDataSet(Staffs staff) {
+        uriImageList.add(Uri.parse(staff.getPhoto()));
+        getImageViewerAdapter();
 
         binding.etName.setText(staff.getName());
         binding.etPhone.setText(staff.getPhone());
@@ -114,20 +154,24 @@ public class AddStaffsActivity extends AppCompatActivity {
 
     private void getInputValidations() {
         String id = UUID.randomUUID().toString();
-        if(isEdit) id = staffs.getUid();
-        String fullName = String.valueOf(binding.etName.getText());
-        String phone = String.valueOf(binding.etPhone.getText());
-        String email = String.valueOf(binding.etEmail.getText());
-        String password = String.valueOf(binding.etPassword.getText());
-        String confpassword = String.valueOf(binding.etConfPassword.getText());
-        String address = String.valueOf(binding.etAddress.getText());
-        String division = String.valueOf(binding.actDevisions.getText());
+        String photo = "";
+        if(isEdit) {
+            id = staffs.getUid();
+            photo = staffs.getPhoto();
+        }
+        String fullName = valueOf(binding.etName.getText());
+        String phone = valueOf(binding.etPhone.getText());
+        String email = valueOf(binding.etEmail.getText());
+        String password = valueOf(binding.etPassword.getText());
+        String confpassword = valueOf(binding.etConfPassword.getText());
+        String address = valueOf(binding.etAddress.getText());
+        String division = valueOf(binding.actDevisions.getText());
 
         if(!fullName.isEmpty() && !phone.isEmpty() && !email.isEmpty() &&
                 !password.isEmpty() && !confpassword.isEmpty() && !division.isEmpty()) {
             if(password.length() > 7) {
                 if(password.equals(confpassword)){
-                    Staffs staffs = new Staffs(id, fullName, phone, email, "", address, email,
+                    Staffs staffs = new Staffs(id, fullName, phone, email, photo, address, email,
                             password, time(), "register", division);
 
                     onRegister(staffs);
@@ -142,17 +186,17 @@ public class AddStaffsActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
 
-        if(imageUri != null) {
+        if(!uriImageList.isEmpty() && !valueOf(uriImageList.get(0)).equals(this.staffs.getPhoto())) {
             dialog.setMessage("Uploading file..");
 
             StorageReference filePath = storageReference.child(staffs.getUid())
-                    .child(staffs.getUid() + "." + getFileExtension(imageUri, this));
-            StorageTask<UploadTask.TaskSnapshot> uploadTask = filePath.putFile(imageUri);
+                    .child(staffs.getUid() + "." + getFileExtension(uriImageList.get(0), this));
+            StorageTask<UploadTask.TaskSnapshot> uploadTask = filePath.putFile(uriImageList.get(0));
 
             uploadTask.continueWithTask(task -> {
                 if(!task.isSuccessful()) {
                     dialog.dismiss();
-                    throw task.getException();
+                    throw requireNonNull(task.getException());
                 }
                 return filePath.getDownloadUrl();
             }).addOnCompleteListener(task -> {
@@ -161,17 +205,19 @@ public class AddStaffsActivity extends AppCompatActivity {
                     assert downloadUri != null;
                     staffs.setPhoto(downloadUri.toString());
 
-                    if(isEdit) onUpdateData(staffs);
-                    else onCreateData(staffs);
+                    if(isEdit) onDataUpdated(staffs);
+                    else onDataCreated(staffs);
                 }
             });
         } else {
-            if(isEdit) onUpdateData(staffs);
-            else onCreateData(staffs);
+            if(isEdit) onDataUpdated(staffs);
+            else onDataCreated(staffs);
         }
+
+
     }
 
-    private void onCreateData(Staffs staffs) {
+    private void onDataCreated(Staffs staffs) {
         dialog.setMessage("Setup profile..");
 
         new StaffsRepository().insertStaffs(staffs).addOnSuccessListener(documentReference -> {
@@ -187,29 +233,22 @@ public class AddStaffsActivity extends AppCompatActivity {
                     "Error adding document.", Toast.LENGTH_SHORT).show();
         });
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 25 && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
-            binding.ivPhoto.setVisibility(View.VISIBLE);
-            binding.ivPhoto.setImageURI(imageUri);
-        }else {
-            imageUri = null;
-            binding.btnAddPhoto.setChecked(false);
-        }
-    }
     
-    private void onUpdateData(Staffs staffs) {
-        dialog.setMessage("Setup profile..");
+    private void onDataUpdated(Staffs staffs) {
+        if (staffs.getPhoto().equals("") && !imageOld.equals(staffs.getPhoto())) {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            storage.getReferenceFromUrl(imageOld).delete().addOnCompleteListener(task -> {
+                if(task.isSuccessful())startDataUpdated(staffs);
+            });
+        } else startDataUpdated(staffs);
+    }
 
+    private void startDataUpdated(Staffs staffs) {
         new StaffsRepository().updateStaffs(staffs).addOnSuccessListener(documentReference -> {
             Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
+            dialog.dismiss();
             Toast.makeText(getApplicationContext(),
                     "Success.", Toast.LENGTH_SHORT).show();
-
-            dialog.dismiss();
         }).addOnFailureListener(e -> {
             dialog.dismiss();
             Log.w(TAG, "Error adding document", e);

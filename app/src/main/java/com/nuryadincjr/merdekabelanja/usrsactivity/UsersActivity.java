@@ -39,11 +39,8 @@ public class UsersActivity extends AppCompatActivity
             case R.id.itemHome:
                 getFragmentPage(new HomeFragment());
                 break;
-            case R.id.itemCategorys:
+            case R.id.itemCategories:
                 getFragmentPage(new CategoryFragment());
-                break;
-            case R.id.itemCart:
-//                getFragmentPage(new CartFragment());
                 break;
             case R.id.itemAccount:
                 getFragmentPage(new UserProfileFragment());

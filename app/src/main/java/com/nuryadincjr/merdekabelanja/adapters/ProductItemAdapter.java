@@ -1,11 +1,17 @@
 package com.nuryadincjr.merdekabelanja.adapters;
 
+import static android.text.Layout.JUSTIFICATION_MODE_INTER_WORD;
+
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -59,6 +65,7 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (SECTION_VIEW == getItemViewType(position)) {
@@ -90,20 +97,24 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             binding.getRoot().setOnClickListener(this);
         }
 
+        @SuppressLint("WrongConstant")
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void setDataToView(String key, Map<String, Object> value) {
             String newValue = String.valueOf(value.get(key))
                     .replace("[", "")
                     .replace("]", "");
+            if (key.equals("descriptions")) binding.tvItem.setJustificationMode(JUSTIFICATION_MODE_INTER_WORD);
             if(!key.equals("photo")){
-                String fildName = key.substring(0,1).toUpperCase() + key.substring(1).toLowerCase();
+                String fieldName = key.substring(0,1).toUpperCase() + key.substring(1).toLowerCase();
                 binding.tvItem.setText(newValue);
-                binding.tvLable.setText(fildName.replace("_", " "));
+                binding.tvLabel.setText(fieldName.replace("_", " "));
             } else {
                 binding.tvItem.setVisibility(View.GONE);
-                binding.tvLable.setVisibility(View.GONE);
+                binding.tvLabel.setVisibility(View.GONE);
                 ImagesPreference imagesPreference = new ImagesPreference(itemView.getContext());
                 List<String> urlList = imagesPreference.getList(newValue);
 
+                Log.d("xxx", String.valueOf(urlList));
                 if(urlList.size()!=0) {
                     for(int i=0; i<urlList.size(); i++) {
                         RequestBuilder<Drawable> glide = Glide.with(itemView.getContext())
@@ -157,11 +168,11 @@ public class ProductItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if(key.equals("photo") || key.equals("descriptions") ||
                     key.equals("id") || key.equals("latest_update")){
                 binding.tvItem.setVisibility(View.GONE);
-                binding.tvLable.setVisibility(View.GONE);
+                binding.tvLabel.setVisibility(View.GONE);
             } else {
                 String fildName = key.substring(0,1).toUpperCase() + key.substring(1).toLowerCase();
                 binding.tvItem.setText(newValue);
-                binding.tvLable.setText(fildName.replace("_", " "));
+                binding.tvLabel.setText(fildName.replace("_", " "));
             }
         }
     }

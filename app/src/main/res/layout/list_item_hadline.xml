@@ -18,7 +18,8 @@
             android:layout_height="match_parent"
             android:background="@color/gray_10"
             android:scaleType="centerCrop"
-            android:src="@drawable/other_product" />
+            android:src="@drawable/other_product"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:id="@+id/tvHeadline"

@@ -102,8 +102,20 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             binding.getRoot().setOnClickListener(this);
         }
 
+        @SuppressLint("SetTextI18n")
         public void setDataToView(Products products) {
+            binding.tvLabelOption.setText("Product Name");
             binding.tvName.setText(products.getName());
+            binding.tvLabelOptionSecond.setText("Quantity/Stock");
+            binding.tvNameSecond.setText(products.getPiece() + " PIC");
+
+            if(!products.getPhoto().isEmpty()) {
+                Glide.with(itemView.getContext())
+                        .load(products.getPhoto().get(0))
+                        .centerCrop()
+                        .placeholder(R.drawable.ic_brand)
+                        .into(binding.ivPhoto);
+            }
         }
 
         @Override

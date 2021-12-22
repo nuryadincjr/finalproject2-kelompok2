@@ -1,15 +1,20 @@
 package com.nuryadincjr.merdekabelanja.adminacitvity;
 
 import static android.content.ContentValues.TAG;
+import static com.nuryadincjr.merdekabelanja.pojo.PermissionsAccess.requestStoragePermission;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.CHILD_ADMIN;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.CHILD_PROFILE;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_UID;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.getFileExtension;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
 
+import static java.util.Objects.*;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,8 +24,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
@@ -49,7 +56,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admins_profile);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         binding = ActivityAdminsProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -62,7 +69,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
 
         String uid = localPreference.getPreferences().getString(KEY_UID, "");
 
-        onSetData(uid);
+        getData(uid);
         setFocusable();
     }
 
@@ -86,58 +93,47 @@ public class AdminsProfileActivity extends AppCompatActivity {
                 getDataEdited();
                 return true;
             case R.id.itemSaves:
-                getDataChange();
+                getDataChanged();
                 return true;
-            case R.id.itemCencle:
-                getDataCencled();
+            case R.id.itemClose:
+                getDataCanceled();
                 return true;
             case R.id.itemPrint:
-                PdfConverters.getInstance(this)
-                        .getDataToPdf(binding.getRoot(), data.getUid());
+                getDataPrinted();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void onSetData(String uid) {
-        new AdminsRepository().getAdmin(uid).observe(this, (ArrayList<Admins> admin) -> {
-            if(admin.size() != 0) {
-                data = admin.get(0);
-
-                String url = admin.get(0).getPhoto();
-                Glide.with(this)
-                        .load(url)
-                        .centerCrop()
-                        .placeholder(R.drawable.ic_brand)
-                        .into(binding.ivPhoto);
-
-                binding.tvId.setText(admin.get(0).getUid());
-                binding.tvName.setText(admin.get(0).getName());
-                binding.tvPhone.setText(admin.get(0).getPhone());
-                binding.tvEmail.setText(admin.get(0).getEmail());
-                binding.tvAddress.setText(admin.get(0).getAddress());
-                binding.tvUsername.setText(admin.get(0).getUsername());
-                binding.tvAccount.setText(admin.get(0).getStatus_account());
-                binding.tvLatestUpdate.setText(admin.get(0).getLatest_update());
-            }
-        });
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 25 && resultCode == RESULT_OK && data != null) {
+            imageUri = data.getData();
+            binding.ivPhoto.setImageURI(imageUri);
+        } else imageUri = null;
     }
 
-    private void getDataCencled() {
-        onSetData(data.getUid());
-        getSupportActionBar().setTitle("Details Admins");
+    private void getData(String uid) {
+        new AdminsRepository().getAdmin(uid)
+                .observe(this, this::onDataSet);
+    }
+
+    private void getDataCanceled() {
+        getData(data.getUid());
+        requireNonNull(getSupportActionBar()).setTitle("Details Admins");
         setFocusable();
         setVisibleMenu(false, true);
     }
 
     private void getDataEdited() {
-        getSupportActionBar().setTitle("Edits Admins");
+        requireNonNull(getSupportActionBar()).setTitle("Edits Admins");
         setFocusableInTouchMode();
         setVisibleMenu(true, false);
         binding.ivPhoto.setOnClickListener(view -> imagesPreference.getSinggleImage(this));
     }
 
-    private void getDataChange() {
+    private void getDataChanged() {
         String fullName = binding.tvName.getText().toString();
         String phone = binding.tvPhone.getText().toString();
         String email = binding.tvEmail.getText().toString();
@@ -153,9 +149,31 @@ public class AdminsProfileActivity extends AppCompatActivity {
         } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
     }
 
+    private void getDataPrinted() {
+        if ((ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) ||
+                (ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)) {
+            Snackbar.make(binding.getRoot(),
+                    R.string.storage_permission_available,
+                    Snackbar.LENGTH_SHORT).show();
+            startPrinting();
+        } else {
+            requestStoragePermission(this, binding.getRoot());
+        }
+    }
+
+    private void startPrinting() {
+        if(binding.getRoot().getWidth() != 0 &&
+                binding.getRoot().getHeight() !=0){
+            PdfConverters.getInstance(this)
+                    .getDataToPdf(binding.getRoot(), data.getUid());
+        }
+    }
+
     private void setVisibleMenu(boolean visible1, boolean visible2) {
         menu.findItem(R.id.itemSaves).setVisible(visible1);
-        menu.findItem(R.id.itemCencle).setVisible(visible1);
+        menu.findItem(R.id.itemClose).setVisible(visible1);
         menu.findItem(R.id.itemEdit).setVisible(visible2);
         menu.findItem(R.id.itemPrint).setVisible(visible2);
     }
@@ -167,7 +185,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
         binding.tvEmail.setFocusable(false);
         binding.tvAddress.setFocusable(false);
         binding.tvUsername.setFocusable(false);
-        binding.tvPawword.setFocusable(false);
+        binding.tvPassword.setFocusable(false);
         binding.ivPhoto.setEnabled(false);
     }
 
@@ -177,8 +195,30 @@ public class AdminsProfileActivity extends AppCompatActivity {
         binding.tvEmail.setFocusableInTouchMode(true);
         binding.tvAddress.setFocusableInTouchMode(true);
         binding.tvUsername.setFocusableInTouchMode(true);
-        binding.tvPawword.setFocusableInTouchMode(true);
+        binding.tvPassword.setFocusableInTouchMode(true);
         binding.ivPhoto.setEnabled(true);
+    }
+
+    private void onDataSet(ArrayList<Admins> admin) {
+        if (admin.size() != 0) {
+            data = admin.get(0);
+
+            String url = admin.get(0).getPhoto();
+            Glide.with(this)
+                    .load(url)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_brand)
+                    .into(binding.ivPhoto);
+
+            binding.tvId.setText(admin.get(0).getUid());
+            binding.tvName.setText(admin.get(0).getName());
+            binding.tvPhone.setText(admin.get(0).getPhone());
+            binding.tvEmail.setText(admin.get(0).getEmail());
+            binding.tvAddress.setText(admin.get(0).getAddress());
+            binding.tvUsername.setText(admin.get(0).getUsername());
+            binding.tvAccount.setText(admin.get(0).getStatus_account());
+            binding.tvLatestUpdate.setText(admin.get(0).getLatest_update());
+        }
     }
 
     private void onDataChange(Admins admins) {
@@ -194,7 +234,9 @@ public class AdminsProfileActivity extends AppCompatActivity {
             StorageTask<UploadTask.TaskSnapshot> uploadTask = filePath.putFile(imageUri);
 
             uploadTask.continueWithTask(task -> {
-                if(!task.isSuccessful()) throw task.getException(); dialog.dismiss();
+                if(!task.isSuccessful()) {
+                    throw requireNonNull(task.getException());
+                } dialog.dismiss();
                 return filePath.getDownloadUrl();
             }).addOnCompleteListener(task -> {
                 if(task.isSuccessful()) {
@@ -217,7 +259,7 @@ public class AdminsProfileActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "Success.", Toast.LENGTH_SHORT).show();
 
-            getSupportActionBar().setTitle("Details Staff");
+            requireNonNull(getSupportActionBar()).setTitle("Details Staff");
             setFocusable();
             setVisibleMenu(false, true);
 
@@ -227,14 +269,5 @@ public class AdminsProfileActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "Error adding document.", Toast.LENGTH_SHORT).show();
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 25 && resultCode == RESULT_OK && data != null) {
-            imageUri = data.getData();
-            binding.ivPhoto.setImageURI(imageUri);
-        } else imageUri = null;
     }
 }

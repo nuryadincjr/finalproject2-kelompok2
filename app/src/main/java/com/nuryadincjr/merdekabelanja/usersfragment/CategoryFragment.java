@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -16,7 +17,6 @@ import com.nuryadincjr.merdekabelanja.usrsactivity.CategoryActivity;
 import com.nuryadincjr.merdekabelanja.usrsactivity.SearchActivity;
 
 public class CategoryFragment extends Fragment {
-
     private FragmentCategoryBinding binding;
 
     public CategoryFragment() {
@@ -24,7 +24,7 @@ public class CategoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentCategoryBinding.inflate(inflater, container, false);
 
@@ -53,5 +53,4 @@ public class CategoryFragment extends Fragment {
         cardView.setOnClickListener(v -> startActivity(new Intent(getContext(),
                 CategoryActivity.class).putExtra(NAME_CATEGORY, category)));
     }
-
 }

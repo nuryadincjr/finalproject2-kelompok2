@@ -7,23 +7,23 @@ import java.util.List;
 
 public class Electronics extends Products implements Parcelable {
     private String brand_name;
-    private String product_type;
+    private String electronic_type;
 
     public Electronics() {
     }
 
     public Electronics(String id, String name, String descriptions, List<String> photo,
                        String piece, String quantity, String category,
-                       String latest_update, String brand_name, String product_type) {
+                       String latest_update, String brand_name, String electronic_type) {
         super(id, name, descriptions, photo, piece, quantity, category, latest_update);
         this.brand_name = brand_name;
-        this.product_type = product_type;
+        this.electronic_type = electronic_type;
     }
 
     protected Electronics(Parcel in) {
         super(in);
         brand_name = in.readString();
-        product_type = in.readString();
+        electronic_type = in.readString();
     }
 
     public static final Creator<Electronics> CREATOR = new Creator<Electronics>() {
@@ -46,12 +46,12 @@ public class Electronics extends Products implements Parcelable {
         this.brand_name = brand_name;
     }
 
-    public String getProduct_type() {
-        return product_type;
+    public String getElectronic_type() {
+        return electronic_type;
     }
 
-    public void setProduct_type(String product_type) {
-        this.product_type = product_type;
+    public void setElectronic_type(String electronic_type) {
+        this.electronic_type = electronic_type;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Electronics extends Products implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         super.writeToParcel(parcel, i);
         parcel.writeString(brand_name);
-        parcel.writeString(product_type);
+        parcel.writeString(electronic_type);
 
     }
 }

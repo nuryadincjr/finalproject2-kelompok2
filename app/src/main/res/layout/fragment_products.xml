@@ -21,13 +21,8 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="8dp"
-        android:backgroundTint="?attr/colorPrimary"
-        android:contentDescription="Add Staff"
-        android:focusableInTouchMode="false"
+        style="@style/LayoutWidthHeightMW.FABsItem"
+        android:contentDescription="@string/str_add_staff"
         android:src="@drawable/ic_add"
         app:tint="@color/white"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />

@@ -2,26 +2,28 @@
 <resources>
     <array name="book_type">
         <item>Novel</item>
-        <item>Komik</item>
-        <item>Ensiklopedi</item>
-        <item>Dongeng</item>
-        <item>Biografi</item>
-        <item>Karya Ilmiah</item>
-        <item>Kamus</item>
+        <item>Comic</item>
+        <item>Encyclopedia</item>
+        <item>Fairy Tales</item>
+        <item>Biography</item>
+        <item>Scientific Works</item>
+        <item>Dictionary</item>
         <item>Atlas</item>
-        <item>Majalah</item>
-        <item>Buku Digital</item>
+        <item>Magazine</item>
+        <item>Digital Book</item>
     </array>
+
     <array name="division">
         <item>Finance</item>
         <item>Marketing</item>
         <item>Warehouse</item>
         <item>HRD</item>
     </array>
-    <array name="gender">
-        <item>Male</item>
-        <item>Female</item>
-        <item>General</item>
+
+    <array name="people">
+        <item>Mens</item>
+        <item>Woman</item>
+        <item>Children</item>
     </array>
 
     <array name="electronic_type">
@@ -34,6 +36,19 @@
         <item>Electronic</item>
         <item>Book</item>
         <item>Other Products</item>
+    </array>
+
+    <array name="clothing_type">
+        <item>T Shirts</item>
+        <item>Formal</item>
+        <item>Shoes</item>
+        <item>Bag</item>
+        <item>Jeans</item>
+        <item>Sports</item>
+        <item>Sock</item>
+        <item>Beach Clothing</item>
+        <item>Watches &amp; Accessories</item>
+        <item>Underwear &amp; Loungewear</item>
     </array>
 
 </resources>

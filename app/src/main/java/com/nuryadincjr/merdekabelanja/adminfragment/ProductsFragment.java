@@ -1,14 +1,20 @@
 package com.nuryadincjr.merdekabelanja.adminfragment;
 
-import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_FILTER_PRODUCT;
+import static com.nuryadincjr.merdekabelanja.pojo.ImagesPreference.getStringReplace;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.KEY_CATEGORY_PRODUCT;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISEDIT;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISPRINT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_PRODUCT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.TAG;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.getStartActivity;
+import static java.util.Arrays.*;
+import static java.util.Objects.requireNonNull;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,25 +50,24 @@ import com.nuryadincjr.merdekabelanja.models.Clothing;
 import com.nuryadincjr.merdekabelanja.models.Electronics;
 import com.nuryadincjr.merdekabelanja.models.Products;
 import com.nuryadincjr.merdekabelanja.pojo.LocalPreference;
+import com.nuryadincjr.merdekabelanja.resorces.Categoryes;
 import com.nuryadincjr.merdekabelanja.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ProductsFragment extends Fragment {
     private FragmentProductsBinding binding;
     private LocalPreference localPreference;
-    private Set<String> filterProduct;
-    private String[] collect;
+    private List<String> productType;
     private Menu menu;
     private Books books;
     private Products data;
     private Clothing clothing;
     private Electronics electronics;
+    private Categoryes categoryes;
 
     public ProductsFragment() {
         // Required empty public constructor
@@ -73,25 +78,24 @@ public class ProductsFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentProductsBinding.inflate(inflater, container, false);
         setHasOptionsMenu(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Products");
+        requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setTitle("Products");
 
-        collect = getResources().getStringArray(R.array.products_type);
-        localPreference = LocalPreference.getInstance(getContext());
-        filterProduct = localPreference.getPreferences()
-                .getStringSet(KEY_FILTER_PRODUCT, new HashSet<>(Arrays.asList(collect)));
+        categoryes = Categoryes.getInstance(getContext());
+        localPreference = new LocalPreference(requireContext());
 
-        binding.swipeRefresh.setColorSchemeResources(R.color.black);
-        binding.swipeRefresh.setOnRefreshListener(() -> {
-            getData();
-            binding.swipeRefresh.setRefreshing(false);
-        });
+        String productsTypePreference = localPreference.getPreferences()
+                .getString(KEY_CATEGORY_PRODUCT, getStringReplace(Arrays.toString(categoryes.productsType())));
 
+        List<String> collections = asList(productsTypePreference.split(", ").clone());
+        productType = new ArrayList<>(collections);
+        productType.remove("");
+
+        binding.swipeRefresh.setOnRefreshListener(this::onRefresh);
         binding.rvProducts.addOnScrollListener(getScrollListener());
         binding.fabAdd.setOnClickListener(v ->
                 startActivity(new Intent(getContext(), ProductsActivity.class)));
 
         if(savedInstanceState == null) getData();
-
         return binding.getRoot();
     }
 
@@ -141,16 +145,14 @@ public class ProductsFragment extends Fragment {
             }
         });
 
-        if(filterProduct.size() == 0 || filterProduct.size() == 4){
+        if(productType.size() == 0 || productType.size() == 4){
             isSetFilters(true,  true, false);
-            filterProduct.addAll(Arrays.asList(collect));
-            getData();
         } else {
-            for (String filter : filterProduct) {
-                if (filter.equals(collect[0])) menu.findItem(R.id.itemFilter1).setChecked(true);
-                if (filter.equals(collect[1])) menu.findItem(R.id.itemFilter2).setChecked(true);
-                if (filter.equals(collect[2])) menu.findItem(R.id.itemFilter3).setChecked(true);
-                if (filter.equals(collect[3])) menu.findItem(R.id.itemFilter4).setChecked(true);
+            for (String filter : productType) {
+                if (filter.equals(categoryes.productsType()[0])) menu.findItem(R.id.itemFilter1).setChecked(true);
+                if (filter.equals(categoryes.productsType()[1])) menu.findItem(R.id.itemFilter2).setChecked(true);
+                if (filter.equals(categoryes.productsType()[2])) menu.findItem(R.id.itemFilter3).setChecked(true);
+                if (filter.equals(categoryes.productsType()[3])) menu.findItem(R.id.itemFilter4).setChecked(true);
             }
         }
         super.onCreateOptionsMenu(menu, inflater);
@@ -164,42 +166,27 @@ public class ProductsFragment extends Fragment {
             public boolean onMenuItemActionExpand(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.itemFilter0:
-                        if(item.isChecked()) filterProduct.removeAll(Arrays.asList(collect));
-                        else filterProduct.addAll(Arrays.asList(collect));
-
                         isSetFilters(!item.isChecked(), !item.isChecked(), item.isChecked());
+                        productType.clear();
+
+                        localPreference.getEditor()
+                                .putString(KEY_CATEGORY_PRODUCT, getStringReplace(productType))
+                                .apply();
+                        getData();
                         break;
                     case R.id.itemFilter1:
-                        if(item.isChecked()) filterProduct.remove(collect[0]);
-                        else filterProduct.add(collect[0]);
-
-                        menu.findItem(R.id.itemFilter0).setChecked(false);
-                        item.setChecked(!item.isChecked());
+                        getFilterChecked(item, 0);
                         break;
                     case R.id.itemFilter2:
-                        if(item.isChecked()) filterProduct.remove(collect[1]);
-                        else filterProduct.add(collect[1]);
-
-                        menu.findItem(R.id.itemFilter0).setChecked(false);
-                        item.setChecked(!item.isChecked());
+                        getFilterChecked(item, 1);
                         break;
                     case R.id.itemFilter3:
-                        if(item.isChecked()) filterProduct.remove(collect[2]);
-                        else filterProduct.add(collect[2]);
-
-                        menu.findItem(R.id.itemFilter0).setChecked(false);
-                        item.setChecked(!item.isChecked());
+                        getFilterChecked(item, 2);
                         break;
                     case R.id.itemFilter4:
-                        if(item.isChecked()) filterProduct.remove(collect[3]);
-                        else filterProduct.add(collect[3]);
-
-                        menu.findItem(R.id.itemFilter0).setChecked(false);
-                        item.setChecked(!item.isChecked());
+                        getFilterChecked(item, 3);
                         break;
                 }
-                localPreference.getEditor().putStringSet(KEY_FILTER_PRODUCT, filterProduct).apply();
-                getData();
                 return false;
             }
 
@@ -212,6 +199,19 @@ public class ProductsFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void getFilterChecked(MenuItem item, int i) {
+        if (item.isChecked()) productType.remove(categoryes.productsType()[i]);
+        else productType.add(categoryes.productsType()[i]);
+
+        menu.findItem(R.id.itemFilter0).setChecked(false);
+        item.setChecked(!item.isChecked());
+
+        localPreference.getEditor()
+                .putString(KEY_CATEGORY_PRODUCT, getStringReplace(productType))
+                .apply();
+        getData();
+    }
+
     private void isSetFilters(boolean bAll, boolean bChecked, boolean bEnable) {
         menu.findItem(R.id.itemFilter0).setChecked(bAll);
         menu.findItem(R.id.itemFilter1).setChecked(bChecked).setEnabled(bEnable);
@@ -222,51 +222,19 @@ public class ProductsFragment extends Fragment {
 
     private void getData(String name) {
         MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        mainViewModel.getSearchProducts(name).observe(this, products -> {
-            List<Products> productsList = new ArrayList<>(products);
-            ProductsAdapter productsAdapter = new ProductsAdapter(0, productsList);
-
-            binding.rvProducts.setLayoutManager(new LinearLayoutManager(getContext()));
-            binding.rvProducts.setAdapter(productsAdapter);
-            binding.rvProducts.setItemAnimator(new DefaultItemAnimator());
-
-            onListener(productsAdapter, productsList);
-        });
+        mainViewModel.getSearchProducts(name).observe(this, this::onDataSet);
     }
 
     private void getData() {
-        if(filterProduct.size() !=0) {
-            String[] valueList = filterProduct.toArray(new String[0]);
+        String[] valueList = productType.toArray(new String[0]);
+        if(productType.size() == 0) valueList = categoryes.productsType();
 
-            MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-            mainViewModel.getFilterProductsLiveData(valueList).observe(getViewLifecycleOwner(), products -> {
-                List<Products> productsList = new ArrayList<>(products);
-                ProductsAdapter productsAdapter = new ProductsAdapter(0, productsList);
-                binding.rvProducts.setLayoutManager(new LinearLayoutManager(getContext()));
-                binding.rvProducts.setAdapter(productsAdapter);
-                binding.rvProducts.setItemAnimator(new DefaultItemAnimator());
-
-                onListener(productsAdapter, productsList);
-            });
-        }
+        MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel.getFilterProductsLiveData(valueList).observe(getViewLifecycleOwner(), this::onDataSet);
     }
 
-    private void onListener(ProductsAdapter productsAdapter, List<Products> productsList) {
-        productsAdapter.setItemClickListener(new ItemClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                ProductsFragment.this.onClick(DetailsProductActivity.class,
-                        productsList.get(position), null);
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
-                openMenuEditPopup(view, productsList.get(position));
-            }
-        });
-    }
-
-    private void getDataDelete(Products products) {
+    private void getDataDeleted(Products products) {
         new ProductsRepository().deleteProduct(products.getId()).addOnSuccessListener(unused -> {
             if (products.getPhoto() != null){
                 FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -279,12 +247,69 @@ public class ProductsFragment extends Fragment {
         getData();
     }
 
+    private void getDataEdited(Products product) {
+        new ProductsRepository().getSinggleProduct(product)
+                .observe(this, (Map<String, Object> maps) -> {
+                    ObjectMapper mapper = new ObjectMapper();
+
+                    Log.d(TAG, "getDataEdited: map " + maps);
+                    switch (product.getCategory()){
+                        case "Electronic":
+                            electronics = mapper.convertValue(maps, Electronics.class);
+                            getStartActivity(requireContext(),
+                                    AddElectronicsActivity.class, electronics, NAME_ISEDIT);
+                            break;
+                        case "Clothing":
+                            clothing = mapper.convertValue(maps, Clothing.class);
+                            getStartActivity(requireContext(),
+                                    AddClothingActivity.class, clothing, NAME_ISEDIT);
+                            break;
+                        case "Book":
+                            books = mapper.convertValue(maps, Books.class);
+                            getStartActivity(requireContext(),
+                                    AddBookActivity.class, books, NAME_ISEDIT);
+                            break;
+                        case "Other Products":
+                            data = mapper.convertValue(maps, Products.class);
+                            getStartActivity(requireContext(),
+                                    AddOthersActivity.class, data, NAME_ISEDIT);
+                            break;
+                    }
+                });
+    }
+
+    private void onDataSet(ArrayList<Products> products) {
+        List<Products> productsList = new ArrayList<>(products);
+        ProductsAdapter productsAdapter = new ProductsAdapter(0, productsList);
+
+        binding.rvProducts.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvProducts.setAdapter(productsAdapter);
+        binding.rvProducts.setItemAnimator(new DefaultItemAnimator());
+
+        onListener(productsAdapter, productsList);
+    }
+
+    private void onListener(ProductsAdapter productsAdapter, List<Products> productsList) {
+        productsAdapter.setItemClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                getStartActivity(requireContext(),
+                        DetailsProductActivity.class, productsList.get(position), null);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                openMenuEditPopup(view, productsList.get(position));
+            }
+        });
+    }
+
     @SuppressLint("NonConstantResourceId")
     public void openMenuEditPopup(View view, Products products) {
         PopupMenu menu = new PopupMenu(view.getContext(), view);
         menu.getMenuInflater().inflate(R.menu.menu_edit, menu.getMenu());
         menu.getMenu().findItem(R.id.itemSaves).setVisible(false);
-        menu.getMenu().findItem(R.id.itemCencle).setVisible(false);
+        menu.getMenu().findItem(R.id.itemClose).setVisible(false);
 
         menu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -292,10 +317,11 @@ public class ProductsFragment extends Fragment {
                     getDataEdited(products);
                     break;
                 case R.id.itemDelete:
-                    getDataDelete(products);
+                    getDataDeleted(products);
                     break;
                 case R.id.itemPrint:
-                    onClick(AddBookActivity.class, products, NAME_ISPRINT);
+                    getStartActivity(requireContext(),
+                            DetailsProductActivity.class, products, NAME_ISPRINT);
                     break;
             }
             return true;
@@ -303,35 +329,8 @@ public class ProductsFragment extends Fragment {
         menu.show();
     }
 
-    private void getDataEdited(Products product) {
-        new ProductsRepository().getSinggleProduct(product)
-                .observe(this, (Map<String, Object> maps) -> {
-            ObjectMapper mapper = new ObjectMapper();
-
-            switch (product.getCategory()){
-                case "Electronic":
-                    electronics = mapper.convertValue(maps, Electronics.class);
-                    onClick(AddElectronicsActivity.class, electronics, NAME_ISEDIT);
-                    break;
-                case "Clothing":
-                    clothing = mapper.convertValue(maps, Clothing.class);
-                    onClick(AddClothingActivity.class, clothing, NAME_ISEDIT);
-                    break;
-                case "Book":
-                    books = mapper.convertValue(maps, Books.class);
-                    onClick(AddBookActivity.class, books, NAME_ISEDIT);
-                    break;
-                case "Other Products":
-                    data = mapper.convertValue(maps, Products.class);
-                    onClick(AddOthersActivity.class, data, NAME_ISEDIT);
-                    break;
-            }
-        });
-    }
-
-    private <T> void onClick(Class<T> tClass, Object tData, String key) {
-        startActivity(new Intent(getContext(), tClass)
-                .putExtra(NAME_DATA, (Parcelable) tData)
-                .putExtra(key, true));
+    private void onRefresh() {
+        binding.swipeRefresh.setRefreshing(false);
+        getData();
     }
 }

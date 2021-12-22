@@ -2,6 +2,7 @@ package com.nuryadincjr.merdekabelanja.api;
 
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.COLLECTION_USER;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.TAG;
+import static java.util.Objects.requireNonNull;
 
 import android.util.Log;
 
@@ -16,7 +17,6 @@ import com.nuryadincjr.merdekabelanja.models.Users;
 import java.util.ArrayList;
 
 public class UsersRepository {
-
     private final CollectionReference collectionReference;
 
     public UsersRepository() {
@@ -41,10 +41,10 @@ public class UsersRepository {
                 .whereEqualTo("password", user.getPassword())
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot  snapshot : task.getResult()) {
+                for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
                     Users data = snapshot.toObject(Users.class);
                     data.setUid(snapshot.getId());
-                    users.add(data);;
+                    users.add(data);
                     Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
                 }
                 usersMutableLiveData.postValue(users);
@@ -64,10 +64,10 @@ public class UsersRepository {
                 .whereEqualTo("uid", uid)
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot  snapshot : task.getResult()) {
+                for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
                     Users data = snapshot.toObject(Users.class);
                     data.setUid(snapshot.getId());
-                    users.add(data);;
+                    users.add(data);
                     Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
                 }
                 usersMutableLiveData.postValue(users);
@@ -92,7 +92,7 @@ public class UsersRepository {
                 .whereLessThanOrEqualTo("name",value+"~")
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
+                for (QueryDocumentSnapshot document : requireNonNull(task.getResult())) {
                     Users users = document.toObject(Users.class);
 
                     usersList.add(users);
@@ -101,6 +101,29 @@ public class UsersRepository {
                 usersMutableLiveData.postValue(usersList);
             }
             else{
+                usersMutableLiveData.setValue(null);
+                Log.w(TAG, "Error getting documents.", task.getException());
+            }
+        });
+        return usersMutableLiveData;
+    }
+
+    public MutableLiveData<ArrayList<Users>> getUserPhone(String value) {
+        final MutableLiveData<ArrayList<Users>> usersMutableLiveData = new MutableLiveData<>();
+        ArrayList<Users> users = new ArrayList<>();
+
+        collectionReference
+                .whereEqualTo("phone", value)
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
+                    Users data = snapshot.toObject(Users.class);
+                    data.setUid(snapshot.getId());
+                    users.add(data);
+                    Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
+                }
+                usersMutableLiveData.postValue(users);
+            }else{
                 usersMutableLiveData.setValue(null);
                 Log.w(TAG, "Error getting documents.", task.getException());
             }
