@@ -47,9 +47,9 @@ public class AddClothingActivity extends AppCompatActivity {
     private ProductsPreference productsPreference;
     private ImagesPreference imagesPreference;
     private ProgressDialog dialog;
-    private List<Uri> uriImageList;
     private Clothing clothing;
-    private List<String> photo = new ArrayList<>();
+    private List<Uri> uriImageList;
+    private List<String> photo;
     private List<String> oldPhoto;
     private boolean isEdit;
 
@@ -71,6 +71,8 @@ public class AddClothingActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
+        oldPhoto = new ArrayList<>();
+        photo = new ArrayList<>();
         clothing = new Clothing();
         isEdit = getIntent().getBooleanExtra(NAME_ISEDIT, false);
 

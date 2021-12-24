@@ -19,7 +19,15 @@
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchBar"
-                style="@style/LayoutWidthHeightMM.SearchViewItem"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_search"
+                app:iconifiedByDefault="false"
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="Search"/>
 
         </androidx.appcompat.widget.Toolbar>
 

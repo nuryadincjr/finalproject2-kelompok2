@@ -31,12 +31,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> {
             int isLogin = localPreference.getPreferences().getInt("ISLOGIN", 0);
-            // user
-//            isLogin = 1;
-//            localPreference.getEditor().putString("UID", "71DKdinEJVTbs2sORDwnsRzGBqJ3").apply();
-            // admin
-//            isLogin = 2;
-//            localPreference.getEditor().putString("UID", "Ys93PYaUpsgB5kel2tow0RPNnr13").apply();
 
             Intent intent;
             switch (isLogin) {

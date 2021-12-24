@@ -3,6 +3,7 @@ package com.nuryadincjr.merdekabelanja.adminacitvity;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.CHILD_PRODUCT;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_DATA;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_ISEDIT;
+import static com.nuryadincjr.merdekabelanja.resorces.Constant.NAME_PRODUCT;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.getFileExtension;
 import static com.nuryadincjr.merdekabelanja.resorces.Constant.time;
 import static java.util.Objects.requireNonNull;
@@ -44,9 +45,9 @@ public class AddElectronicsActivity extends AppCompatActivity {
     private ProductsPreference productsPreference;
     private ImagesPreference imagesPreference;
     private ProgressDialog dialog;
-    private List<Uri> uriImageList;
     private Electronics electronics;
-    private List<String> photo = new ArrayList<>();
+    private List<Uri> uriImageList;
+    private List<String> photo;
     private List<String> oldPhoto;
     private boolean isEdit;
 
@@ -67,13 +68,15 @@ public class AddElectronicsActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
+        oldPhoto = new ArrayList<>();
+        photo = new ArrayList<>();
         electronics = new Electronics();
         isEdit = getIntent().getBooleanExtra(NAME_ISEDIT, false);
 
         binding.btnAddProduct.setOnClickListener(v -> getInputValidations());
         binding.btnAddPhoto.setOnClickListener(view -> imagesPreference.getMultipleImage(this));
 
-        electronics.setCategory(getIntent().getStringExtra(NAME_DATA));
+        electronics.setCategory(getIntent().getStringExtra(NAME_PRODUCT));
         String titleBar = "Add ";
         titleBar = getEdited(titleBar);
 

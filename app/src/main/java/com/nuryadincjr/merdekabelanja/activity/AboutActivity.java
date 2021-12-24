@@ -22,8 +22,8 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         getPortofoloi(binding.ivInstagram, getString(R.string.str_instagram));
-        getPortofoloi(binding.ivGithub, getString(R.string.str_github));
-        getPortofoloi(binding.ivLinkedin, getString(R.string.str_linkedin));
+        getPortofoloi(binding.ivLinkedin, getString(R.string.str_github));
+        getPortofoloi(binding.ivGithub, getString(R.string.str_linkedin));
     }
 
     private void getPortofoloi(ImageView view, String url) {

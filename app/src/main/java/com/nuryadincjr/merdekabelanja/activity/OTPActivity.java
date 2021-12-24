@@ -119,6 +119,7 @@ public class OTPActivity extends AppCompatActivity {
 
     private void onAuthentication(String phone) {
         dialog.setMessage("Sending OTP..");
+        dialog.setCancelable(false);
         dialog.show();
 
         String labelNumber = "Verify " + phone;

@@ -43,10 +43,10 @@ public class AddBookActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private ProductsPreference productsPreference;
     private ImagesPreference imagesPreference;
-    private List<Uri> uriImageList;
     private ProgressDialog dialog;
     private Books books;
-    private List<String> photo = new ArrayList<>();
+    private List<Uri> uriImageList;
+    private List<String> photo;
     private List<String> oldPhoto;
     private boolean isEdit;
 
@@ -66,6 +66,8 @@ public class AddBookActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
+        oldPhoto = new ArrayList<>();
+        photo = new ArrayList<>();
         books = new Books();
         isEdit = getIntent().getBooleanExtra(NAME_ISEDIT, false);
 

@@ -7,7 +7,7 @@ Introduction
 Merdeka Belanja
 
 - app release: app\release
-- <a href="https://drive.google.com/drive/folders/1cxnHhHS6Ts-SsGB0QeVsM1jDKwSCK8dJ?usp=sharing" target="_blank"> available :app release</a>
+- <a href="https://drive.google.com/drive/folders/1cxnHhHS6Ts-SsGB0QeVsM1jDKwSCK8dJ?usp=sharing" target="_blank"> available debug</a>
 - keystore file: KeyStore.jks
 
 Pre-requisites

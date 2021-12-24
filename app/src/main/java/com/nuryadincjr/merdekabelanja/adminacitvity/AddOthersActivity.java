@@ -13,7 +13,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -44,10 +43,10 @@ public class AddOthersActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private ProductsPreference productsPreference;
     private ImagesPreference imagesPreference;
-    private List<Uri> uriImageList;
     private ProgressDialog dialog;
     private Products products;
-    private List<String> photo = new ArrayList<>();
+    private List<Uri> uriImageList;
+    private List<String> photo;
     private List<String> oldPhoto;
     private boolean isEdit;
 
@@ -67,6 +66,8 @@ public class AddOthersActivity extends AppCompatActivity {
 
         dialog = new ProgressDialog(this);
         uriImageList = new ArrayList<>();
+        oldPhoto = new ArrayList<>();
+        photo = new ArrayList<>();
         products = new Products();
         isEdit = getIntent().getBooleanExtra(NAME_ISEDIT, false);
 
@@ -180,7 +181,6 @@ public class AddOthersActivity extends AppCompatActivity {
             products = new Products(id, name, descriptions, photo,
                     piece, quantity, this.products.getCategory(), time());
             onDataCreated(products);
-
         } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
     }
 
@@ -189,9 +189,10 @@ public class AddOthersActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.show();
 
-        List<String> itemStay =  new ArrayList<>();
         List<String> itemAdded =  new ArrayList<>();
+        List<String> itemStay =  new ArrayList<>();
         List<String> itemRemoved =  new ArrayList<>(oldPhoto);
+
         for (Uri item: uriImageList) {
             Pattern p = Pattern.compile(Constant.PATTERN_LABEL);
             Matcher m = p.matcher(String.valueOf(item));
@@ -201,9 +202,6 @@ public class AddOthersActivity extends AppCompatActivity {
         }
 
         itemRemoved.removeAll(itemStay);
-        Log.d("XXX0", String.valueOf(itemRemoved));
-        Log.d("XXX1", String.valueOf(itemStay));
-        Log.d("XXX2", String.valueOf(itemAdded));
 
         if (!itemAdded.isEmpty()) {
             dialog.setMessage("Uploading file..");
