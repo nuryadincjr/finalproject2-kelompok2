@@ -9,8 +9,8 @@
     android:background="?selectableItemBackground">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:backgroundTint="?attr/colorPrimary"
         app:cardCornerRadius="10dp">
 
@@ -37,7 +37,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/black"
-            tools:text="Realme C2 RMX455" />
+            tools:text="Realme C2 RMX455 sdfdasf" />
 
         <LinearLayout
             android:layout_width="match_parent"

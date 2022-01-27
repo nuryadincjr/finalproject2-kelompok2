@@ -11,7 +11,7 @@
                 android:id="@+id/itemFilter0"
                 android:checkable="true"
                 android:titleCondensed="All"
-                android:title="@string/str_all_divisions"
+                android:title="@string/str_all_category"
                 app:actionViewClass="android.widget.CheckBox"
                 app:showAsAction="always" />
         </menu>

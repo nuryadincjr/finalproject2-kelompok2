@@ -34,6 +34,10 @@ Getting Started
 - phone number      : +62 123 4567 8901
 - Verification code : 123456
 
+If SafetyNet can't be used, such as when the user doesn't have Google Play Services support, or when testing the app on the emulator, then use that data to register the user before signing in
+- phone number : +62 987 654321
+- Verification code : 123456 
+
 Support
 -------
 

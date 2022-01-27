@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "735199345594-m9j9m7lnfabkgm26u9e5h5v2ecr02epq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nuryadincjr.merdekabelanja",
+            "certificate_hash": "f490a19b49ec5a6f4774e14393fa59effe7d6a72"
+          }
+        },
+        {
           "client_id": "735199345594-eq60vaamtd82ogp4dqejr2fo9aglk0j2.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -107,7 +107,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             binding.tvLabelOption.setText("Product Name");
             binding.tvName.setText(products.getName());
             binding.tvLabelOptionSecond.setText("Quantity/Stock");
-            binding.tvNameSecond.setText(products.getPiece() + " PIC");
+            binding.tvNameSecond.setText(products.getQuantity() + " PIC");
 
             if(!products.getPhoto().isEmpty()) {
                 Glide.with(itemView.getContext())
