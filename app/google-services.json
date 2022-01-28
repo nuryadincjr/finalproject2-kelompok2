@@ -15,15 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "735199345594-fo5uh0kgjbg5dgurpbna8k1vvsvh2m3p.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.nuryadincjr.merdekabelanja",
-            "certificate_hash": "7dd706cbb33e3b1aa289d30e2addbe21e2211e3c"
-          }
-        },
-        {
-          "client_id": "735199345594-m9j9m7lnfabkgm26u9e5h5v2ecr02epq.apps.googleusercontent.com",
+          "client_id": "735199345594-t76iob0brovq53jmjrjehs007jv0s9i2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.nuryadincjr.merdekabelanja",
