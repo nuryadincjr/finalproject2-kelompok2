@@ -36,7 +36,6 @@ import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddStafsBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
-import com.nuryadincjr.merdekabelanja.models.Users;
 import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
 import com.nuryadincjr.merdekabelanja.viewmodel.MainViewModel;
 
@@ -53,6 +52,7 @@ public class AddStaffsActivity extends AppCompatActivity {
     private Staffs staffs;
     private boolean isEdit;
     private String imageOld;
+    private String emailOld;
     private List<Uri> uriImageList;
 
     @Override
@@ -89,6 +89,7 @@ public class AddStaffsActivity extends AppCompatActivity {
         if(isEdit) {
             staffs = getIntent().getParcelableExtra(NAME_DATA);
             imageOld = staffs.getPhoto();
+            emailOld = staffs.getEmail();
             onDataSet(staffs);
             binding.btnRegister.setText("Save Data");
             titleBar = "Edit Staff";
@@ -170,18 +171,20 @@ public class AddStaffsActivity extends AppCompatActivity {
         String address = valueOf(binding.etAddress.getText());
         String division = valueOf(binding.actDevisions.getText());
 
-        if(!fullName.isEmpty() && !phone.isEmpty() && !email.isEmpty() &&
-                !password.isEmpty() && !confpassword.isEmpty() && !division.isEmpty()) {
-            if(password.length() > 7) {
-                if(password.equals(confpassword)){
-                    Staffs staffs = new Staffs(id, fullName, phone, email, photo, address, email,
-                            password, time(), "register", division);
+        if(phone.contains("+")){
+            if(!fullName.isEmpty() && !phone.isEmpty() && !email.isEmpty() &&
+                    !password.isEmpty() && !confpassword.isEmpty() && !division.isEmpty()) {
+                if(password.length() > 7) {
+                    if(password.equals(confpassword)){
+                        Staffs staffs = new Staffs(id, fullName, phone, email, photo, address, email,
+                                password, time(), "register", division);
 
-                    onRegister(staffs);
+                        onRegister(staffs);
 
-                } else binding.etPassword.setError("Password cannot equals!");
-            } else binding.etConfPassword.setError("Password too short!");
-        } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
+                    } else binding.etPassword.setError("Password cannot equals!");
+                } else binding.etConfPassword.setError("Password too short!");
+            } else Toast.makeText(this,"Empty credentials!", Toast.LENGTH_SHORT).show();
+        }else binding.etPhone.setError("Please used the country code!");
     }
 
     private void onRegister(Staffs staffs) {
@@ -255,6 +258,22 @@ public class AddStaffsActivity extends AppCompatActivity {
     }
 
     private void startDataUpdated(Staffs staffs) {
+        MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel.getUsername(staffs.getUsername()).observe(this, user -> {
+            if(user.size() ==0){
+                getDataUpdated(staffs);
+            }else {
+                if(user.get(0).getUsername().equals(emailOld)){
+                    getDataUpdated(staffs);
+                }else {
+                    dialog.dismiss();
+                    binding.etEmail.setError("The email for the login session with this username already exists!");
+                }
+            }
+        });
+    }
+
+    private void getDataUpdated(Staffs staffs) {
         new StaffsRepository().updateStaffs(staffs).addOnSuccessListener(documentReference -> {
             Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
             dialog.dismiss();
