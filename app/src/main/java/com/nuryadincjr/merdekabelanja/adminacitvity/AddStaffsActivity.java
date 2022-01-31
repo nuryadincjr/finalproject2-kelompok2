@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,7 +36,9 @@ import com.nuryadincjr.merdekabelanja.api.StaffsRepository;
 import com.nuryadincjr.merdekabelanja.databinding.ActivityAddStafsBinding;
 import com.nuryadincjr.merdekabelanja.interfaces.ItemClickListener;
 import com.nuryadincjr.merdekabelanja.models.Staffs;
+import com.nuryadincjr.merdekabelanja.models.Users;
 import com.nuryadincjr.merdekabelanja.pojo.ImagesPreference;
+import com.nuryadincjr.merdekabelanja.viewmodel.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -220,20 +223,28 @@ public class AddStaffsActivity extends AppCompatActivity {
     private void onDataCreated(Staffs staffs) {
         dialog.setMessage("Setup profile..");
 
-        new StaffsRepository().insertStaffs(staffs).addOnSuccessListener(documentReference -> {
-            dialog.dismiss();
-            Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
-            Toast.makeText(getApplicationContext(),
-                    "Success.", Toast.LENGTH_SHORT).show();
-            finish();
-        }).addOnFailureListener(e -> {
-            dialog.dismiss();
-            Log.w(TAG, "Error adding document", e);
-            Toast.makeText(getApplicationContext(),
-                    "Error adding document.", Toast.LENGTH_SHORT).show();
+        MainViewModel mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mainViewModel.getUsername(staffs.getUsername()).observe(this, user -> {
+            if(user.size() ==0){
+                new StaffsRepository().insertStaffs(staffs).addOnSuccessListener(documentReference -> {
+                    dialog.dismiss();
+                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference);
+                    Toast.makeText(getApplicationContext(),
+                            "Success.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }).addOnFailureListener(e -> {
+                    dialog.dismiss();
+                    Log.w(TAG, "Error adding document", e);
+                    Toast.makeText(getApplicationContext(),
+                            "Error adding document.", Toast.LENGTH_SHORT).show();
+                });
+            }else {
+                dialog.dismiss();
+                binding.etEmail.setError("The email for the login session with this username already exists!");
+            }
         });
     }
-    
+
     private void onDataUpdated(Staffs staffs) {
         if (staffs.getPhoto().equals("") && !imageOld.equals(staffs.getPhoto())) {
             FirebaseStorage storage = FirebaseStorage.getInstance();

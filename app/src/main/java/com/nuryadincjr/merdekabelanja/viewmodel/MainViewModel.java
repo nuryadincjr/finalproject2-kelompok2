@@ -52,6 +52,9 @@ public class MainViewModel extends AndroidViewModel {
         return usersRepository.getUserPhone(value);
     }
 
+    public MutableLiveData<ArrayList<Staffs>> getUsername(String value) {
+        return staffsRepository.getUsername(value);
+    }
 
     public MutableLiveData<ArrayList<Products>> getSearchProducts(String value) {
         return productsRepository.getSearchProducts(value);

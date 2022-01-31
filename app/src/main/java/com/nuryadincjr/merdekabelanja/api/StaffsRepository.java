@@ -29,7 +29,7 @@ public class StaffsRepository {
     }
 
     public Task<Void> insertStaffs(Staffs staff) {
-          return collectionReference.document(staff.getUid()).set(staff);
+        return collectionReference.document(staff.getUid()).set(staff);
     }
 
     public Task<Void> updateStaffs(Staffs staff) {
@@ -128,6 +128,29 @@ public class StaffsRepository {
 
         collectionReference
                 .whereEqualTo("uid", uid)
+                .get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
+                    Staffs data = snapshot.toObject(Staffs.class);
+                    data.setUid(snapshot.getId());
+                    staffs.add(data);
+                    Log.d(TAG, snapshot.getId() + " => " + snapshot.getData());
+                }
+                usersMutableLiveData.postValue(staffs);
+            }else{
+                usersMutableLiveData.setValue(null);
+                Log.w(TAG, "Error getting documents.", task.getException());
+            }
+        });
+        return usersMutableLiveData;
+    }
+
+    public MutableLiveData<ArrayList<Staffs>> getUsername(String value) {
+        final MutableLiveData<ArrayList<Staffs>> usersMutableLiveData = new MutableLiveData<>();
+        ArrayList<Staffs> staffs = new ArrayList<>();
+
+        collectionReference
+                .whereEqualTo("username", value)
                 .get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 for (QueryDocumentSnapshot  snapshot : requireNonNull(task.getResult())) {
